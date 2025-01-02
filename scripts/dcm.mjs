@@ -12,13 +12,6 @@ Hooks.once("init", () => {
 })
 
 Hooks.once("ready", () => {
-
-    const window = new SourceSelector();
-    window.render(true);
-
-    // const window2 = new ContentSelector();
-    // window2.render(true);
-
     patchCompendiumBrowser();
     registerSpellLists();
 })
