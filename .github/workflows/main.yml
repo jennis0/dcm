@@ -1,0 +1,39 @@
+name: Create Release from Tag
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+       # Step 2: Set the tag value in ./module.json
+      - name: Set tag value in module.json
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          jq --arg tag "$TAG_NAME" '.tag = $tag' ./module.json > ./module.json.tmp && mv ./module.json.tmp ./module.json
+     
+      - name: Zip Files
+        working-directory: ./
+        run: |
+          zip -r ./module.zip ./scripts ./styles ./templates ./module.json ./LICENSE ./README.md
+
+      - name: Get Version
+        shell: bash
+        id: get-version
+        run: echo "::set-output name=version::$(node ./.github/workflows/get-version.js)"
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            - ./module.json
+            - ./module.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
