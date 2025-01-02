@@ -1,0 +1,55 @@
+{{#*inline ".packs"}}
+
+<fieldset class="card packs-section tab {{cssClass}}">
+    <legend>{{ label }} | {{ source }}</legend>
+    <menu class="packs-list unlist {{ type }}">
+        {{#if (gt entries.length 1)}}
+        <li class="all compendium-list-row">
+            <label class="checkbox">
+                <dnd5e-checkbox name="all-{{ type }}" {{ checked checked }} data-type="pack"
+                                category="{{ category }}"
+                                data-action="selectAll"
+                                {{#if indeterminate}}indeterminate{{/if}}></dnd5e-checkbox>
+                <span class="title">{{ localize "Select All" }}</span>
+            </label>
+            <hr/>
+        </li>
+        {{/if}}
+        {{#each entries}}
+        <li class="compendium-list-row">
+            
+            <a class="entity-link" draggable="true" data-entity="Item" data-action="openItem", 
+                data-id="{{ uuid }}">
+                <img class="compendium-icon" src="{{ img }}" width=20px height=20px>
+            </a>
+
+            <label class="checkbox compendium-checkbox">
+                <dnd5e-checkbox 
+                    class="compendium-checkbox"
+                    data-action="selectPack"
+                    name="{{ uuid }}" 
+                    {{ checked checked }} 
+                    data-type="pack"
+                    category="{{ ../category }}"
+                ></dnd5e-checkbox>
+
+                <div class="compendium-row-label">
+                    <div class="left-text">
+                        <span class="title">{{ label }}</span>
+                        <span class="metadata">{{ metadata }}</span>
+                    </div>
+                    <span class="source">{{ source }}</span>
+                </div>
+            </label>
+        </li>
+        {{/each}}
+    </menu>
+</fieldset>
+
+{{/inline}}
+
+<section class="content">
+    {{#each entries}}
+        {{> ".packs" this}}
+    {{/each}}
+</section>

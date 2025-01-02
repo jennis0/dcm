@@ -1,0 +1,35 @@
+<div class="compendium-selector">
+    <h3 class="compendium-selector-title">{{title}}</h3>
+    <div class="compendium-list">
+      {{#each compendia}}
+        <div class="compendium-section" key={{uuid}}>
+            <div class="compendium-header">
+              <div class="header-left">
+                <i class="fas fa-chevron-down expand-icon"></i>
+                <input type="checkbox" class="select-all-checkbox">
+                <span class="compendium-name">{{name}}</span>
+              </div>
+              <span class="compendium-source">{{source}}</span>
+            </div>
+          <div class="table-container" style="display: none">
+            <table class="items-table">
+                <tr class=""items-header>
+                  <th>Include</th>
+                  <th>{{../col_labels.name}}</th>
+                  <th>{{../col_labels.metadata}}</th>
+                </tr>
+              <tbody>
+                {{#each items}}
+                  <tr class="compendium-row">
+                    <td><input name={{uuid}} class="compendium-checkbox" type="checkbox" {{#if isChecked}}checked{{/if}} data-uuid="{{uuid}}"></td>
+                    <td class="item-name">{{name}}</td>
+                    <td class="item-metadata">{{metadata}}</td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+</div>

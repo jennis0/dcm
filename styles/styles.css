@@ -1,0 +1,133 @@
+.dcm.dnd5e2.dialog-lg.compendium-browser {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.dcm {
+  .packs-section {
+    max-width: 630px;
+    padding: 1em;
+  }
+
+  .window-content {
+    grid-template-columns: 150px auto !important;
+  }
+
+  .sidebar {
+    width: 150px;
+    border-right-width: 2px;
+    border-right-color: black;
+  }
+
+  dnd5e-icon {
+    --icon-fill : #000;
+    .svg {
+      width: 0.1em;
+      height: 0.1em;
+    }
+  }
+
+
+  .packs {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .content {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .packs-section {
+    margin-bottom: 1em;
+  }
+
+  .pack-list li {
+    margin-bottom: 0.6em;
+  }
+
+  .pack-list li.active {
+    span {
+      text-decoration: underline;
+    }
+  }
+
+  .pack.control {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+    vertical-align: middle;
+
+    .title {
+      vertical-align: middle;
+    }
+  }
+
+  .compendium-row-label {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+.dcm .content {
+
+  .all.compendium-list-row {
+    margin-left: 50px;
+  }
+
+  .compendium-list-row {
+    height: 45px; 
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    .compendium-checkbox {
+      margin: 2.5px
+    }
+
+    .compendium-icon {
+      width: 35px;
+      height: 35px;
+      margin: 2.5px;
+    }
+
+    .left-text {
+      display: flex;
+      gap: 10px;
+      width: 310px;
+      text-overflow: ellipsis;
+      
+      .title,
+      .metadata {
+        width: 150px; /* Fixed width for title and metadata */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .source {
+        max-width: 100px;
+      }
+    }
+
+    
+  }
+}
+
+.dcm .operation-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

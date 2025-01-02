@@ -1,0 +1,15 @@
+{
+  "id": "dandd-content-manager",
+  "title": "D&D Content Manager",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12"
+  },
+  "esmodules": [
+    "scripts/dcm.mjs"
+  ],
+  "styles": [
+    "styles/styles.css"
+  ]
+}

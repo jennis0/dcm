@@ -1,0 +1,51 @@
+{{#*inline ".packs"}}
+
+<fieldset class="card packs-section tab {{cssClass}}">
+    <legend>{{ localize label }}</legend>
+    <menu class="packs-list unlist {{ type }}">
+        {{#if (gt entries.length 1)}}
+        <li class="all">
+            <label class="checkbox">
+                <dnd5e-checkbox name="all-{{ type }}" {{ checked checked }} data-type="pack"
+                                category="{{ category }}"
+                                data-action="selectAll"
+                                {{#if indeterminate}}indeterminate{{/if}}></dnd5e-checkbox>
+                <span class="title">{{ localize "All" }}</span>
+            </label>
+        </li>
+        <hr/>
+        {{/if}}
+        {{#each entries}}
+        <li class="compendium-list-row">
+            <label class="checkbox compendium-checkbox">
+                <dnd5e-checkbox 
+                    data-action="selectPack"
+                    name="{{ uuid }}" 
+                    {{ checked checked }} 
+                    data-type="pack"
+                    category="{{ ../category }}"
+                ></dnd5e-checkbox>
+                <div class="compendium-row-label">
+                    <span class="title">{{ label }}</span>
+                    <span class="source">{{ source }}</span>
+                </div>
+            </label>
+        </li>
+        {{/each}}
+    </menu>
+</fieldset>
+
+{{/inline}}
+
+<section class="packs">
+    {{> ".packs" tab}}
+    <!-- {{#each packs}}
+        {{> ".packs" this}}
+    {{/each}} -->
+    <!-- {{> ".packs" this category="classes" type="items" label="Classes" }}
+    {{> ".packs" packs.subclasses type="items" label="Sublasses" }}
+    {{> ".packs" packs.backgrounds type="items" label="backgrounds" }}
+    {{> ".packs" packs.species type="items" label="species" }}
+    {{> ".packs" packs.feats type="items" label="Feats" }}
+    {{> ".packs" packs.spelllists type="items" label="Spell Lists" }} -->
+</section>

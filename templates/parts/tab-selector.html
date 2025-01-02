@@ -1,0 +1,16 @@
+<section class="dnd5e2 sidebar">
+    <menu class="pack-list unlist base">
+        <hr/>
+        {{#each categories}}
+        <li {{#if active}}class="active"{{/if}} category="{{category}}">
+            <a class="pack item control {{#if active}}active{{/if}}" 
+                data-group="primary" category="{{id}}" data-action="changeTab"
+            >   
+                <dnd5e-icon class="compendium-icon" src="{{ svg }}"></dnd5e-icon>
+                <span class="title">{{ label }}</span>
+            </a>
+            <hr/>
+        </li>
+        {{/each}}
+    </menu>
+</section>
