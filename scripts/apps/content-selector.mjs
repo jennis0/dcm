@@ -107,11 +107,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     static PARTS = {
         sidebar: {
             id: "sidebar",
-            template: 'modules/dandd-content-manager/templates/parts/tab-selector.html'
+            template: `modules/${MODULE_NAME}/templates/parts/tab-selector.html`
         },
         content: {
             id: "packs",
-            template: 'modules/dandd-content-manager/templates/parts/content-selector.html'
+            template: `modules/${MODULE_NAME}/templates/parts/content-selector.html`
         },
     }
 

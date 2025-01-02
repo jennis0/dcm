@@ -35,10 +35,10 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     
     static PARTS = {
         sidebar: {
-            template: 'modules/dandd-content-manager/templates/parts/tab-selector.html'
+            template: `modules/${MODULE_NAME}/templates/parts/tab-selector.html`
         },
         packs: {
-            template: 'modules/dandd-content-manager/templates/parts/pack-selector.html'
+            template: `modules/${MODULE_NAME}/templates/parts/pack-selector.html`
         },
     }
 

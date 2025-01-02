@@ -33,7 +33,7 @@ export class ClearSettings extends HandlebarsApplicationMixin(ApplicationV2) {
 
     static PARTS = {
         clear: {
-            template: 'modules/dandd-content-manager/templates/clear.html'
+            template: `modules/${MODULE_NAME}/templates/clear.html`
         },
         footer: {
             template: "templates/generic/form-footer.hbs"
