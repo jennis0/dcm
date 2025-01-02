@@ -16,11 +16,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-       # Step 2: Set the tag value in ./module.json
-      - name: Set tag value in module.json
+      - name: Update module.json with tag and URL
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}"
-          jq --arg tag "$TAG_NAME" '.tag = $tag' ./module.json > ./module.json.tmp && mv ./module.json.tmp ./module.json
+          MANIFEST_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/module.json"
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/module.json"
+          jq --arg version "$TAG_NAME" --arg manifest "$MANIFEST_URL" --arg download "$RELEASE_URL" \
+            '.version = $versuib | .manifest = $manifest' | .download = $download \
+            ./module.json > ./module.json.tmp && mv ./module.json.tmp ./module.json
      
       - name: Zip Files
         working-directory: ./
