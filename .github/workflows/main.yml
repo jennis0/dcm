@@ -1,5 +1,8 @@
 name: Create Release from Tag
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
