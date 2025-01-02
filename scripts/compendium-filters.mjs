@@ -4,7 +4,6 @@ import { log } from "./lib.mjs";
 
 function createFilters(itemtypes) {
     // Creates a filter which only selects items with approved UUIDs
-    console.log(itemtypes);
     const ids = [...itemtypes].map(i => {
         if (!SETTINGS[i]) {
             return null
@@ -17,18 +16,15 @@ function createFilters(itemtypes) {
             "k": "uuid", "o":"in", v: v
         }
     })
-    console.log(ids)
     const filtered_ids = ids.filter(f => f !== null);
     return filtered_ids
 }
 
 const fetchFunc = dnd5e.applications.CompendiumBrowser.fetch;
 function patchedFetch(...args) {
-    console.log(args);
     createFilters(args[1].types).forEach(
         f => args[1].filters.push(f)
     )
-    console.log(args);
     return fetchFunc(...args);
 }
 

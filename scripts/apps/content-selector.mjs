@@ -32,12 +32,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     static async #onOpenItem(event, target) {
-        console.log(event, target)
         const item = await fromUuid(target.getAttribute("data-id"))
         if (item) {
             item.sheet.render(true)
         }
-        console.log(item)
     }
 
     static async #onSelectAll(event, target) {
@@ -179,20 +177,15 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     img: d.img
                 }
             }).sort((a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label));
-        console.log(items);
         return items;
     }
 
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
-        console.log(subtype);
-        console.log(sourceCompendia);
         return await Promise.all(sourceCompendia.map(async (c) => {
             const pack = game.packs.get(c);
             const source = this._getSourceName(pack.metadata.packageType, pack.metadata.packageName);
             const entries = await pack.getDocuments().then(
                 docs => {
-                    console.log(docs);
-                    console.log(subtype);
                     if (subtype === "class") {
                         return this._getClasses(docs, selectedOptions)
                     }
@@ -203,7 +196,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                         return this._getFeats(docs, selectedOptions);
                     }
                     if (subtype === "spells") {
-                        console.log(docs)
                         return this._getSpellLists(docs, selectedOptions);
                     }
                     return docs
@@ -221,7 +213,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                         }
                 )}
             )
-            console.log(entries)
+
             const n_checked = entries.filter(e => e.checked).length;
             return {
                 label: pack.metadata.label,
@@ -236,7 +228,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   
     _onChangeTab(event, tabs, active) {
-        console.log(x);
         super._onChangeTab(event, tabs, active);
     }
 

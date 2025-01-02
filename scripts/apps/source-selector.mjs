@@ -70,14 +70,16 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const siblings = pack_list.querySelectorAll("dnd5e-checkbox[data-action=selectPack]")
         
         //Check number of siblings currently turned on
-        let n_on = 0;
-        for (const cb of siblings) {
-            if (cb.checked) {
-                n_on += 1;
+        if (all_box) {
+            let n_on = 0;
+            for (const cb of siblings) {
+                if (cb.checked) {
+                    n_on += 1;
+                }
             }
+            all_box.checked = n_on > 0;
+            all_box.indeterminate = all_box.checked & n_on < siblings.length;
         }
-        all_box.checked = n_on > 0;
-        all_box.indeterminate = all_box.checked & n_on < siblings.length;
 
         //Update setting
         const category = target.getAttribute("category")
@@ -109,18 +111,46 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return game.modules.get(sourceId).title;
     }
 
-    _getCompendiumOptions(documentType, selectedCompendia) {
-        return game.packs
+    _getCompendiumOptions(itemType, documentType, selectedCompendia) {
+        const module_packs = new Map();
+        game.packs
             .filter(p => (p.metadata.type === documentType) & p.metadata.packageName !== MODULE_NAME)
-            .map(p => { 
-            
-                return {
-                    uuid: p.metadata.id, 
-                    checked: selectedCompendia.has(p.metadata.id),
-                    label: p.metadata.label,
-                    source: this._getSourceName(p.metadata.packageType, p.metadata.packageName)
-                }
+            .forEach((p) => {
+                if (!module_packs[p.metadata.packageName]) {
+                    module_packs[p.metadata.packageName] = new Array()
+                } 
+                module_packs[p.metadata.packageName].push(p)
             })
+
+        return Object.keys(module_packs)
+            .filter(k => module_packs[k].length > 0)
+            .map(k => 
+                {
+                    const source = this._getSourceName(
+                        module_packs[k][0].metadata.packageType,
+                        module_packs[k][0].metadata.packageName
+                    );
+                    const entries = module_packs[k].map(p => {             
+                        return {
+                            uuid: p.metadata.id, 
+                            checked: selectedCompendia.has(p.metadata.id),
+                            label: p.metadata.label,
+                            name: p.metadata.name
+                        }
+                    })
+                    const n_checked = entries.filter(e => e.checked).length
+                    const all = n_checked === entries.length;
+                    const indeterminate = n_checked > 0 && !all;
+                    return {
+                        name: k,
+                        label: source,
+                        itemType: itemType,
+                        indeterminate,
+                        checked: all | indeterminate,
+                        entries                
+                    }
+                }
+            )
     }
 
     async _getAllDataOptions() {
@@ -129,20 +159,9 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         for (const itemType of SETTINGS.itemtypes) {
             const setting = SETTINGS[itemType];
             const sources = await game.settings.get(MODULE_NAME, setting.sources);
-            const entries = this._getCompendiumOptions(setting.type, new Set(sources));
-            const n_checked = entries.filter(e => e.checked).length
-            const all = n_checked === entries.length;
-            const indeterminate = n_checked > 0 && !all;
-            options[itemType] = {
-                label: setting.label,
-                category: itemType, 
-                type: setting.type,
-                indeterminate,                
-                checked: all || indeterminate,
-                entries
-            };
+            const entries = this._getCompendiumOptions(itemType, setting.type, new Set(sources));
+            options[itemType] = entries;
         }
-        console.log(options)
         return options;
  
     }

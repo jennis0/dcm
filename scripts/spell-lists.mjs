@@ -1,4 +1,5 @@
 import { MODULE_NAME, SETTINGS } from "./constants.mjs";
+import { log } from "./lib.mjs";
 
 
 function clearSpellLists() {
@@ -6,7 +7,7 @@ function clearSpellLists() {
     // game.system.registry.spellLists.#byType = new Map();
     // game.system.registry.spellLists.#bySpell = new Map();
     // game.system.registry.spellLists.#loading = new Set();
-    console.log("D&D Content Manager | Cleared existing spell lists");
+    log("Cleared existing spell lists");
 }
 
 export function registerSpellLists() {
@@ -18,5 +19,5 @@ export function registerSpellLists() {
         game.system.registry.spellLists.register(sl)
     }
     );
-    console.log("D&D Content Manager | Finished registering spell lists");
+    log("Finished registering spell lists");
 }

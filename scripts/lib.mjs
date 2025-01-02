@@ -9,9 +9,9 @@ export function log(text) {
 }
 
 export function warn(text) {
-    console.log(`${MODULE_LABEL} | ${text}`)
+    console.warn(`${MODULE_LABEL} | ${text}`)
 }
 
 export function error(text) {
-    console.log(`${MODULE_LABEL} | ${text}`)
+    console.error(`${MODULE_LABEL} | ${text}`)
 }

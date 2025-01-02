@@ -41,7 +41,6 @@ export class ClearSettings extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     static async submitHandler(event, form, formData) {
-        console.log(formData)
         this._clearSettings(formData.object);
     }
 

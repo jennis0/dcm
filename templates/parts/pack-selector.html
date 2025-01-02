@@ -6,8 +6,8 @@
         {{#if (gt entries.length 1)}}
         <li class="all">
             <label class="checkbox">
-                <dnd5e-checkbox name="all-{{ type }}" {{ checked checked }} data-type="pack"
-                                category="{{ category }}"
+                <dnd5e-checkbox name="all-{{ name }}" {{ checked checked }} data-type="pack"
+                                category="{{ itemType }}"
                                 data-action="selectAll"
                                 {{#if indeterminate}}indeterminate{{/if}}></dnd5e-checkbox>
                 <span class="title">{{ localize "All" }}</span>
@@ -23,11 +23,11 @@
                     name="{{ uuid }}" 
                     {{ checked checked }} 
                     data-type="pack"
-                    category="{{ ../category }}"
+                    category="{{ ../itemType }}"
                 ></dnd5e-checkbox>
                 <div class="compendium-row-label">
                     <span class="title">{{ label }}</span>
-                    <span class="source">{{ source }}</span>
+                    <span class="source">{{ name }}</span>
                 </div>
             </label>
         </li>
@@ -38,7 +38,9 @@
 {{/inline}}
 
 <section class="pack-selector">
-    {{> ".packs" tab}}
+    {{#each tab}}
+        {{> ".packs" this}}
+    {{/each}}
     <!-- {{#each packs}}
         {{> ".packs" this}}
     {{/each}} -->
