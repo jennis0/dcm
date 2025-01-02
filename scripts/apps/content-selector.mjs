@@ -17,7 +17,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 resizeable: true
             },
             id: 'content-selector',
-            classes: ["dcm dnd5e2 dialog-lg compendium-browser"],
+            classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
                 width: 800,
                 height: 650

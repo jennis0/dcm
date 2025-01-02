@@ -20,7 +20,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             },
             id: 'compendium-selector',
             title: 'Select Compendia',
-            classes: ["dcm dnd5e2 dialog-lg compendium-browser"],
+            classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
                 width: 650,
                 height: 650

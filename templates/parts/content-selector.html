@@ -12,8 +12,9 @@
                                 {{#if indeterminate}}indeterminate{{/if}}></dnd5e-checkbox>
                 <span class="title">{{ localize "Select All" }}</span>
             </label>
-            <hr/>
         </li>
+        <hr/>
+
         {{/if}}
         {{#each entries}}
         <li class="compendium-list-row">
@@ -48,7 +49,7 @@
 
 {{/inline}}
 
-<section class="content">
+<section class="content-selector">
     {{#each entries}}
         {{> ".packs" this}}
     {{/each}}
