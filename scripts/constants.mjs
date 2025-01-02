@@ -1,5 +1,5 @@
-export const MODULE_NAME = "dandd-content-manager"
-export const MODULE_LABEL = "D&D Content Manager"
+export const MODULE_NAME = "dcm"
+export const MODULE_LABEL = "DnD Content Manager"
 
 export const SETTINGS = {
 

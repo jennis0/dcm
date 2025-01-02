@@ -1,9 +1,10 @@
 {
-  "id": "dandd-content-manager",
-  "title": "D&D Content Manager",
+  "id": "dcm",
+  "title": "DnD Content Manager",
   "version": "1.0.0",
   "compatibility": {
     "minimum": "12",
+    "maximum": "12",
     "verified": "12"
   },
   "esmodules": [
@@ -31,5 +32,8 @@
       "flags": {}
     }
   ],
-  "url": "https://github.com/jennis0/dcm"
+  "url": "https://github.com/jennis0/dcm",
+  "manifest": "https://github.com/jennis0/dcm/releases/download/v0.1.0/module.json",
+  "download": "https://github.com/jennis0/dcm/releases/download/v0.1.0/module.zip",
+  "changelog": "https://github.com/jennis0/dcm/blob/main/CHANGELOG.md"
 }

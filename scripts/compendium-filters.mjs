@@ -10,6 +10,9 @@ function createFilters(itemtypes) {
             return null
         }
         const v = game.settings.get(MODULE_NAME, SETTINGS[i].content);
+        if (!v | v.length === 0) {
+            return null
+        }
         return {
             "k": "uuid", "o":"in", v: v
         }
