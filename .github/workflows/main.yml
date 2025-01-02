@@ -33,7 +33,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            - ./module.json
-            - ./module.zip
+            ./module.json
+            ./module.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
