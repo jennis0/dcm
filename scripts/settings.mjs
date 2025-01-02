@@ -3,6 +3,7 @@ import { SourceSelector } from "./apps/source-selector.mjs";
 import { ClearSettings } from "./apps/clear.mjs";
 import { MODULE_NAME, SETTINGS } from "./constants.mjs"
 
+
 export function initSettings() {
 
     SETTINGS.itemtypes.forEach(i => {
