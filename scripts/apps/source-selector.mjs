@@ -135,7 +135,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                             uuid: p.metadata.id, 
                             checked: selectedCompendia.has(p.metadata.id),
                             label: p.metadata.label,
-                            name: p.metadata.name
+                            name: `(${p.metadata.id})`
                         }
                     })
                     const n_checked = entries.filter(e => e.checked).length
