@@ -20,7 +20,7 @@ jobs:
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}"
           MANIFEST_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/module.json"
-          RELEASE_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/module.json"
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/module.zip"
           jq --arg version "$TAG_NAME" --arg manifest "$MANIFEST_URL" --arg download "$RELEASE_URL" \
             '.version = $version | .manifest = $manifest | .download = $download' \
             ./module.json > ./module.json.tmp && mv ./module.json.tmp ./module.json
