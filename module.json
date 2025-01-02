@@ -11,5 +11,22 @@
   ],
   "styles": [
     "styles/styles.css"
-  ]
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "description": "A content manager for DnD 5e in FoundryVTT that allows you to select and filter what options are available to your players",
+  "authors": [
+    {
+      "name": "jennis0",
+      "flags": {}
+    }
+  ],
+  "url": "https://github.com/jennis0/dcm"
 }
