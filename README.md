@@ -18,10 +18,7 @@ If so, this module is for you.
 
 The goal of the DCM is to give DMs full control over what options are available to players. It allows you to choose exactly which classes, subclasses, species, feats, backgrounds, and spells show up in the built-in Compendium Browser, turning it into a single source of available options for you and your players.
 
-## Required Modules  
-| Module | Minimum Version |  
-| --- | --- | 
-| D&D 5e System | |  
+![image](https://github.com/user-attachments/assets/4a674f26-b0a1-4dd8-9512-45149eb74636)
 
 ## Usage
 Once installed it is simple to configure which options are available via the module settings:
