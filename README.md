@@ -1,5 +1,6 @@
 # D&D Content Manager
 ![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjennis0%2Fdcm%2Fmain%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.verified&colorB=orange)
+![Dynamic Json Bade](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjennis0%2Fdcm%2Fmain%2Fmodule.json&query=$.relationships.systems%5B%3A1%5D.compatibility.minimum&label=DnD%205e%20Core%20Version&color=orange)
 ![Repository License](https://img.shields.io/github/license/jennis0/dcm)
 
 A content manager for D&amp;D 5e in FoundryVTT
@@ -20,7 +21,7 @@ The goal of the DCM is to give DMs full control over what options are available 
 ## Required Modules  
 | Module | Minimum Version |  
 | --- | --- | 
-| D&D 5e System | ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjennis0%2Fdcm%2Fmain%2Fmodule.json&query=$.relationships.systems%5B%3A1%5D.compatibility.minimum&label=%20&color=orange) |  
+| D&D 5e System | |  
 
 ## Usage
 Once installed it is simple to configure which options are available via the module settings:
