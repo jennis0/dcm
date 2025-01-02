@@ -21,11 +21,6 @@
   }
 }
 
-.dcm.selector {
-  --header-height: 70px;
-}
-
-
 .dcm .operation-dialog {
   display: flex;
   flex-direction: column;
@@ -65,6 +60,7 @@
 
   .pack-selector, .content-selector {
     margin: 0px;
+    margin-top: 0.5em;
     height: 600px;
     width: 100%;
     margin-bottom: 1em;
