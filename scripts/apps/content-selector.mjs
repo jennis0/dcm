@@ -1,4 +1,5 @@
-import { log } from "../lib.mjs";
+import { getFeatType } from "../dnd5e_data.mjs";
+import { isV3, log } from "../lib.mjs";
 import { MODULE_NAME, SETTINGS } from "../settings.mjs";
 import { enrichSource } from "./enrich-source.mjs";
 
@@ -168,12 +169,21 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             ["system.classIdentifier"]
         ).then(p =>
             p.map(d => {
+                
+                let className = "Unknown";
+                if (!isV3() & game.system.registry.classes.get(d.system.classIdentifier)) {
+                    className = game.system.registry.classes.get(d.system.classIdentifier).name
+                } else if (d.system.classIdentifier && d.system.classIdentifier.length > 1) {
+                    console.log(d.system.classIdentifier);
+                    className = `${d.system.classIdentifier.charAt(0).toUpperCase()}${d.system.classIdentifier.slice(1, d.system.classIdentifier.length)}`
+                }
+
                 return {
                     uuid: d.uuid,
                     checked: selectedOptions.has(d.uuid),
                     label: d.name,
                     source: d.system.source.value,
-                    metadata: game.system.registry.classes.get(d.system.classIdentifier).name || d.system.classIdentifier,
+                    metadata: className,
                     img: d.img
                 }}
             ).sort((a,b) => a.metadata.localeCompare(b.metadata) || a.label.localeCompare(b.label))
@@ -193,7 +203,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                         ident = cls.name
                         img = cls.img
                     } else {
-                        ident = `${ident.slice(0, 1).upper()}${ident.slice(1, ident.length)}`
+                        ident = `${ident.chatAt(0).toUpperCase()}${ident.slice(1, ident.length)}`
                     }
                 } else {
                     ident = "No identifier"
@@ -216,7 +226,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     _getFeats(pack, selectedOptions) {
         return this._fetch(pack,
             d => d.type === "feat" && d.system.type.value === "feat",
-            ["system.type"]
+            ["system.type", "system.type"]
         ).then(p => 
             p.map(d => {
                 return {
@@ -224,7 +234,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     checked: selectedOptions.has(d.uuid),
                     label: d.name,
                     source: d.system.source.value,
-                    metadata: d.system.type.label || "Untyped",
+                    metadata: getFeatType(d.system.type.subtype),
                     img: d.img
                 }
             })

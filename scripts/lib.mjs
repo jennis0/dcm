@@ -15,3 +15,7 @@ export function warn(text) {
 export function error(text) {
     console.error(`${MODULE_LABEL} | ${text}`)
 }
+
+export function isV3() {
+    return game.system.version.startsWith("v3.")
+}

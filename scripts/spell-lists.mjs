@@ -1,5 +1,5 @@
 import { MODULE_NAME, SETTINGS } from "./settings.mjs";
-import { log } from "./lib.mjs";
+import { isV3, log } from "./lib.mjs";
 
 
 function clearSpellLists() {
@@ -12,6 +12,10 @@ function clearSpellLists() {
 
 export function registerSpellLists() {
 
+    if (isV3()) {
+        return;
+    }
+    
     clearSpellLists();
 
     const lists = game.settings.get(MODULE_NAME, SETTINGS.spelllist.content);
