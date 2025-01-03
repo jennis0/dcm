@@ -1,62 +1,76 @@
-import { ContentSelector } from "./apps/content-selector.mjs";
-import { SourceSelector } from "./apps/source-selector.mjs";
-import { ClearSettings } from "./apps/clear.mjs";
-import { MODULE_NAME, SETTINGS } from "./constants.mjs"
+export const MODULE_NAME = "dnd5e-content-manager"
+export const MODULE_LABEL = "DnD Content Manager"
 
+export const SETTINGS = {
 
-export function initSettings() {
+    itemtypes: [
+        "class",
+        "subclass",
+        "race",
+        "background",
+        "feat",
+        "spelllist"
+    ],
 
-    SETTINGS.itemtypes.forEach(i => {
-        const item = SETTINGS[i];
-        game.settings.register(MODULE_NAME, item.sources,
-            {
-                config: false,
-                type: Array,
-                default: []
-            }
-        ),
-        game.settings.register(MODULE_NAME, item.content,
-            {
-                config: false,
-                type: Array,
-                default: []
-            }
-        )
-    })
+    spelllist: {
+        label: "Spell Lists",
+        icon: "systems/dnd5e/icons/svg/items/spell.svg",
+        sources: "spellListSources",
+        content: "spellLists",
+        type: "JournalEntry",
+        subtype: "spells"
+    },
 
-    game.settings.registerMenu(MODULE_NAME, "sourceMenu", 
-        {
-            name: "Compendium Sources",
-            hint: "Choose the compendia which will be used as sources for character options",
-            scope: "world",
-            config: true,
-            type: SourceSelector,
-            restricted: true,
-            icon: "fas fa-book-open-reader"
-        }
-    )
+    class: {
+        label: "Classes",
+        icon: "systems/dnd5e/icons/svg/items/class.svg",
+        sources: "classSources",
+        content: "classes",
+        type: "Item",
+        subtype: "class",
+        compendium: `${MODULE_NAME}-classes`
+    },
 
-    game.settings.registerMenu(MODULE_NAME, "contentMenu",
-        {
-            name: "Approved Content",
-            hint: "Choose which items from your selected compendia will be available for players",
-            scope: "world",
-            config: true,
-            type: ContentSelector,
-            restricted: true,
-            icon: "fas fa-ballot-check"
-        }
-    )
+    subclass: {
+        label: "Subclasses",
+        icon: "systems/dnd5e/icons/svg/items/subclass.svg",
+        sources: "subclassSources",
+        content: "subclasses",
+        type: "Item",
+        subtype: "subclass",
+        compendium: `${MODULE_NAME}-subclasses`
+    },
 
-    game.settings.registerMenu(MODULE_NAME, "clear", 
-        {
-            name: "Clear Settings",
-            hint: "Erase all settings (for sources and allowed content)",
-            scope: "world",
-            config: true,
-            type: ClearSettings,
-            restricted: true,
-            icon: "fas fa-trash"
-        }
-    )
+    feat: {
+        label: "Feats",
+        icon: "systems/dnd5e/icons/svg/items/feature.svg",
+        sources: "featSources",
+        content: "feats",
+        type: "Item",
+        subtype: "feature",
+        compendium: `${MODULE_NAME}-feats`
+        
+    },
+
+    race: {
+        label: "Species",
+        icon: "systems/dnd5e/icons/svg/items/race.svg",
+        sources: "speciesSources",
+        content: "species",
+        type: "Item",
+        subtype: "race",
+        compendium: `${MODULE_NAME}-species`
+    },
+
+    background: {
+        label: "Backgrounds",
+        icon: "systems/dnd5e/icons/svg/items/background.svg",
+        sources: "backgroundSources",
+        content: "backgrounds",
+        type: "Item",
+        subtype: "background",
+        compendium: `${MODULE_NAME}-backgrounds`
+    },
+
+    lastLoadedVersion: "lastLoadedVersion"
 }

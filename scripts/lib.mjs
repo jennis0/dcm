@@ -1,4 +1,4 @@
-import { MODULE_LABEL } from "./constants.mjs";
+import { MODULE_LABEL } from "./settings.mjs";
 
 export function debug(text) {
     console.debug(`${MODULE_LABEL} | ${text}`)

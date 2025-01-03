@@ -1,4 +1,5 @@
-import { MODULE_NAME, SETTINGS } from "../constants.mjs";
+import { log } from "../lib.mjs";
+import { MODULE_NAME, SETTINGS } from "../settings.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -123,96 +124,151 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return game.modules.get(sourceId).title;
     }
 
-    _getClasses(docs, selectedOptions) {
-        return docs.filter(d => d.type === "class")
-            .map(
-                d => {return {
+    //Retrieve a fast index and enrich it with source information after the fetch
+    async _fetch(pack, filter, fields = []) {
+        return pack.getIndex(
+            {fields: new Set(["uuid", "type", "name", "img", "system.source"].concat(fields))}
+        )
+        .then(
+            index =>  index.filter(d => filter(d)).map(d => this._getSource(d))
+        )
+    }
+
+    // Insert correct source information about a document from its index
+    _getSource(doc) {
+        if (!doc.system.source) {
+            doc.system.source = {}
+        }
+        dnd5e.dataModels.shared.SourceField.prepareData.call(doc.system.source, doc.uuid);
+        return doc;
+    }
+
+    _getClasses(pack, selectedOptions) {
+        return this._fetch(pack, (d) => d.type === "class")
+            .then(p => 
+                p.map(
+                    d => {return {
+                        uuid: d.uuid,
+                        checked: selectedOptions.has(d.uuid),
+                        label: d.name,
+                        source: d.system.source.value,
+                        metadata: null,
+                        img: d.img
+                    }}
+                )
+                .sort((a,b) => a.label.localeCompare(b.label))
+            )
+    }
+
+    _getSubclasses(pack, selectedOptions) {
+        return this._fetch(pack, 
+            (d) => d.type === "subclass", 
+            ["system.classIdentifier"]
+        ).then(p =>
+            p.map(d => {
+                return {
                     uuid: d.uuid,
                     checked: selectedOptions.has(d.uuid),
                     label: d.name,
                     source: d.system.source.value,
-                    metadata: null,
+                    metadata: game.system.registry.classes.get(d.system.classIdentifier).name || d.system.classIdentifier,
                     img: d.img
                 }}
-            ).sort((a,b) => a.label.localeCompare(b.label))
+            ).sort((a,b) => a.metadata.localeCompare(b.metadata) || a.label.localeCompare(b.label))
+        )
     }
 
-    _getSublasses(docs, selectedOptions) {
-        return docs.filter(d => d.type === "subclass")
-        .map(
-            d => {return {
-                uuid: d.uuid,
-                checked: selectedOptions.has(d.uuid),
-                label: d.name,
-                source: d.system.source.value,
-                metadata: d.system.classIdentifier,
-                img: d.img
-            }}
-        ).sort((a,b) => a.metadata.localeCompare(b.metadata) || a.label.localeCompare(b.label))
-    }
+    async _getSpellLists(pack, selectedOptions) {
+        const index = await pack.getDocuments()
+        return index.map(d => d.pages.filter(p => p.type === "spells")
+            .map(this._getSource)
+            .map(p => {
+                let ident = p.system.identifier;
+                let img = "systems/dnd5e/icons/spell-tiers/spell3.webp";
+                if (ident) {
+                    if (p.system.type === "class" && game.system.registry.classes.get(ident)) {
+                        const cls = game.system.registry.classes.get(ident)
+                        ident = cls.name
+                        img = cls.img
+                    } else {
+                        ident = `${ident.slice(0, 1).upper()}${ident.slice(1, ident.length)}`
+                    }
+                } else {
+                    ident = "No identifier"
+                }
 
-    _getSpellLists(docs, selectedOptions) {
-        return docs.map(d => d.pages.filter(p => p.type === "spells")
-            .map(p => { return {
+                //let identifier = game.system.registry.classes.get(p.system.identifier)
+                
+                return {
                 uuid: p.uuid,
                 label: p.name,
                 checked: selectedOptions.has(p.uuid),
-                metadata: p.system.identifier || "No identifier",
+                metadata: ident,
                 source: d.name || "Untitled Journal",
-                img: "systems/dnd5e/icons/spell-tiers/spell3.webp"
+                img: img
             }
 
         })).flat()
     }
 
-    _getFeats(docs, selectedOptions) {
-        const items = docs.filter(d => d.type === "feat" && d.system.type.value === "feat")
-            .map(d => {
+    _getFeats(pack, selectedOptions) {
+        return this._fetch(pack,
+            d => d.type === "feat" && d.system.type.value === "feat",
+            ["system.type"]
+        ).then(p => 
+            p.map(d => {
                 return {
                     uuid: d.uuid,
                     checked: selectedOptions.has(d.uuid),
                     label: d.name,
-                    source: d.system.source.value || "No Source",
+                    source: d.system.source.value,
                     metadata: d.system.type.label || "Untyped",
                     img: d.img
                 }
-            }).sort((a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label));
-        return items;
+            })
+            .sort(
+                (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label)
+            )
+        );
+    }
+
+    _getDocuments(pack, subtype, selectedOptions) {
+        if (subtype === "class") {
+            return this._getClasses(pack, selectedOptions)
+        }
+        if (subtype === "subclass") {
+            return this._getSubclasses(pack, selectedOptions)
+        }
+        if (subtype === "feature") {
+            return this._getFeats(pack, selectedOptions);
+        }
+        if (subtype === "spells") {
+            return this._getSpellLists(pack, selectedOptions);
+        }
+
+        return this._fetch(pack, (d) => d.type === subtype)
+            .then(p => 
+                p.filter((d) => d.type === subtype)
+                 .map(d => 
+                    {   
+                        return {
+                        uuid: d.uuid,
+                        checked: selectedOptions.has(d.uuid),
+                        label: d.name,
+                        source: d.system.source.value,
+                        metadata: null,
+                        img: d.img
+                    }
+                }
+            )
+        )
     }
 
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
         return await Promise.all(sourceCompendia.map(async (c) => {
             const pack = game.packs.get(c);
             const source = this._getSourceName(pack.metadata.packageType, pack.metadata.packageName);
-            const entries = await pack.getDocuments().then(
-                docs => {
-                    if (subtype === "class") {
-                        return this._getClasses(docs, selectedOptions)
-                    }
-                    if (subtype === "subclass") {
-                        return this._getSublasses(docs, selectedOptions)
-                    }
-                    if (subtype === "feature") {
-                        return this._getFeats(docs, selectedOptions);
-                    }
-                    if (subtype === "spells") {
-                        return this._getSpellLists(docs, selectedOptions);
-                    }
-                    return docs
-                        .filter(
-                            d => d.type === subtype)
-                        .map(d => 
-                            {return {
-                                uuid: d.uuid,
-                                checked: selectedOptions.has(d.uuid),
-                                label: d.name,
-                                source: d.system.source.value,
-                                metadata: null,
-                                img: d.img
-                            }
-                        }
-                )}
-            )
+            const entries = await this._getDocuments(pack, subtype, selectedOptions)
 
             const n_checked = entries.filter(e => e.checked).length;
             return {

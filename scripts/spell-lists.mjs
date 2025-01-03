@@ -1,4 +1,4 @@
-import { MODULE_NAME, SETTINGS } from "./constants.mjs";
+import { MODULE_NAME, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
 
 
