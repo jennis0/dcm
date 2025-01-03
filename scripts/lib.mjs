@@ -17,5 +17,5 @@ export function error(text) {
 }
 
 export function isV3() {
-    return game.system.version.startsWith("v3.")
+    return game.system.version.startsWith("3.")
 }
