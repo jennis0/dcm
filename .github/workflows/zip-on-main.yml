@@ -1,0 +1,27 @@
+name: Create ZIP on Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-zip:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository code
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # Create a zip file
+      - name: Zip the repository
+        run: |
+          zip -r module.zip scripts/ templates/ styles module.json README.md CHANGELOG.md LICENCE
+
+      # Save the zip file as an artifact
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: module.zip
+          path: module.zip
