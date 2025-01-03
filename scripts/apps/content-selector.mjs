@@ -1,5 +1,6 @@
 import { log } from "../lib.mjs";
 import { MODULE_NAME, SETTINGS } from "../settings.mjs";
+import { enrichSource } from "./enrich-source.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -139,7 +140,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         if (!doc.system.source) {
             doc.system.source = {}
         }
-        dnd5e.dataModels.shared.SourceField.prepareData.call(doc.system.source, doc.uuid);
+        //dnd5e.dataModels.shared.SourceField.prepareData.call(doc.system.source, doc.uuid);
+        enrichSource(doc.system.source, doc.uuid);
         return doc;
     }
 
