@@ -1,6 +1,6 @@
 import { getFeatType } from "../dnd5e_data.mjs";
-import { isV3, log } from "../lib.mjs";
 import { MODULE_NAME, SETTINGS } from "../settings.mjs";
+import { getClassDetailsFromIdent } from "./enrich-class.mjs";
 import { enrichSource } from "./enrich-source.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
@@ -169,21 +169,12 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             ["system.classIdentifier"]
         ).then(p =>
             p.map(d => {
-                
-                let className = "Unknown";
-                if (!isV3() & game.system.registry.classes.get(d.system.classIdentifier)) {
-                    className = game.system.registry.classes.get(d.system.classIdentifier).name
-                } else if (d.system.classIdentifier && d.system.classIdentifier.length > 1) {
-                    console.log(d.system.classIdentifier);
-                    className = `${d.system.classIdentifier.charAt(0).toUpperCase()}${d.system.classIdentifier.slice(1, d.system.classIdentifier.length)}`
-                }
-
                 return {
                     uuid: d.uuid,
                     checked: selectedOptions.has(d.uuid),
                     label: d.name,
                     source: d.system.source.value,
-                    metadata: className,
+                    metadata: getClassDetailsFromIdent(d.system.classIdentifier).name,
                     img: d.img
                 }}
             ).sort((a,b) => a.metadata.localeCompare(b.metadata) || a.label.localeCompare(b.label))
@@ -198,8 +189,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 let ident = p.system.identifier;
                 let img = "systems/dnd5e/icons/spell-tiers/spell3.webp";
                 if (ident) {
-                    if (p.system.type === "class" && game.system.registry.classes.get(ident)) {
-                        const cls = game.system.registry.classes.get(ident)
+                    if (p.system.type === "class") {
+                        const cls = getClassDetailsFromIdent(ident)
                         ident = cls.name
                         img = cls.img
                     } else {
