@@ -25,6 +25,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  background: var(--background);
+  padding: 1em;
 }
 
 .dcm {
@@ -253,10 +255,6 @@
 
   .dcm.selector .filter {
     background: var(--dnd5e-background-card);
-  }
-
-  .operation-dialog li {
-      color: var(--color-text-light-1);
   }
 }
 
