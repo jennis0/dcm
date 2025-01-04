@@ -249,7 +249,7 @@
 
 
 /* Theme specific requirements */
-.dnd5e-theme-dark {
+:is(.theme-dark, .dnd5e-theme-dark) {
 
   .dcm.selector .filter {
     background: var(--dnd5e-background-card);
@@ -260,6 +260,6 @@
   }
 }
 
-.dnd5e-theme-light .dcm.selector .filter {
+:is(.theme-light, .dnd5e-theme-light) .dcm.selector .filter {
   background: var(--dnd5e-color-parchment);
 }
