@@ -3,7 +3,7 @@
 ![Dynamic Json Bade](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjennis0%2Fdcm%2Fmain%2Fmodule.json&query=$.relationships.systems%5B%3A1%5D.compatibility.minimum&label=DnD%205e%20Core%20Version&color=orange)
 ![Repository License](https://img.shields.io/github/license/jennis0/dcm)
 
-A content manager for D&amp;D 5e in FoundryVTT
+A content manager for D&amp;D 5e in FoundryVTT. Supports v3.3.1 and v4+
 
 
 Have you ever wanted to:
