@@ -17,8 +17,15 @@ export const SETTINGS = {
         icon: "systems/dnd5e/icons/svg/items/spell.svg",
         sources: "spellListSources",
         content: "spellLists",
+        enabled: "filterSpellLists",
         type: "JournalEntry",
-        subtype: "spells"
+        subtype: "spells",
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Journal", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Class", valuePath: "metadata"},
+        ]
     },
 
     class: {
@@ -26,9 +33,15 @@ export const SETTINGS = {
         icon: "systems/dnd5e/icons/svg/items/class.svg",
         sources: "classSources",
         content: "classes",
+        enabled: "filterClasses",
         type: "Item",
         subtype: "class",
-        compendium: `${MODULE_NAME}-classes`
+        compendium: `${MODULE_NAME}-classes`,
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"}
+        ]
     },
 
     subclass: {
@@ -36,9 +49,16 @@ export const SETTINGS = {
         icon: "systems/dnd5e/icons/svg/items/subclass.svg",
         sources: "subclassSources",
         content: "subclasses",
+        enabled: "filtersubClasses",
         type: "Item",
         subtype: "subclass",
-        compendium: `${MODULE_NAME}-subclasses`
+        compendium: `${MODULE_NAME}-subclasses`,
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Class", valuePath: "metadata"},
+        ]
     },
 
     feat: {
@@ -46,9 +66,16 @@ export const SETTINGS = {
         icon: "systems/dnd5e/icons/svg/items/feature.svg",
         sources: "featSources",
         content: "feats",
+        enabled: "filterFeats",
         type: "Item",
         subtype: "feature",
-        compendium: `${MODULE_NAME}-feats`
+        compendium: `${MODULE_NAME}-feats`,
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Feat Type", valuePath: "metadata"},
+        ]
         
     },
 
@@ -57,9 +84,15 @@ export const SETTINGS = {
         icon: "systems/dnd5e/icons/svg/items/race.svg",
         sources: "speciesSources",
         content: "species",
+        enabled: "filterSpecies",
         type: "Item",
         subtype: "race",
-        compendium: `${MODULE_NAME}-species`
+        compendium: `${MODULE_NAME}-species`,
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"}
+        ]
     },
 
     background: {
@@ -67,9 +100,15 @@ export const SETTINGS = {
         icon: "systems/dnd5e/icons/svg/items/background.svg",
         sources: "backgroundSources",
         content: "backgrounds",
+        enabled: "filterBackgrounds",
         type: "Item",
         subtype: "background",
-        compendium: `${MODULE_NAME}-backgrounds`
+        compendium: `${MODULE_NAME}-backgrounds`,
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"}
+        ]
     },
 
     lastLoadedVersion: "lastLoadedVersion"

@@ -1,6 +1,7 @@
 <section class="sidebar">
+    <hr/>
     <menu class="pack-list unlist base">
-        <hr/>
+        <!-- <hr/> -->
         {{#each categories}}
         <li {{#if active}}class="active"{{/if}} category="{{category}}">
             <a class="pack item control {{#if active}}active{{/if}}" 
@@ -9,8 +10,32 @@
                 <dnd5e-icon class="compendium-icon" src="{{ svg }}"></dnd5e-icon>
                 <span class="title">{{ label }}</span>
             </a>
-            <hr/>
+            <!-- <hr/> -->
         </li>
         {{/each}}
     </menu>
+    <hr/>
+    {{#if groups}}
+        <div class="filter">
+            <span class="filter-title">Group By:</span>
+            <menu class="filter-list unlist base">
+                {{#each groups}}
+                <li>
+                    <label>
+                        <dnd5e-checkbox 
+                            class="compendium-checkbox"
+                            data-action="selectGrouping"
+                            name="{{ id }}"
+                            category="{{ itemtype }}"
+                            {{#if checked}}checked{{/if}}
+                            data
+                        ></dnd5e-checkbox>
+                        <span>{{label}}</span>
+                    </label>
+                </li>
+                {{/each}}
+            </menu>
+        </div>
+        <hr/>
+    {{/if}}
 </section>

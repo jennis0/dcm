@@ -1,7 +1,7 @@
 {{#*inline ".packs"}}
 
 <fieldset class="card packs-section tab {{cssClass}}">
-    <legend>{{ label }} | {{ source }}</legend>
+    <legend>{{ label }}</legend>
     <menu class="packs-list unlist {{ type }}">
         {{#if (gt entries.length 1)}}
         <li class="all compendium-list-row">
@@ -39,7 +39,7 @@
                         <span class="title">{{ label }}</span>
                         <span class="metadata">{{ metadata }}</span>
                     </div>
-                    <span class="source">{{ source }}</span>
+                    <span class="source">{{ sourceName }}</span>
                 </div>
             </label>
         </li>

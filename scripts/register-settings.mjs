@@ -3,6 +3,7 @@ import { SourceSelector } from "./apps/source-selector.mjs";
 import { ClearSettings } from "./apps/clear.mjs";
 import { MODULE_NAME, SETTINGS } from "./settings.mjs"
 import { log } from "./lib.mjs";
+import { EnableMenu } from "./apps/enable-menu.mjs";
 
 
 export function initSettings() {
@@ -23,7 +24,26 @@ export function initSettings() {
                 default: []
             }
         )
+        game.settings.register(MODULE_NAME, item.enabled, 
+            {
+                config: false,
+                type: Boolean,
+                default: true
+            }
+        )
     })
+
+    game.settings.registerMenu(MODULE_NAME, "enableMenu",
+        {
+            name:"Select Filtered Types",
+            hint: "Choose which item types to filter",
+            scope: "world",
+            config: true,
+            type: EnableMenu,
+            restricted: true,
+            icon: "fas fa-check"
+        }
+    )
 
     game.settings.registerMenu(MODULE_NAME, "sourceMenu", 
         {

@@ -5,13 +5,19 @@ import { log } from "./lib.mjs";
 function createFilters(itemtypes) {
     // Creates a filter which only selects items with approved UUIDs
     const ids = [...itemtypes].map(i => {
-        if (!SETTINGS[i]) {
+
+        //Skip if item type is not defined or if disabled in settings
+        if (!SETTINGS[i] || !game.settings.get(MODULE_NAME,[SETTINGS[i].enabled])) {
             return null
         }
+
+        //If no items are selected, assume no filtering is required
         const v = game.settings.get(MODULE_NAME, SETTINGS[i].content);
         if (!v | v.length === 0) {
             return null
         }
+
+        //Construct basic "uuid in list" filter
         return {
             "k": "uuid", "o":"in", v: v
         }

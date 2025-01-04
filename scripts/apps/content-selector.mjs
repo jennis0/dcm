@@ -1,7 +1,7 @@
-import { getFeatType } from "../dnd5e_data.mjs";
+import { getFeatType } from "../enrich-feats.mjs";
 import { MODULE_NAME, SETTINGS } from "../settings.mjs";
-import { getClassDetailsFromIdent } from "./enrich-class.mjs";
-import { enrichSource } from "./enrich-source.mjs";
+import { getClassDetailsFromIdent } from "../enrich-class.mjs";
+import { enrichSource } from "../enrich-source.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -9,7 +9,9 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     //Allow a GM to select approved content for their game
     constructor() {
         super();
-        this.tabGroups.primary = "class";
+        this.tabGroups.primary = "subclass";
+        this.group_category = Object.fromEntries(SETTINGS.itemtypes.map(i => [i, new Set([0])]))
+        console.warn(this.group_category);
     }
 
     static DEFAULT_OPTIONS = {
@@ -29,6 +31,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             actions: {
                 selectPack: ContentSelector.#onSelectPack,
                 selectAll: ContentSelector.#onSelectAll,
+                selectGrouping: ContentSelector.#onSelectGroup,
                 changeTab: ContentSelector.#onChangeTab,
                 openItem: ContentSelector.#onOpenItem
               },
@@ -100,6 +103,15 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         await game.settings.set(MODULE_NAME, SETTINGS[category].content, content);
     }
 
+    static #onSelectGroup(event, target) {
+        if (target.checked) {
+            this.group_category[target.getAttribute("category")].add(parseInt(target.name));
+        } else {
+            this.group_category[target.getAttribute("category")].delete(parseInt(target.name));
+        }
+        this.render(false);
+    }
+
     static #onChangeTab(event, target) {
         this.tabGroups.primary = target.getAttribute("category")
         this.render(false);
@@ -126,13 +138,44 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return game.modules.get(sourceId).title;
     }
 
+    _getModule(pack) {
+        if (pack.metadata.packageType === "world") {
+            return {
+                id: "world",
+                title: "World"
+            }
+        }
+        if (pack.metadata.packageType === "system") {
+            return game.system
+        }
+        return game.modules.get(pack.metadata.packageName)
+    }
+
     //Retrieve a fast index and enrich it with source information after the fetch
-    async _fetch(pack, filter, fields = []) {
+    async _fetch(pack, filter_fn, data_fn, sort_fn, selectedOptions, fields = []) {
+        const module = this._getModule(pack)
         return pack.getIndex(
             {fields: new Set(["uuid", "type", "name", "img", "system.source"].concat(fields))}
         )
         .then(
-            index =>  index.filter(d => filter(d)).map(d => this._getSource(d))
+            index =>  index.filter(d => filter_fn(d))
+                .map(d => this._getSource(d))
+                .map(d => {
+                    return {
+                        uuid: d.uuid,
+                        checked: selectedOptions.has(d.uuid),
+                        label: d.name,
+                        module: module.id,
+                        moduleName: module.title,
+                        source: d.system.source.value,
+                        sourceName: d.system.source.label ? d.system.source.label : d.system.source.value,
+                        compendium: pack.metadata.id,
+                        compendiumName: `${pack.metadata.name} (${pack.metadata.id})`,
+                        img: d.img,
+                        ...data_fn(d)
+                    }
+                })
+                .sort(sort_fn)
         )
     }
 
@@ -146,45 +189,21 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return doc;
     }
 
-    _getClasses(pack, selectedOptions) {
-        return this._fetch(pack, (d) => d.type === "class")
-            .then(p => 
-                p.map(
-                    d => {return {
-                        uuid: d.uuid,
-                        checked: selectedOptions.has(d.uuid),
-                        label: d.name,
-                        source: d.system.source.value,
-                        metadata: null,
-                        img: d.img
-                    }}
-                )
-                .sort((a,b) => a.label.localeCompare(b.label))
-            )
-    }
-
     _getSubclasses(pack, selectedOptions) {
         return this._fetch(pack, 
             (d) => d.type === "subclass", 
+            (d) => {return {metadata: getClassDetailsFromIdent(d.system.classIdentifier).name}},
+            (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label),
+            selectedOptions,
             ["system.classIdentifier"]
-        ).then(p =>
-            p.map(d => {
-                return {
-                    uuid: d.uuid,
-                    checked: selectedOptions.has(d.uuid),
-                    label: d.name,
-                    source: d.system.source.value,
-                    metadata: getClassDetailsFromIdent(d.system.classIdentifier).name,
-                    img: d.img
-                }}
-            ).sort((a,b) => a.metadata.localeCompare(b.metadata) || a.label.localeCompare(b.label))
         )
     }
 
     async _getSpellLists(pack, selectedOptions) {
         const index = await pack.getDocuments()
-        return index.map(d => d.pages.filter(p => p.type === "spells")
-            .map(this._getSource)
+        const module = this._getModule(pack)
+        return index
+            .map(d => d.pages.filter(p => p.type === "spells")
             .map(p => {
                 let ident = p.system.identifier;
                 let img = "systems/dnd5e/icons/spell-tiers/spell3.webp";
@@ -199,17 +218,21 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 } else {
                     ident = "No identifier"
                 }
-
-                //let identifier = game.system.registry.classes.get(p.system.identifier)
                 
                 return {
-                uuid: p.uuid,
-                label: p.name,
-                checked: selectedOptions.has(p.uuid),
-                metadata: ident,
-                source: d.name || "Untitled Journal",
-                img: img
-            }
+                    uuid: p.uuid,
+                    label: p.name,
+                    checked: selectedOptions.has(p.uuid),
+                    metadata: ident,
+                    module: module.id,
+                    moduleName: module.title,
+                    source: p.parent.uuid,
+                    sourceName: p.parent.name,
+                    compendium: pack.metadata.id,
+                    compendiumName: `${pack.metadata.name} (${pack.metadata.id})`,
+                    journal: d.name || "Untitled Journal",
+                    img: img
+                }
 
         })).flat()
     }
@@ -217,28 +240,14 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     _getFeats(pack, selectedOptions) {
         return this._fetch(pack,
             d => d.type === "feat" && d.system.type.value === "feat",
-            ["system.type", "system.type"]
-        ).then(p => 
-            p.map(d => {
-                return {
-                    uuid: d.uuid,
-                    checked: selectedOptions.has(d.uuid),
-                    label: d.name,
-                    source: d.system.source.value,
-                    metadata: getFeatType(d.system.type.subtype),
-                    img: d.img
-                }
-            })
-            .sort(
-                (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label)
-            )
-        );
+            d => {return {metadata: getFeatType(d.system.type.subtype)}},
+            (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label),
+            selectedOptions,
+            ["system.type"]
+        )
     }
 
     _getDocuments(pack, subtype, selectedOptions) {
-        if (subtype === "class") {
-            return this._getClasses(pack, selectedOptions)
-        }
         if (subtype === "subclass") {
             return this._getSubclasses(pack, selectedOptions)
         }
@@ -249,21 +258,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             return this._getSpellLists(pack, selectedOptions);
         }
 
-        return this._fetch(pack, (d) => d.type === subtype)
-            .then(p => 
-                p.filter((d) => d.type === subtype)
-                 .map(d => 
-                    {   
-                        return {
-                        uuid: d.uuid,
-                        checked: selectedOptions.has(d.uuid),
-                        label: d.name,
-                        source: d.system.source.value,
-                        metadata: null,
-                        img: d.img
-                    }
-                }
-            )
+        return this._fetch(pack, 
+            (d) => d.type === subtype,
+            (d) => {},
+            (a,b) => a.label.localeCompare(b.label),
+            selectedOptions
         )
     }
 
@@ -285,9 +284,86 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }
         }))
     }
+
+    _reGroup(itemtype, compendia_options) {
+        const newGroups = new Map();
+        let group_categories = this.group_category[itemtype].map(
+            (gc,index) => {
+                const group = SETTINGS[itemtype].groups[gc];
+                return {
+                    index: index,
+                    valuePath: group.valuePath,
+                    itemLabelPath: group.itemLabelPath || group.valuePath
+                }
+            }
+        );
+        group_categories = new Array(...group_categories)
+
+        if (group_categories.length === 0) {
+            const entries = compendia_options.map(o => o.entries).flat()
+            
+            const n_checked = entries.filter(e => e.checked).length;
+            return [{
+                id: "all",
+                entries,
+                label: "All",
+                source: null,
+                category: itemtype,
+                checked: n_checked === entries.length,
+                indeterminate: n_checked > 0 && n_checked.length < entries.length
+            }]
+        }
+
+        console.warn(group_categories);
+        compendia_options.forEach(
+            o => {
+                o.entries.forEach( e => {
+                    const opt = group_categories.map(gc => e[gc.valuePath]).join(" | ").trim();
+                    const label = group_categories.map(gc => e[gc.itemLabelPath]).join(" | ").trim();
+                    if (!newGroups[opt]) {
+                        newGroups[opt] = {
+                            label: label,
+                            entries: new Array()
+                        }
+                    } 
+                    newGroups[opt].entries.push(e);
+                })
+            }
+        )
+
+        return Object.keys(newGroups).map(
+            k => {
+                const entries = newGroups[k].entries;
+                const n_checked = entries.filter(e => e.checked).length;
+                return {
+                    id: k.slugify(),
+                    entries: entries.sort((a,b) => a.label.localeCompare(b.label) 
+                        || a.compendium.localeCompare(b.compendium)),
+                    label: newGroups[k].label,
+                    source: null,
+                    category: itemtype,
+                    checked: n_checked === entries.length,
+                    indeterminate: n_checked > 0 && n_checked.length < entries.length
+                }
+            }
+        )
+    }
   
     _onChangeTab(event, tabs, active) {
         super._onChangeTab(event, tabs, active);
+    }
+
+    _prepareGroups(itemtype) {
+        return SETTINGS[itemtype].groups.map(
+            (g, index) => {
+                return {
+                    label: g.groupLabel,
+                    id: index,
+                    itemtype: itemtype,
+                    checked: this.group_category[itemtype].has(index)
+                }
+            }
+        )
     }
 
     async _prepareContext(options) {
@@ -298,6 +374,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const selectedContent = new Set(game.settings.get(MODULE_NAME, settings.content));
 
         context.entries = await this._getContentOptions(settings.subtype, selectedCompendia, selectedContent);
+        context.entries = this._reGroup(this.tabGroups.primary, context.entries)
 
         context.categories = SETTINGS.itemtypes.map(i => {
             const setting = SETTINGS[i];
@@ -310,6 +387,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }
         })
 
+        context.groups = this._prepareGroups(this.tabGroups.primary)
         return context;
     }
 }

@@ -35,9 +35,7 @@ export function enrichSource(source, uuid) {
         source.label = source.custom;
     }
     else {
-        const page = Number.isNumeric(source.page)
-            ? `Pg. ${source.page}` : (source.page ?? "");
-        source.label = `${source.book}, ${page}`.trim();
+        source.label = source.book;
     }
 
     source.value = source.book || (pkg?.title ?? "");

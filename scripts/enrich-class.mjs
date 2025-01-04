@@ -1,4 +1,4 @@
-import { isV3 } from "../lib.mjs";
+import { isV3 } from "./lib.mjs";
 
 export function getClassDetailsFromIdent(identifier) {
     if (!isV3() && game.system.registry.classes.get(identifier)) {
