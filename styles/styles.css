@@ -41,13 +41,13 @@
   }
 
   .window-content {
-    grid-template-columns: 150px auto !important;
+    grid-template-columns: 230px auto !important;
     grid-template-areas: "sidebar results" "sidebar footer" !important;
     height: 100%
   }
 
   .sidebar {
-    width: 150px;
+    width: 230px;
     border-right-width: 2px;
     border-right-color: black;
   }
@@ -247,6 +247,36 @@
     background: var(--dnd5e-color-gold);
     height: 30px;   
   }
+}
+
+.dcm .sidebar .filter-element {
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+  search {
+    height: 2em;
+  }
+
+  search > input[type="text"] {
+    height: 2em;
+  }
+
+  search:hover,
+  search:focus,
+  search:focus-visible,
+  search > input[type="text"]:hover,
+  search > input[type="text"]:focus,
+  search > input[type="text"]:focus-visible {
+    height: 2em
+  }
+}
+
+.dnd5e2 item-list-controls search > input[type="text"]:hover,
+.dnd5e2 .filter-element search > input[type="text"]:hover,
+.dnd5e2 item-list-controls search > input[type="text"]:focus-visible,
+.dnd5e2 .filter-element search > input[type="text"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 12px var(--dnd5e-color-gold);
 }
 
 

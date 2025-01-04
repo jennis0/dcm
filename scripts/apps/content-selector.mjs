@@ -11,7 +11,12 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         super();
         this.tabGroups.primary = "subclass";
         this.group_category = Object.fromEntries(SETTINGS.itemtypes.map(i => [i, new Set([0])]))
+        this.currentFilters = {
+            name: null
+        }
     }
+    
+    SEARCH_DELAY = 200;
 
     static DEFAULT_OPTIONS = {
             tag: "form",
@@ -23,7 +28,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             id: 'content-selector',
             classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
-                width: 800,
+                width: 880,
                 height: 650
               },
             resizable: false,
@@ -31,6 +36,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 selectPack: ContentSelector.#onSelectPack,
                 selectAll: ContentSelector.#onSelectAll,
                 selectGrouping: ContentSelector.#onSelectGroup,
+                clearSearch: ContentSelector.#onClearSearch,
                 changeTab: ContentSelector.#onChangeTab,
                 openItem: ContentSelector.#onOpenItem
               },
@@ -109,13 +115,34 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         } else {
             this.group_category[target.getAttribute("category")].delete(parseInt(target.name));
         }
-        this.render(false);
+        this.render({ parts: ["content"] });
     }
 
     static #onChangeTab(event, target) {
         this.tabGroups.primary = target.getAttribute("category")
+        this.currentFilters = {
+            name: null
+        }
         this.render(false);
     }
+
+    static async #onClearSearch(event, target) {
+        const input = target.closest("search").querySelector(":scope > input");
+        input.value = this.currentFilters.name = null;
+        this.render({ parts: ["content"] });
+    }
+
+    _onSearchName(event) {
+        if ( !event.target.matches("search > input[type='text']") ) return;
+        this.currentFilters.name = event.target.value.toLowerCase();
+        this.render({ parts: ["content"] });
+      }
+    _debouncedSearch = foundry.utils.debounce(this._onSearchName.bind(this), ContentSelector.SEARCH_DELAY);
+
+    _attachFrameListeners() {
+        super._attachFrameListeners();
+        this.element.addEventListener("keydown", this._debouncedSearch, { passive: true });
+      }
 
     static PARTS = {
         sidebar: {
@@ -151,6 +178,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return game.modules.get(pack.metadata.packageName)
     }
 
+    _applyFilters(doc) {
+        if (this.currentFilters.name) {
+            return doc.name.toLowerCase().includes(this.currentFilters.name)
+        }
+        return true;
+    }
+
     //Retrieve a fast index and enrich it with source information after the fetch
     async _fetch(pack, filter_fn, data_fn, sort_fn, selectedOptions, fields = []) {
         const module = this._getModule(pack)
@@ -158,7 +192,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             {fields: new Set(["uuid", "type", "name", "img", "system.source"].concat(fields))}
         )
         .then(
-            index =>  index.filter(d => filter_fn(d))
+            index =>  index.filter(d => filter_fn(d) && this._applyFilters(d))
                 .map(d => this._getSource(d))
                 .map(d => {
                     return {
@@ -314,8 +348,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 indeterminate: n_checked > 0 && n_checked.length < entries.length
             }]
         }
-
-        console.warn(group_categories);
         compendia_options.forEach(
             o => {
                 o.entries.forEach( e => {
@@ -390,8 +422,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         })
 
         context.groups = this._prepareGroups(this.tabGroups.primary)
-
-        console.log(context);
         return context;
     }
 }
