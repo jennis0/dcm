@@ -57,6 +57,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         const sc = game.settings.get(MODULE_NAME, SETTINGS[category].content);
         let selectedContent = new Set(sc);
+
         for (const p of packs) {
             p.checked = checked;
 
