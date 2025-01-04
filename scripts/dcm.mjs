@@ -17,9 +17,6 @@ Hooks.once("ready", () => {
     patchCompendiumBrowser();
     registerSpellLists();
 
-    const w = new ContentSelector();
-    w.render(true);
-
     // Set that we've successfully loaded this version
     game.settings.set(MODULE_NAME, SETTINGS.lastLoadedVersion, game.modules.get(MODULE_NAME).version)
 })

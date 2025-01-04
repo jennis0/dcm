@@ -11,7 +11,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         super();
         this.tabGroups.primary = "subclass";
         this.group_category = Object.fromEntries(SETTINGS.itemtypes.map(i => [i, new Set([0])]))
-        console.warn(this.group_category);
     }
 
     static DEFAULT_OPTIONS = {
