@@ -4,6 +4,7 @@ import { ClearSettings } from "./apps/clear.mjs";
 import { MODULE_NAME, SETTINGS } from "./settings.mjs"
 import { log } from "./lib.mjs";
 import { EnableMenu } from "./apps/enable-menu.mjs";
+import { export_settings } from "./export.mjs";
 
 
 export function initSettings() {
@@ -94,6 +95,16 @@ export function initSettings() {
             restricted: true,
             type: String,
             default: ""
+        }
+    )
+
+    game.settings.register(MODULE_NAME, "export", 
+        {
+            scope: "world",
+            config: true,
+            restricted: true,
+            type: Function,
+            default: () => console.log(export_settings())
         }
     )
 
