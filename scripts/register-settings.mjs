@@ -14,6 +14,8 @@ export function initSettings() {
             {
                 config: false,
                 type: Array,
+                scope: "world",
+                restricted: true,
                 default: []
             }
         ),
@@ -21,6 +23,8 @@ export function initSettings() {
             {
                 config: false,
                 type: Array,
+                scope: "world",
+                restricted: true,
                 default: []
             }
         )
@@ -28,6 +32,8 @@ export function initSettings() {
             {
                 config: false,
                 type: Boolean,
+                scope: "world",
+                restricted: true,
                 default: true
             }
         )

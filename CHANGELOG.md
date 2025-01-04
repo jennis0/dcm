@@ -1,3 +1,6 @@
+### v1.1.1
+- Fix bug in persisting settings to non-GM users
+
 ### v1.1.0
 - Add basic text filter to content browser
 
