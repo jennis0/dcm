@@ -15,6 +15,21 @@
         {{/each}}
     </menu>
     <hr/>
+
+
+    <div class="sidebar-part filter-element">
+        <search aria-label="Search results">
+            <input type="text" name="search-text" placeholder="Search options" data-action="setFilter"/>
+            <ul class="unlist controls">
+                <li>
+                    <button type="button" class="unbutton filter-control" data-action="clearSearch">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </li>
+            </ul>
+        </search>
+    </div>
+
     {{#if groups}}
         <div class="filter">
             <span class="filter-title">Group By:</span>
