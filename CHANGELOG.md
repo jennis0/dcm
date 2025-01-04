@@ -1,3 +1,6 @@
+### v1.1.0
+- Add basic text filter to content browser
+
 ### v1.0.0
 - First public release
 - Implements filtering for Classes, subclasses, feats, backgrounds, species/races, and (to a limited degree) spell lists
