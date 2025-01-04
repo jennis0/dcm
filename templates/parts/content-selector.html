@@ -4,7 +4,7 @@
     <legend>{{ label }}</legend>
     <menu class="packs-list unlist {{ type }}">
         {{#if (gt entries.length 1)}}
-        <li class="all compendium-list-row">
+        <li class="compendium-list-row all">
             <label class="checkbox">
                 <dnd5e-checkbox name="all-{{ type }}" {{ checked checked }} data-type="pack"
                                 category="{{ category }}"
@@ -13,7 +13,19 @@
                 <span class="title">{{ localize "Select All" }}</span>
             </label>
         </li>
-        <hr/>
+
+        <li class="compendium-list-row header-row">
+            <div class="compendium-row-label header-labels">
+                <div class="left-text">
+                    <span class="title" style="margin-right: 50px">Name</span>
+                    <span class="metadata">{{metadataLabel}}</span>
+                </div>
+                <div class="right-text">
+                    <span class="source">Source</span>
+                    <span class="module">Module</span>
+                </div>
+            </div>
+        </li>
 
         {{/if}}
         {{#each entries}}
@@ -39,7 +51,10 @@
                         <span class="title">{{ label }}</span>
                         <span class="metadata">{{ metadata }}</span>
                     </div>
-                    <span class="source">{{ sourceName }}</span>
+                    <div class="right-text">
+                        <span class="source">{{ sourceName }}</span>
+                        <span class="module">{{ moduleName }}</span>
+                    </div>
                 </div>
             </label>
         </li>
