@@ -18,19 +18,13 @@ If so, this module is for you.
 
 The goal of the DCM is to give DMs full control over what options are available to players. It allows you to choose exactly which classes, subclasses, species, feats, backgrounds, and spells show up in the built-in Compendium Browser, turning it into a single source of available options for you and your players.
 
-![image](https://github.com/user-attachments/assets/4a674f26-b0a1-4dd8-9512-45149eb74636)
+![image](https://github.com/user-attachments/assets/1260a17d-0241-4dd3-a7b4-4cf73f512c7a)
 
 ## Usage
 Once installed it is simple to configure which options are available via the module settings:
-1. Set the base sources for each type of item via the 'Compendium Sources' setting
-   ![image](https://github.com/user-attachments/assets/c5133ff9-c8c5-4663-9d9a-e26ed5fd4813)
-   ![image](https://github.com/user-attachments/assets/4f6369d8-dca4-412e-9bfd-81a8cbd4afb7)
-
-
+1. (Optional) Set which types of item you want to filter using the "Select Filtered Types" setting
+2. Set the base sources for each type of item via the 'Compendium Sources' setting
 3. Select the available items from each source via the 'Approved Content' setting
-   ![image](https://github.com/user-attachments/assets/2b8fe88b-78b5-45f3-a9c8-02d6df16f431)
-   ![image](https://github.com/user-attachments/assets/f6ae60a2-1c28-481b-aaf9-cc98585a1de1)
-
 
 Once you've done this, any unselected content is hidden within the Compendium Browser. You can add or remove new options at any time, and unlike with creating compendium specifically for a particular game - there's no deletion, duplication or copying involved so no need to manage updates or changes!
 
@@ -50,8 +44,8 @@ Currently we filter out items which are only in the world but not in a Compendiu
 
 ## Future Improvements
 
-#### Improve Large Collections
-The interface for very large collections is currently not the best user experience. I'd like to improve this and give users better ways to quickly navigate and approve/deny content.
+#### Filter
+DCM currently only supports grouping items, not filtering them so its not the best user experience for types where there and hundreds/thousands of items (e.g. Equipment). I'd like to improve this and give users better ways to quickly navigate and approve/deny content.
 
 #### Items and Spells
 Once the interface works better for large collections I'd like to include the same functionality for all the remaining item types.
