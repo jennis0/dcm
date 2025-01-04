@@ -1,5 +1,6 @@
 ### v1.1.1
 - Fix bug in persisting settings to non-GM users
+- Add text search to compendium source setup
 
 ### v1.1.0
 - Add basic text filter to content browser
