@@ -17,7 +17,7 @@ Hooks.once("ready", () => {
     patchCompendiumBrowser();
     registerSpellLists();
 
-    const w = new EnableMenu();
+    const w = new ContentSelector();
     w.render(true);
 
     // Set that we've successfully loaded this version

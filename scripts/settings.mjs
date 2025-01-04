@@ -14,6 +14,7 @@ export const SETTINGS = {
 
     spelllist: {
         label: "Spell Lists",
+        metadataLabel: "Class",
         icon: "systems/dnd5e/icons/svg/items/spell.svg",
         sources: "spellListSources",
         content: "spellLists",
@@ -30,6 +31,7 @@ export const SETTINGS = {
 
     class: {
         label: "Classes",
+        metadataLabel: "",
         icon: "systems/dnd5e/icons/svg/items/class.svg",
         sources: "classSources",
         content: "classes",
@@ -46,6 +48,7 @@ export const SETTINGS = {
 
     subclass: {
         label: "Subclasses",
+        metadataLabel: "Class",
         icon: "systems/dnd5e/icons/svg/items/subclass.svg",
         sources: "subclassSources",
         content: "subclasses",
@@ -63,6 +66,7 @@ export const SETTINGS = {
 
     feat: {
         label: "Feats",
+        metadataLabel: "Feat Type",
         icon: "systems/dnd5e/icons/svg/items/feature.svg",
         sources: "featSources",
         content: "feats",
@@ -76,11 +80,11 @@ export const SETTINGS = {
             {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
             {groupLabel: "Feat Type", valuePath: "metadata"},
         ]
-        
     },
 
     race: {
         label: "Species",
+        metadataLabel: "",
         icon: "systems/dnd5e/icons/svg/items/race.svg",
         sources: "speciesSources",
         content: "species",
@@ -97,6 +101,7 @@ export const SETTINGS = {
 
     background: {
         label: "Backgrounds",
+        metadataLabel: "",
         icon: "systems/dnd5e/icons/svg/items/background.svg",
         sources: "backgroundSources",
         content: "backgrounds",

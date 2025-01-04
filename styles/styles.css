@@ -162,7 +162,9 @@
 .dcm .content-selector {
 
   .all.compendium-list-row {
-    margin-left: 50px;
+    margin-bottom: 0;
+    margin-top: 0;
+    height: 1.5em;
   }
 
   .compendium-list-row {
@@ -184,22 +186,65 @@
     .left-text {
       display: flex;
       gap: 10px;
-      width: 310px;
+      width: 260px;
       text-overflow: ellipsis;
       
-      .title,
-      .metadata {
+      .title {
         width: 150px; /* Fixed width for title and metadata */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
-      .source {
-        max-width: 100px;
+      .metadata {
+        width: 100px; /* Fixed width for title and metadata */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
+
+    }
+
+    .right-text {
+      display: flex;
+      width: 260px;
+      gap: 10px;
+      justify-items: right;
+      justify-content: right;
+      flex-wrap: nowrap;
+
+
+      .source, .module {
+
+        width: 120px;
+        justify-content: right;
+        text-align: right;
+        white-space: nowrap;
+        overflow:hidden;
+        text-overflow: ellipsis;
+      } 
     }
 
     
+
+    
+  }
+
+  .compendium-row-label.header-labels {
+    margin: 0px;
+    margin-left: 50px;
+    color: var(--color-text-light-1);
+  }
+
+  .compendium-list-row.header-row {
+    margin: -1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-top: 0em;
+    padding-bottom: 0em;
+    padding-left: 1em;
+    padding-right: 1em;
+    background: var(--dnd5e-color-gold);
+    height: 30px;   
   }
 }

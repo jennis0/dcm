@@ -309,6 +309,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 label: "All",
                 source: null,
                 category: itemtype,
+                metadataLabel: SETTINGS[itemtype].metadataLabel,
                 checked: n_checked === entries.length,
                 indeterminate: n_checked > 0 && n_checked.length < entries.length
             }]
@@ -343,6 +344,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     source: null,
                     category: itemtype,
                     checked: n_checked === entries.length,
+                    metadataLabel: SETTINGS[itemtype].metadataLabel,
                     indeterminate: n_checked > 0 && n_checked.length < entries.length
                 }
             }
@@ -388,6 +390,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         })
 
         context.groups = this._prepareGroups(this.tabGroups.primary)
+
+        console.log(context);
         return context;
     }
 }
