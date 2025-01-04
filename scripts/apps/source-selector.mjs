@@ -8,6 +8,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     constructor() {
         super();
         this.tabGroups.primary = "class";
+        this.currentFilters = {name: null}
         log("Creating Source Selection window")
     }
 
@@ -28,6 +29,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             actions: {
                 selectPack: SourceSelector.#onSelectPack,
                 selectAll: SourceSelector.#onSelectAll,
+                clearSearch: SourceSelector.#onClearSearch,
                 changeTab: SourceSelector.#onChangeTab
               },
     }
@@ -37,7 +39,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         sidebar: {
             template: `modules/${MODULE_NAME}/templates/parts/tab-selector.html`
         },
-        packs: {
+        content: {
             template: `modules/${MODULE_NAME}/templates/parts/pack-selector.html`
         },
     }
@@ -97,8 +99,26 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
     static #onChangeTab(event, target) {
         this.tabGroups.primary = target.getAttribute("category")
-        this.render(false);
+        this.render({ parts: ["content"]});
     }
+
+    static async #onClearSearch(event, target) {
+        const input = target.closest("search").querySelector(":scope > input");
+        input.value = this.currentFilters.name = null;
+        this.render({ parts: ["content"] });
+    }
+
+    _onSearchName(event) {
+        if ( !event.target.matches("search > input[type='text']") ) return;
+        this.currentFilters.name = event.target.value.toLowerCase();
+        this.render({ parts: ["content"] });
+      }
+    _debouncedSearch = foundry.utils.debounce(this._onSearchName.bind(this), SourceSelector.SEARCH_DELAY);
+
+    _attachFrameListeners() {
+        super._attachFrameListeners();
+        this.element.addEventListener("keydown", this._debouncedSearch, { passive: true });
+      }
 
 
     _getSourceName(sourceType, sourceId) {
@@ -115,6 +135,10 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const module_packs = new Map();
         game.packs
             .filter(p => (p.metadata.type === documentType) & p.metadata.packageName !== MODULE_NAME)
+            .filter(p => !this.currentFilters.name 
+                || p.metadata.label.toLowerCase().includes(this.currentFilters.name) 
+                || p.metadata.id.includes(this.currentFilters.name)
+            )
             .forEach((p) => {
                 if (!module_packs[p.metadata.packageName]) {
                     module_packs[p.metadata.packageName] = new Array()
