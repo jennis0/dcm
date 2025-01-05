@@ -23,7 +23,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             title: 'Select Compendia',
             classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
-                width: 650,
+                width: 800,
                 height: 650
               },
             actions: {
@@ -99,7 +99,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
     static #onChangeTab(event, target) {
         this.tabGroups.primary = target.getAttribute("category")
-        this.render({ parts: ["content"]});
+        this.render(false);
     }
 
     static async #onClearSearch(event, target) {
@@ -189,11 +189,6 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return options;
  
     }
-  
-
-    _onChangeTab(event, tabs, active) {
-        super._onChangeTab(event, tabs, active);
-    }
 
     async _prepareContext(options) {
         // Get current selections from settings
@@ -201,7 +196,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         context.tabs = await this._getAllDataOptions()
         context.categories = SETTINGS.itemtypes.map(i => {
             const setting = SETTINGS[i];
-            const active = this.tabGroups["primary"] === i;
+            const active = this.tabGroups.primary === i;
 
             return {id: i, label:setting.label, svg: setting.icon,
                     group: "primary",
