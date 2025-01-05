@@ -5,12 +5,20 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
 // Sourceelector.js
 export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
-    constructor() {
+    constructor(startTab="class", onClose=null) {
         super();
-        this.tabGroups.primary = "class";
+        this.tabGroups.primary = startTab;
         this.currentFilters = {name: null}
+        this.onCloseFunc = onClose;
         log("Creating Source Selection window")
     }
+
+    _onClose() {
+        if (this.onCloseFunc) {
+            this.onCloseFunc();
+        }
+    }
+
 
     static DEFAULT_OPTIONS = {
             tag: "form",

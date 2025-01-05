@@ -43,7 +43,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         settingsButton.setAttribute("aria-label", "Open Source Config");
         settingsButton.addEventListener("click", event => {
             event.stopPropagation();
-            new SourceSelector().render(true);
+            new SourceSelector(
+                this.tabGroups.primary,
+                () => {this.render()}
+            ).render(true);
         })
 
         //Insert to left of close button
@@ -139,7 +142,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         let content = getSetting(SETTINGS[category].content) || [];
         if (target.checked) {
-            log(`Adding ${p.name} to ${category} filter list`)
+            log(`Adding ${target.name} to ${category} filter list`)
             content.push(target.name);
         } else {
             const index = content.indexOf(target.name);
@@ -492,6 +495,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }
         })
 
+        context.isSpelllist = this.tabGroups.primary === "spelllist";
         context.groups = this._prepareGroups(this.tabGroups.primary)
         return context;
     }

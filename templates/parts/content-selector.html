@@ -65,6 +65,13 @@
 {{/inline}}
 
 <section class="content-selector">
+    {{#if isSpelllist}}
+        <div class="filter note roboto-condensed-upper">
+            <p>Work In Progress</p>
+            <p>Spell lists are only updated when the game is reloaded. In addition, spell lists loaded by modules
+            cannot be unloaded.</p>
+        </div>
+    {{/if}}
     {{#each entries}}
         {{> ".packs" this}}
     {{/each}}

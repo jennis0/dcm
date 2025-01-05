@@ -38,6 +38,13 @@
     padding: 1em;
   }
 
+  .filter.note {
+    text-align: center;
+    border-style: solid;
+    border-color: var(--dnd5e-color-gold);
+    border-width: thin;
+  }
+
   legend {
     font-size: var(--font-size-15);
     background: var(--dnd5e-background-card);
