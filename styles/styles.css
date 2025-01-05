@@ -52,6 +52,12 @@
     width: 230px;
     border-right-width: 2px;
     border-right-color: black;
+
+    li.active {
+      span {
+        text-decoration: underline;
+      }
+    }
   }
 
   dnd5e-icon {
