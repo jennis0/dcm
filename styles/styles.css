@@ -9,6 +9,8 @@
   padding-left: 2em;
 
   .window-icon::before {
+    margin-top: 10px;
+    margin-left: -35px;
     font-size: large;
     color: var(--dnd5e-color-gold);
   }
@@ -247,6 +249,7 @@
     background: var(--dnd5e-color-gold);
     height: 30px;   
   }
+
 }
 
 .dcm .sidebar .filter-element {
