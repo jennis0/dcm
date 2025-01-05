@@ -9,13 +9,32 @@ export const SETTINGS = {
         "race",
         "background",
         "feat",
+        "spell",
         "spelllist"
     ],
+
+    spell : {
+        label: "Spells",
+        metadataLabel: "Level | School",
+        icon: "systems/dnd5e/icons/svg/items/spell.svg",
+        sources: "spellSources",
+        content: "spells",
+        enabled: "filterSpells",
+        type: "Item",
+        subtype: "spell",
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "School", valuePath: "school"},
+            {groupLabel: "level", valuePath: "levelInt", itemLabelPath: "level"},
+        ]
+    },
 
     spelllist: {
         label: "Spell Lists",
         metadataLabel: "Class",
-        icon: "systems/dnd5e/icons/svg/items/spell.svg",
+        icon: "systems/dnd5e/icons/svg/item-grant.svg",
         sources: "spellListSources",
         content: "spellLists",
         enabled: "filterSpellLists",
@@ -38,7 +57,6 @@ export const SETTINGS = {
         enabled: "filterClasses",
         type: "Item",
         subtype: "class",
-        compendium: `${MODULE_NAME}-classes`,
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
@@ -55,7 +73,6 @@ export const SETTINGS = {
         enabled: "filtersubClasses",
         type: "Item",
         subtype: "subclass",
-        compendium: `${MODULE_NAME}-subclasses`,
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
@@ -73,7 +90,6 @@ export const SETTINGS = {
         enabled: "filterFeats",
         type: "Item",
         subtype: "feature",
-        compendium: `${MODULE_NAME}-feats`,
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
@@ -91,7 +107,6 @@ export const SETTINGS = {
         enabled: "filterSpecies",
         type: "Item",
         subtype: "race",
-        compendium: `${MODULE_NAME}-species`,
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
@@ -108,7 +123,6 @@ export const SETTINGS = {
         enabled: "filterBackgrounds",
         type: "Item",
         subtype: "background",
-        compendium: `${MODULE_NAME}-backgrounds`,
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},

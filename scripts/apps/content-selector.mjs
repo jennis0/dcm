@@ -2,7 +2,7 @@ import { getFeatType } from "../enrich-feats.mjs";
 import { getSetting, setSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
 import { getClassDetailsFromIdent } from "../enrich-class.mjs";
 import { enrichSource } from "../enrich-source.mjs";
-import { log } from "../lib.mjs";
+import { getOrdinalSuffix, log } from "../lib.mjs";
 import { SourceSelector } from "./source-selector.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
@@ -31,8 +31,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         headerActions.prepend(button);
       }
 
-    async render(options) {
-        const html = await super.render(options);
+    async _renderFrame(options) {
+        const html = await super._renderFrame(options);
 
         //Add button to open SourceSelector
         const settingsButton = document.createElement("button");
@@ -47,7 +47,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         })
 
         //Insert to left of close button
-        const header = html.element.querySelector(".window-header");
+        const header = html.querySelector(".window-header");
         const button = header.querySelector(":not(.hidden).header-control");
         header.insertBefore(settingsButton, button);
         return html;
@@ -66,9 +66,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
                 width: 880,
-                height: 650
+                height: 650,
               },
-            resizable: false,
             actions: {
                 selectPack: ContentSelector.#onSelectPack,
                 selectAll: ContentSelector.#onSelectAll,
@@ -275,6 +274,20 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
+    _getSpells(pack, selectedOptions) {
+        return this._fetch(pack, 
+            (d) => d.type === "spell", 
+            (d) => {
+                const levelInt = d.system.level;
+                const level = levelInt === 0 ? "Cantrip" : `${getOrdinalSuffix(levelInt)} level`
+                const school = CONFIG.DND5E.spellSchools[d.system.school].label;
+                return {metadata: `${level} | ${school}`, levelInt: levelInt, level: level, school: school}},
+            (a,b) => a.label.localeCompare(b.label),
+            selectedOptions,
+            ["system.school", "system.level"]
+        )
+    }
+
     async _getSpellLists(pack, selectedOptions) {
         const index = await pack.getDocuments()
         const module = this._getModule(pack)
@@ -332,6 +345,9 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }
         if (subtype === "spells") {
             return this._getSpellLists(pack, selectedOptions);
+        }
+        if (subtype === "spell") {
+            return this._getSpells(pack, selectedOptions);
         }
 
         return this._fetch(pack, 
@@ -422,7 +438,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     indeterminate: n_checked > 0 && n_checked.length < entries.length
                 }
             }
-        )
+        ).sort((a,b) => a.label.localeCompare(b.label))
     }
   
     _onChangeTab(event, tabs, active) {
