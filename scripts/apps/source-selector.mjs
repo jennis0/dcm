@@ -121,6 +121,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     static async #onToggleEnable(event, target) {
+        event.stopPropagation();
         log(`Toggling ${target.name} filtering to ${target.checked}`)
         setSetting(SETTINGS[target.name].enabled, target.checked)
         //this.render(true)

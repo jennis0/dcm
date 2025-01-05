@@ -1,4 +1,4 @@
-import { MODULE_NAME, SETTINGS } from "../settings.mjs";
+import { MODULE_NAME, setSetting, SETTINGS } from "../settings.mjs";
 import { log } from "../lib.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
@@ -55,13 +55,13 @@ export class ClearSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             const s = SETTINGS[i];
             if (options['clear-sources']) {
                 log(`Clearing source configuration for ${s.label}`)
-                setSetting(s.sources, null);
-                setSetting(s.enabled, null);
+                setSetting(s.sources, []);
+                setSetting(s.enabled, true);
             }
             
             if (options['clear-selections']) {
                 log(`Clearing character option configuration for ${s.label}`)
-                setSetting(s.content, null);
+                setSetting(s.content, []);
             }
             log(`Finished clearing settings for ${s.label}`)
         });

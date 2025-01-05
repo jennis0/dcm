@@ -375,7 +375,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
-        return await Promise.all(sourceCompendia.map(async (c) => {
+        return await Promise.all(sourceCompendia?.map(async (c) => {
             const pack = game.packs.get(c);
             const source = this._getSourceName(pack.metadata.packageType, pack.metadata.packageName);
             const entries = await this._getDocuments(pack, subtype, selectedOptions)
