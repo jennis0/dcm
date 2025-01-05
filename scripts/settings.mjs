@@ -46,7 +46,7 @@ export const SETTINGS = {
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
             {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
             {groupLabel: "School", valuePath: "school"},
-            {groupLabel: "level", valuePath: "levelInt", itemLabelPath: "level"},
+            {groupLabel: "Spell Level", valuePath: "levelInt", itemLabelPath: "level"},
         ]
     },
 

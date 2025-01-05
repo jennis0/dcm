@@ -11,12 +11,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     //Allow a GM to select approved content for their game
     constructor() {
         super();
-        this.tabGroups.primary = "subclass";
+        this.tabGroups.primary = "class";
         this.group_category = Object.fromEntries(SETTINGS.itemtypes.map(i => [i, new Set([0])]))
         this.currentFilters = {
             name: null
         }
-        this.cachedResults = {}
     }
 
     //Add a button to open the ContentSelector to the Compendium Sidebar

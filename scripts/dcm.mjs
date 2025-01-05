@@ -35,6 +35,9 @@ Hooks.once("ready", () => {
     //Add any additional spell lists
     registerSpellLists();
 
+    const w = new ContentSelector();
+    w.render(true);
+
     log("Finished ready steps")
 })
 
