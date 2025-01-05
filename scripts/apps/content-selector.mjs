@@ -33,74 +33,25 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
     async render(options) {
         const html = await super.render(options);
-        console.log(html);
 
-        const button = html.element.querySelector(".window-header :not(.hidden).header-control");
+        //Add button to open SourceSelector
         const settingsButton = document.createElement("button");
         settingsButton.classList.add("header-control");
         settingsButton.classList.add("fa-solid")
         settingsButton.classList.add("fa-gear")
+        settingsButton.dataset.tooltip = "Open Source Config"
+        settingsButton.setAttribute("aria-label", "Open Source Config");
         settingsButton.addEventListener("click", event => {
             event.stopPropagation();
             new SourceSelector().render(true);
         })
 
-
+        //Insert to left of close button
         const header = html.element.querySelector(".window-header");
-        console.log(header)
+        const button = header.querySelector(":not(.hidden).header-control");
         header.insertBefore(settingsButton, button);
-        //header.appendChild(settingsButton);
-        //tton.parent.insertBefore(settingButton, button)
         return html;
-    }
-
-    // /** @inheritDoc */
-    // async _renderOuter() {
-    //     const html = await super._renderOuter();
-    //     const header = html[0].querySelector(".window-header");
-
-    //     console.log(html)
-    //     console.log(header)
-  
-    //     // Adjust header buttons.
-    //     header.querySelectorAll(".header-button").forEach(btn => {
-    //       const label = btn.querySelector(":scope > i").nextSibling;
-    //       btn.dataset.tooltip = label.textContent;
-    //       btn.setAttribute("aria-label", label.textContent);
-    //       btn.addEventListener("dblclick", event => event.stopPropagation());
-    //       label.remove();
-    //     });
-
-  
-    //     // if ( !game.user.isGM && this.document.limited ) {
-    //     //   html[0].classList.add("limited");
-    //     //   return html;
-    //     // }
-  
-    //     // // Add edit <-> play slide toggle.
-    //     // if ( this.isEditable ) {
-    //     //   const toggle = document.createElement("slide-toggle");
-    //     //   toggle.checked = this._mode === this.constructor.MODES.EDIT;
-    //     //   toggle.classList.add("mode-slider");
-    //     //   toggle.dataset.tooltip = "DND5E.SheetModeEdit";
-    //     //   toggle.setAttribute("aria-label", game.i18n.localize("DND5E.SheetModeEdit"));
-    //     //   toggle.addEventListener("change", this._onChangeSheetMode.bind(this));
-    //     //   toggle.addEventListener("dblclick", event => event.stopPropagation());
-    //     //   header.insertAdjacentElement("afterbegin", toggle);
-    //     // }
-  
-    //     // // Document UUID link.
-    //     // const firstButton = header.querySelector(".header-button");
-    //     // const idLink = header.querySelector(".document-id-link");
-    //     // if ( idLink ) {
-    //     //   firstButton?.insertAdjacentElement("beforebegin", idLink);
-    //     //   idLink.classList.add("pseudo-header-button");
-    //     //   idLink.dataset.tooltipDirection = "DOWN";
-    //     // }
-  
-    //     return html;
-    //   }
-  
+    }  
     
     SEARCH_DELAY = 200;
 

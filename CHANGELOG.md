@@ -1,3 +1,7 @@
+### dev
+- Add button to open content selector from the compendium sidebar
+- Add button to open compendium config from the content selector
+
 ### v1.1.2
 - Fix breaking bug in v1.1.1 that caused loss of config
 - Improve logging and fix errors when run by non GM users
