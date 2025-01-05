@@ -47,7 +47,7 @@ function parseSemVer(version) {
     }
 
     version = version.replace(/^v/, '');
-    var arr = str.split('.');
+    var arr = version.split('.');
 
     // parse int or default to 0
     var maj = parseInt(arr[0]) || 0;
@@ -62,7 +62,7 @@ function parseSemVer(version) {
 
 export function handleMigrations() {
     const currentVersion = CONFIG.dndContentManager.version;
-    const currentVersionParsed = parseSemVer(currentVersion);
+    //const currentVersionParsed = parseSemVer(currentVersion);
     const lastVersion = getSetting(SETTINGS.lastLoadedVersion);
     const lastVersionParsed = parseSemVer(currentVersion);
 
