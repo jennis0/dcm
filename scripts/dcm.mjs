@@ -14,11 +14,13 @@ Hooks.once("init", () => {
     //Create config object
     CONFIG.dndContentManager = {};
     
+    //Perform any migration work we need to do
+    handleMigrations();
+
     //Register settings
     initSettings();
  
-    //Perform any migration work we need to do
-    handleMigrations();
+
     log("Finished initialisation")
 })
 
