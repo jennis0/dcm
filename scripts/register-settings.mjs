@@ -32,6 +32,7 @@ export function initSettings() {
                 default: []
             }
         ),
+        log(`Registered setting ${item.sources}`)
         game.settings.register(MODULE_NAME, item.content,
             {
                 config: false,
@@ -41,6 +42,7 @@ export function initSettings() {
                 default: []
             }
         )
+        log(`Registered setting ${item.content}`)
         game.settings.register(MODULE_NAME, item.enabled, 
             {
                 config: false,
@@ -50,6 +52,7 @@ export function initSettings() {
                 default: true
             }
         )
+        log(`Registered setting ${item.enabled}`)
     })
 
     game.settings.registerMenu(MODULE_NAME, "enableMenu",
