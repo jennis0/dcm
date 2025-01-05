@@ -1,3 +1,7 @@
+### v1.1.2
+- Fix breaking bug in v1.1.1 that caused loss of config
+- Improve logging and fix errors when run by non GM users
+
 ### v1.1.1
 - Fix bug in persisting settings to non-GM users
 - Add text search to compendium source setup
