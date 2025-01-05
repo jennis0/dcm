@@ -1,6 +1,9 @@
-### dev
+### v1.2.0
+- Fix breaking bug in migrations script
+- Add Item and Spell filtering
 - Add button to open content selector from the compendium sidebar
 - Add button to open compendium config from the content selector
+- Add button to enable/disable filtering of a particular item type from the compendium selector (currently buggy in D&D5e v3.3.1)
 
 ### v1.1.2
 - Fix breaking bug in v1.1.1 that caused loss of config
