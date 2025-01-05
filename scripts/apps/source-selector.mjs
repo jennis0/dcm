@@ -5,18 +5,19 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
 // Sourceelector.js
 export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
-    constructor(startTab="class", onClose=null) {
+    constructor(startTab="class", 
+        onClose=null,
+        onChange = null
+    ) {
         super();
         this.tabGroups.primary = startTab;
         this.currentFilters = {name: null}
-        this.onCloseFunc = onClose;
+        this.onCloseFunc = () => onClose & onClose();
         log("Creating Source Selection window")
     }
 
     _onClose() {
-        if (this.onCloseFunc) {
-            this.onCloseFunc();
-        }
+        this.onCloseFunc()
     }
 
 
@@ -38,7 +39,8 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 selectPack: SourceSelector.#onSelectPack,
                 selectAll: SourceSelector.#onSelectAll,
                 clearSearch: SourceSelector.#onClearSearch,
-                changeTab: SourceSelector.#onChangeTab
+                changeTab: SourceSelector.#onChangeTab,
+                toggleEnabled: SourceSelector.#onToggleEnable
               },
     }
 
@@ -70,6 +72,8 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }
         } 
         await setSetting(SETTINGS[category].sources, newSources)
+
+        this.onChangeFunc()
     }
 
     static async #onSelectPack(event, target) {
@@ -113,13 +117,18 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     static async #onClearSearch(event, target) {
         const input = target.closest("search").querySelector(":scope > input");
         input.value = this.currentFilters.name = null;
-        this.render({ parts: ["content"] });
+        this.render(false);
+    }
+
+    static async #onToggleEnable(event, target) {
+        log(`Toggling ${target.name} filtering to ${target.checked}`)
+        setSetting(SETTINGS[target.name].enabled, target.checked)
     }
 
     _onSearchName(event) {
         if ( !event.target.matches("search > input[type='text']") ) return;
         this.currentFilters.name = event.target.value.toLowerCase();
-        this.render({ parts: ["content"] });
+        this.render(false);
       }
     _debouncedSearch = foundry.utils.debounce(this._onSearchName.bind(this), SourceSelector.SEARCH_DELAY);
 
@@ -212,6 +221,8 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     cssClass: active ? "active" : "",
             }
         })
+        context.type = this.tabGroups.primary
+        context.enabled = getSetting(SETTINGS[this.tabGroups.primary].enabled)
         context.tab = context.tabs[this.tabGroups.primary]
         return context;
     }

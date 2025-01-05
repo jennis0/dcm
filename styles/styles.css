@@ -38,6 +38,22 @@
     padding: 1em;
   }
 
+   .enabled-toggle {
+    display: flex;
+    margin: 1em;
+    gap: 2em;
+    width: 100%;
+    padding-right: 1em;
+    z-index: 1;
+    justify-content: right;
+    font-family: var(--dnd5e-font-roboto-condensed);
+
+    slide-toggle {
+      --slide-toggle-track-color-unchecked: var(--dnd5e-background-25);
+      --slide-toggle-track-color-checked: var(--dnd5e-color-gold);
+    }
+  }
+
   .filter.note {
     text-align: center;
     border-style: solid;
