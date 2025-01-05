@@ -494,7 +494,9 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     cssClass: active ? "active" : "",
             }
         })
-
+    
+        context.type = SETTINGS[this.tabGroups.primary].label
+        context.enabled = getSetting(SETTINGS[this.tabGroups.primary].enabled);
         context.isSpelllist = this.tabGroups.primary === "spelllist";
         context.groups = this._prepareGroups(this.tabGroups.primary)
         return context;

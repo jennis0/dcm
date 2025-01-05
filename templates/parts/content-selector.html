@@ -72,7 +72,13 @@
             cannot be unloaded.</p>
         </div>
     {{/if}}
-    {{#each entries}}
-        {{> ".packs" this}}
-    {{/each}}
+    {{#if enabled}}
+        {{#each entries}}
+            {{> ".packs" this}}
+        {{/each}}
+    {{else}}
+        <div class="filter note roboto-condensed-upper">
+            <p>Managing {{type}} disabled</p>
+        </div>
+    {{/if}}
 </section>
