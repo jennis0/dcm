@@ -111,7 +111,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }
             else {
                 selectedContent.delete(p.name)
-                log(`Removing ${p.name} to  ${category} filter list`)
+                log(`Removing ${p.name} from ${category} filter list`)
             }
         } 
         
