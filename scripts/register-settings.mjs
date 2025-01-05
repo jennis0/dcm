@@ -4,7 +4,7 @@ import { ClearSettings } from "./apps/clear.mjs";
 import { MODULE_NAME, SETTINGS } from "./settings.mjs"
 import { log } from "./lib.mjs";
 import { EnableMenu } from "./apps/enable-menu.mjs";
-import { export_settings } from "./export.mjs";
+import { exportSettings } from "./export.mjs";
 
 
 export function initVersionSetting() {
@@ -97,16 +97,6 @@ export function initSettings() {
             type: ClearSettings,
             restricted: true,
             icon: "fas fa-trash"
-        }
-    )
-
-    game.settings.register(MODULE_NAME, "export", 
-        {
-            scope: "world",
-            config: true,
-            restricted: true,
-            type: Function,
-            default: () => console.log(export_settings())
         }
     )
 

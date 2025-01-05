@@ -1,4 +1,4 @@
-import { MODULE_NAME, SETTINGS } from "../settings.mjs";
+import { setSetting, getSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
 import { log } from "../lib.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
@@ -61,7 +61,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 newSources.push(p.name)
             }
         } 
-        await game.settings.set(MODULE_NAME, SETTINGS[category].sources, newSources)
+        await setSetting(SETTINGS[category].sources, newSources)
     }
 
     static async #onSelectPack(event, target) {
@@ -85,7 +85,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         //Update setting
         const category = target.getAttribute("category")
-        let sources = game.settings.get(MODULE_NAME, SETTINGS[category].sources) || [];
+        let sources = getSetting(SETTINGS[category].sources) || [];
         if (target.checked) {
             sources.push(target.name);
         } else {
@@ -94,7 +94,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 sources.splice(index, 1);
             }
         }
-        await game.settings.set(MODULE_NAME, SETTINGS[category].sources, sources);
+        await setSetting(SETTINGS[category].sources, sources);
     }
 
     static #onChangeTab(event, target) {
@@ -182,7 +182,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const options = {}
         for (const itemType of SETTINGS.itemtypes) {
             const setting = SETTINGS[itemType];
-            const sources = await game.settings.get(MODULE_NAME, setting.sources);
+            const sources = await getSetting(setting.sources);
             const entries = this._getCompendiumOptions(itemType, setting.type, new Set(sources));
             options[itemType] = entries;
         }

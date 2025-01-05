@@ -1,6 +1,6 @@
-import { export_settings, import_settings } from "./export.mjs";
+import { exportSettings, importSettings } from "./export.mjs";
 import { log } from "./lib.mjs";
-import { MODULE_NAME, SETTINGS } from "./settings.mjs";
+import { getSetting, SETTINGS } from "./settings.mjs";
 
 
 function v111MigrationRegisterSettings() {
@@ -61,29 +61,28 @@ function parseSemVer(version) {
 }
 
 export function handleMigrations() {
-    const currentVersion = game.modules.get(MODULE_NAME).version;
+    const currentVersion = CONFIG.dndContentManager.version;
     const currentVersionParsed = parseSemVer(currentVersion);
-    const lastVersion = game.settings.get(MODULE_NAME, SETTINGS.lastLoadedVersion);
+    const lastVersion = getSetting(SETTINGS.lastLoadedVersion);
     const lastVersionParsed = parseSemVer(currentVersion);
 
     log(`Current version: ${currentVersion}, Last version: ${lastVersion}`)
 
-    if (currentVersion !== "dev" && currentVersion === lastVersion) {
+    if (currentVersion === lastVersion) {
         return false
     }
 
-    if (lastVersion === "dev" 
-        || (lastVersionParsed.major === 1 && lastVersionParsed.minor === 1 && lastVersionParsed.build === 0)) {
+    if (lastVersionParsed.major === 1 && lastVersionParsed.minor === 1 && lastVersionParsed.build === 0) {
         log("Migration: Copying user settings to migrate to world settings")
         v111MigrationRegisterSettings();
-        CONFIG.dndContentManager.migrationData = export_settings();
+        CONFIG.dndContentManager.migrationData = exportSettings();
 
         Hooks.once("ready", () => {
             log("Migration: Writing to world settings")
-            import_settings(CONFIG.dndContentManager.migrationData)
+            importSettings(CONFIG.dndContentManager.migrationData)
             CONFIG.dndContentManager.migrationData = null;
 
-            console.log(export_settings())
+            console.log(exportSettings())
         })
     }
 }

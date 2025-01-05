@@ -1,7 +1,8 @@
 import { getFeatType } from "../enrich-feats.mjs";
-import { MODULE_NAME, SETTINGS } from "../settings.mjs";
+import { getSetting, setSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
 import { getClassDetailsFromIdent } from "../enrich-class.mjs";
 import { enrichSource } from "../enrich-source.mjs";
+import { log } from "../lib.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -60,7 +61,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             target.indeterminate = false;
         }
 
-        const sc = game.settings.get(MODULE_NAME, SETTINGS[category].content);
+        const sc = getSetting(SETTINGS[category].content);
         let selectedContent = new Set(sc);
 
         for (const p of packs) {
@@ -68,13 +69,15 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
             if (checked) {
                 selectedContent.add(p.name)
+                log(`Adding ${p.name} to ${category} filter list`)
             }
             else {
                 selectedContent.delete(p.name)
+                log(`Removing ${p.name} to  ${category} filter list`)
             }
         } 
         
-        await game.settings.set(MODULE_NAME, SETTINGS[category].content, Array.from(selectedContent))
+        await setSetting(SETTINGS[category].content, Array.from(selectedContent))
     }
 
     static async #onSelectPack(event, target) {
@@ -97,8 +100,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         //Update setting
         const category = target.getAttribute("category")
-        let content = game.settings.get(MODULE_NAME, SETTINGS[category].content) || [];
+        log(`Clearing filter list for ${category} filter list`)
+
+        let content = getSetting(SETTINGS[category].content) || [];
         if (target.checked) {
+            log(`Adding ${p.name} to ${category} filter list`)
             content.push(target.name);
         } else {
             const index = content.indexOf(target.name);
@@ -106,7 +112,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 content.splice(index, 1);
             }
         }
-        await game.settings.set(MODULE_NAME, SETTINGS[category].content, content);
+        await setSetting(SETTINGS[category].content, content);
     }
 
     static #onSelectGroup(event, target) {
@@ -404,8 +410,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         // Get current selections from settings
         const context = await super._prepareContext(options);
         const settings = SETTINGS[this.tabGroups.primary];        
-        const selectedCompendia = game.settings.get(MODULE_NAME, settings.sources);
-        const selectedContent = new Set(game.settings.get(MODULE_NAME, settings.content));
+        const selectedCompendia = getSetting(settings.sources);
+        const selectedContent = new Set(getSetting(settings.content));
 
         context.entries = await this._getContentOptions(settings.subtype, selectedCompendia, selectedContent);
         context.entries = this._reGroup(this.tabGroups.primary, context.entries)

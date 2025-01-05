@@ -118,3 +118,14 @@ export const SETTINGS = {
 
     lastLoadedVersion: "lastLoadedVersion"
 }
+
+export function getSetting(path) {
+    return game.settings.get(MODULE_NAME, path);
+}
+
+export function setSetting(path, value, min_role=4) {
+    if (game.user.role < min_role) {
+        return
+    }
+    game.settings.set(MODULE_NAME, path, value);
+}

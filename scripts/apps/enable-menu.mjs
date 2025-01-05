@@ -1,4 +1,4 @@
-import { MODULE_NAME, SETTINGS } from "../settings.mjs";
+import { MODULE_NAME, getSetting, setSetting, SETTINGS } from "../settings.mjs";
 import { log } from "../lib.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
@@ -41,7 +41,8 @@ export class EnableMenu extends HandlebarsApplicationMixin(ApplicationV2) {
 
     static async #onToggleSetting(event, target) {
         const itemtype = SETTINGS[target.name]
-        game.settings.set(MODULE_NAME, itemtype.enabled, target.checked);
+        setSetting(itemtype.enabled, target.checked);
+        log(`Set ${target.name} to ${target.checked ? "Filtered": "Not Filtered"}`)
     }
 
     async _prepareContext(options) {
@@ -52,13 +53,12 @@ export class EnableMenu extends HandlebarsApplicationMixin(ApplicationV2) {
                 return {
                     type: type,
                     label: settings.label,
-                    checked: game.settings.get(MODULE_NAME, settings.enabled),
+                    checked: getSetting(settings.enabled),
                     icon: settings.icon
                 }
             }
         )
 
-        context.buttons = [{ type: "submit", icon: "fas fa-trash", label: "Delete" }];
         return context;
     }
 }

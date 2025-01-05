@@ -55,12 +55,12 @@ export class ClearSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             const s = SETTINGS[i];
             if (options['clear-sources']) {
                 log(`Clearing source configuration for ${s.label}`)
-                game.settings.set(MODULE_NAME, s.sources, []);
+                setSetting(s.sources, []);
             }
             
             if (options['clear-selections']) {
                 log(`Clearing character option configuration for ${s.label}`)
-                game.settings.set(MODULE_NAME, s.content, []);
+                setSetting(s.content, []);
             }
             log(`Finished clearing settings for ${s.label}`)
         });

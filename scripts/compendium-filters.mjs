@@ -1,4 +1,4 @@
-import { MODULE_NAME, SETTINGS } from "./settings.mjs";
+import { getSetting, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
 
 
@@ -7,12 +7,12 @@ function createFilters(itemtypes) {
     const ids = [...itemtypes].map(i => {
 
         //Skip if item type is not defined or if disabled in settings
-        if (!SETTINGS[i] || !game.settings.get(MODULE_NAME,[SETTINGS[i].enabled])) {
+        if (!SETTINGS[i] || !getSetting(SETTINGS[i].enabled)) {
             return null
         }
 
         //If no items are selected, assume no filtering is required
-        const v = game.settings.get(MODULE_NAME, SETTINGS[i].content);
+        const v = getSetting(SETTINGS[i].content);
         if (!v | v.length === 0) {
             return null
         }
