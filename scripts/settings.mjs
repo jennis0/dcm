@@ -9,9 +9,28 @@ export const SETTINGS = {
         "race",
         "background",
         "feat",
+        "items",
         "spell",
         "spelllist"
     ],
+
+    items : {
+        label: "Items",
+        metadataLabel: "Type",
+        icon: "systems/dnd5e/icons/svg/items/container.svg",
+        sources: "itemSources",
+        content: "items",
+        enabled: "filterItems",
+        type: "Item",
+        subtype: "items",
+        item_subtypes: ["container", "consumable", "equipment", "loot", "tattoo", "tool", "weapon"],
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Type", valuePath: "metadata"},
+        ]
+    },
 
     spell : {
         label: "Spells",

@@ -16,6 +16,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         this.currentFilters = {
             name: null
         }
+        this.cachedResults = {}
     }
 
     //Add a button to open the ContentSelector to the Compendium Sidebar
@@ -336,6 +337,16 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
+    _getItems(pack, selectedOptions) {
+        return this._fetch(pack,
+            d => SETTINGS.items.item_subtypes.includes(d.type) && !d.system.container,
+            d => {return {metadata: `${d.type.slice(0, 1).toUpperCase()}${d.type.slice(1, d.type.length)}`}},
+            (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label),
+            selectedOptions,
+            ["system.type", "system.container"]
+        )
+    }
+
     _getDocuments(pack, subtype, selectedOptions) {
         if (subtype === "subclass") {
             return this._getSubclasses(pack, selectedOptions)
@@ -348,6 +359,9 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }
         if (subtype === "spell") {
             return this._getSpells(pack, selectedOptions);
+        }
+        if (subtype === "items") {
+            return this._getItems(pack, selectedOptions);
         }
 
         return this._fetch(pack, 
