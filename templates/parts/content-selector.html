@@ -73,9 +73,15 @@
         </div>
     {{/if}}
     {{#if enabled}}
-        {{#each entries}}
-            {{> ".packs" this}}
-        {{/each}}
+        {{#if entries.length}}
+            {{#each entries}}
+                {{> ".packs" this}}
+            {{/each}}
+        {{else}}
+            <div class="filter note roboto-condensed-upper">
+                <p>No compendium sources selected</p>
+            </div>
+        {{/if}}
     {{else}}
         <div class="filter note roboto-condensed-upper">
             <p>Managing {{type}} disabled</p>
