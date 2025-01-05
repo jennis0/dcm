@@ -10,7 +10,6 @@ function v111MigrationRegisterSettings() {
             {
                 config: false,
                 type: Array,
-                restricted: true,
                 default: []
             }
         ),
@@ -18,7 +17,6 @@ function v111MigrationRegisterSettings() {
             {
                 config: false,
                 type: Array,
-                restricted: true,
                 default: []
             }
         )
@@ -26,7 +24,6 @@ function v111MigrationRegisterSettings() {
             {
                 config: false,
                 type: Boolean,
-                restricted: true,
                 default: true
             }
         )
@@ -64,14 +61,19 @@ function parseSemVer(version) {
 }
 
 export function handleMigrations() {
-    const currentVersion = parseSemVer(game.modules.get(MODULE_NAME).version);
-    const lastVersion = parseSemVer(game.settings.get(MODULE_NAME, SETTINGS.lastLoadedVersion));
+    const currentVersion = game.modules.get(MODULE_NAME).version;
+    const currentVersionParsed = parseSemVer(currentVersion);
+    const lastVersion = game.settings.get(MODULE_NAME, SETTINGS.lastLoadedVersion);
+    const lastVersionParsed = parseSemVer(currentVersion);
 
-    if (currentVersion === lastVersion) {
+    log(`Current version: ${currentVersion}, Last version: ${lastVersion}`)
+
+    if (currentVersion !== "dev" && currentVersion === lastVersion) {
         return false
     }
 
-    if (lastVersion.major > 2 || (lastVersion.major === 1 && lastVersion.minor === 1 && lastVersion.build === 0)) {
+    if (lastVersion === "dev" 
+        || (lastVersionParsed.major === 1 && lastVersionParsed.minor === 1 && lastVersionParsed.build === 0)) {
         log("Migration: Copying user settings to migrate to world settings")
         v111MigrationRegisterSettings();
         CONFIG.dndContentManager.migrationData = export_settings();

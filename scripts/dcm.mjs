@@ -4,13 +4,17 @@ import { SourceSelector } from "./apps/source-selector.mjs";
 import { patchCompendiumBrowser } from "./compendium-filters.mjs";
 import { MODULE_NAME, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
-import { initSettings } from "./register-settings.mjs"
+import { initSettings, initVersionSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
 import { EnableMenu } from "./apps/enable-menu.mjs";
 import { handleMigrations } from "./migrations.mjs";
+import { export_settings } from "./export.mjs";
 
 
 Hooks.once("init", () => {
+    //Create version setting first as this is relied on by the migration
+    initVersionSetting();
+
     //Create config object
     CONFIG.dndContentManager = {};
     
@@ -30,6 +34,8 @@ Hooks.once("ready", () => {
 
     //Add any additional spell lists
     registerSpellLists();
+
+    console.log(export_settings())
     
     // Set that we've successfully loaded this version
     game.settings.set(MODULE_NAME, SETTINGS.lastLoadedVersion, game.modules.get(MODULE_NAME).version)

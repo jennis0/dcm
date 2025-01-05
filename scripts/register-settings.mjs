@@ -7,6 +7,18 @@ import { EnableMenu } from "./apps/enable-menu.mjs";
 import { export_settings } from "./export.mjs";
 
 
+export function initVersionSetting() {
+    game.settings.register(MODULE_NAME, SETTINGS.lastLoadedVersion, 
+        {
+            scope: "world",
+            config: false,
+            restricted: true,
+            type: String,
+            default: ""
+        }
+    )
+}
+
 export function initSettings() {
 
     SETTINGS.itemtypes.forEach(i => {
@@ -85,16 +97,6 @@ export function initSettings() {
             type: ClearSettings,
             restricted: true,
             icon: "fas fa-trash"
-        }
-    )
-
-    game.settings.register(MODULE_NAME, SETTINGS.lastLoadedVersion, 
-        {
-            scope: "world",
-            config: false,
-            restricted: true,
-            type: String,
-            default: ""
         }
     )
 
