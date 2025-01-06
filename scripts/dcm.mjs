@@ -5,6 +5,7 @@ import { initSettings, initVersionSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
 import { handleMigrations } from "./migrations.mjs";
 import { ContentSelector } from "./apps/content-selector.mjs";
+import { patchQuickInsert } from "./quick-insert.mjs";
 
 
 Hooks.once("init", () => {
@@ -32,8 +33,12 @@ Hooks.once("ready", () => {
     //Add our monkey patch to the Compendium Browser
     patchCompendiumBrowser();
 
+    //Monkey patch quick insert (if present)
+    patchQuickInsert();
+
     //Add any additional spell lists
     registerSpellLists();
+
 
     log("Finished ready steps")
 })
