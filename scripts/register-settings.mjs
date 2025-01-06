@@ -57,7 +57,8 @@ export function initSettings() {
 
     game.settings.registerMenu(MODULE_NAME, "enableMenu",
         {
-            name:"Select Filtered Types",
+            name:"Filtered Types",
+            label: "Toggle Filters",
             hint: "Choose which item types to filter",
             scope: "world",
             config: true,
@@ -70,6 +71,7 @@ export function initSettings() {
     game.settings.registerMenu(MODULE_NAME, "sourceMenu", 
         {
             name: "Compendium Sources",
+            label: "Configure Sources",
             hint: "Choose the compendia which will be used as sources for character options",
             scope: "world",
             config: true,
@@ -81,7 +83,8 @@ export function initSettings() {
 
     game.settings.registerMenu(MODULE_NAME, "contentMenu",
         {
-            name: "Approved Content",
+            name: "Player Content",
+            label: "Configure Content",
             hint: "Choose which items from your selected compendia will be available for players",
             scope: "world",
             config: true,
@@ -95,6 +98,7 @@ export function initSettings() {
         {
             name: "Clear Settings",
             hint: "Erase all settings (for sources and allowed content)",
+            label: "Clear Settings",
             scope: "world",
             config: true,
             type: ClearSettings,
@@ -102,6 +106,21 @@ export function initSettings() {
             icon: "fas fa-trash"
         }
     )
+
+    if (game.modules.get("quick-insert")) {
+        game.settings.register(MODULE_NAME, SETTINGS.filterQuickInsert, 
+            {
+                name: "Apply to Quick Insert",
+                hint: "Filter results returned by Quick Insert (if installed)",
+                scope: "world",
+                config: true,
+                type: Boolean,
+                default: true,
+                restricted: true,
+                requiresReload: true
+            }
+        )
+    }
 
     log("Finished registering settings")
 }

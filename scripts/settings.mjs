@@ -149,7 +149,8 @@ export const SETTINGS = {
         ]
     },
 
-    lastLoadedVersion: "lastLoadedVersion"
+    lastLoadedVersion: "lastLoadedVersion",
+    filterQuickInsert: "filterQuickInsert"
 }
 
 export function getSetting(path) {

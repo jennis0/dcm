@@ -5,7 +5,6 @@ import { getSetting, SETTINGS } from "./settings.mjs";
 // Proxy for SearchLib class to capture only calls to the 'search' method
 class SearchLibWrapper {
 
-
     constructor(searchLib) {
         // Return a Proxy to handle only calls to 'search'
         return new Proxy(searchLib, {
@@ -29,6 +28,7 @@ class SearchLibWrapper {
         });
     }
 
+    //Create mapping from item subtypes to indexes
     static _constructFilterIndex() {
         const filters = new Map();
         for (const s of SETTINGS.itemtypes) {
@@ -44,20 +44,26 @@ class SearchLibWrapper {
         return filters
     }
 
+    //Create efficient indexes to check item UUIDs
     static _constructIndex() {
         const index = new Map();
         for (const s of SETTINGS.itemtypes) {
+            //Dont apply to any item types that are disabled
+            if (!getSetting(SETTINGS[s].enabled)) {
+                continue
+            }
             index[s] = new Set(getSetting(SETTINGS[s].content))
         }
         return index;
     }
 
+    //Apply item UUID filtering
     static _applyFilters(item) {
         if (item.documentType !== "Item") {
             return true
         }
 
-        if (!FILTERS[item.subType]) {
+        if (!FILTERS[item.subType] || !INDEX[FILTERS[item.subType]]) {
             return true
         }
 
@@ -75,12 +81,18 @@ Hooks.on("renderSearchAppV2", () => {
     log("Updated Quick Insert index")
 })
 
-export async function patchQuickInsert ()
+export async function patchQuickInsert()
 {
-    if (!game.modules.has("quick-insert")) {
+    if (!game.modules.has("quick-insert") || game.modules.get("quick-insert").unavailable) {
+        log("Skipping Quick Insert integration due to presence")
         return false;
     }
-    
+
+    if (!getSetting(SETTINGS.filterQuickInsert)) {
+        log("Skipping Quick Insert integration due to setting")
+        return false;
+    }
+
     FILTERS = SearchLibWrapper._constructFilterIndex()
     INDEX = SearchLibWrapper._constructIndex();
 
@@ -89,8 +101,8 @@ export async function patchQuickInsert ()
     globalThis.QuickInsert.searchLib = new SearchLibWrapper(
         globalThis.QuickInsert.searchLib
     );
-    log("Monkey Patch Quick Insert")
-
+    log("Applied Quick Insert integration")
+    return true;
 }
 
 
