@@ -13,7 +13,9 @@ function _getCompendiumName(uuid) {
 
 //Add pre-registered spell lists to fixed compendium so they can't be deselected
 function noteSpellListModules() {
-    const spellListPages = game.modules.map(p => p.flags.dnd5e?.spellLists).filter(p => p).flat()
+    const spellListPages = game.modules
+        .filter(p => p.active)
+        .map(p => p.flags.dnd5e?.spellLists).filter(p => p).flat()
     const sm = CONFIG.dndContentManager.fixed.get("spelllist");
     sm.items = new Set(spellListPages)
     sm.compendia = new Set(spellListPages.map(p => _getCompendiumName(p)).filter(p => p))

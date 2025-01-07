@@ -38,12 +38,21 @@
     padding: 1em;
   }
 
+  .source-title-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .title {
+      font-size: large;
+      width: 200px;
+    }
+  }
+
    .enabled-toggle {
     display: flex;
-    margin: 1em;
     gap: 2em;
     width: 100%;
-    padding-right: 1em;
     z-index: 1;
     justify-content: right;
     font-family: var(--dnd5e-font-roboto-condensed);

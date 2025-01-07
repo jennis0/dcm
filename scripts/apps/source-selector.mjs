@@ -227,6 +227,9 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         context.type = this.tabGroups.primary
         context.enabled = getSetting(SETTINGS[this.tabGroups.primary].enabled)
         context.tab = context.tabs[this.tabGroups.primary]
+        context.label = SETTINGS[this.tabGroups.primary].label;
+        context.isSpellList = this.tabGroups.primary === "spelllist"
+        console.log(context);
         return context;
     }
 }

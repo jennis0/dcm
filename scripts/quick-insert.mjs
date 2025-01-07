@@ -82,7 +82,7 @@ let INDEX = null;
 
 export async function patchQuickInsert()
 {
-    if (!game.modules.has("quick-insert") || game.modules.get("quick-insert").unavailable) {
+    if (!game.modules.has("quick-insert") || !game.modules.get("quick-insert").active) {
         log("Skipping Quick Insert integration due to presence")
         return false;
     }

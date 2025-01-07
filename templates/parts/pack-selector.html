@@ -41,16 +41,28 @@
 <section class="pack-selector">
 
 
-    <div class="enabled-toggle">
-        <label>
-        <slide-toggle data-action="toggleEnabled" name="{{type}}" {{#if enabled}}checked{{/if}}>    
-        <div class="slide-toggle-track">
-            <div class="slide-toggle-thumb"></div>
+    <div class="source-title-row">
+        <p class="title roboto-condensed-upper">{{label}}</p>
+
+        <div class="enabled-toggle">
+            <label>
+            <slide-toggle data-action="toggleEnabled" name="{{type}}" {{#if enabled}}checked{{/if}}>    
+            <div class="slide-toggle-track">
+                <div class="slide-toggle-thumb"></div>
+            </div>
+            </slide-toggle>
+            <span>Apply Management</span>
+            </label>
         </div>
-        </slide-toggle>
-        <span>Apply Management</span>
-        </label>
-    </div>
+    </div>  
+
+    {{#if isSpellList}}
+        <div class="filter note roboto-condensed-upper">
+            <p>Work In Progress</p>
+            <p>Some Compendiums cannot be unselected as Spell Lists loaded by modules
+            cannot currently be unloaded.</p>
+        </div>
+    {{/if}}
 
 
     {{#each tab}}
