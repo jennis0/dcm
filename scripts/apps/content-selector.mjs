@@ -13,8 +13,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         super();
         this.tabGroups.primary = "class";
         this.group_category = Object.fromEntries(SETTINGS.itemtypes.map(i => [i, new Set([0])]))
+        this.duplicates = false
         this.currentFilters = {
-            name: null
+            name: null,
+            minItems: 0
         }
     }
 
@@ -156,18 +158,39 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     static #onSelectGroup(event, target) {
-        if (target.checked) {
-            this.group_category[target.getAttribute("category")].add(parseInt(target.name));
+
+        const category = target.getAttribute("category");
+
+        if (target.name =="duplicates") {
+            this.group_category[category] =  new Set();
+            this.duplicates = !this.duplicates;
+            this.currentFilters.minItems = this.duplicates ? 2 : 0
         } else {
-            this.group_category[target.getAttribute("category")].delete(parseInt(target.name));
+            const index = parseInt(target.name);
+    
+            if (target.checked) {
+                this.group_category[category].add(index);
+                this.duplicates = false;
+            } else {
+                this.group_category[category].delete(index);
+            }
         }
-        this.render({ parts: ["content"] });
+
+        this.render(false);
     }
 
     static #onChangeTab(event, target) {
         this.tabGroups.primary = target.getAttribute("category")
+
+        //Reset filters
         this.currentFilters = {
-            name: null
+            name: null,
+            minItems: this.duplicates ? 2 : 0
+        }
+
+        //Keep duplicate selection between tabs
+        if (this.duplicates) {
+            this.group_category[this.tabGroups.primary] = new Set();
         }
         this.render(false);
     }
@@ -399,18 +422,24 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
     _reGroup(itemtype, compendia_options) {
         const newGroups = new Map();
+
         let group_categories = this.group_category[itemtype].map(
-            (gc,index) => {
+            (gc) => {
                 const group = SETTINGS[itemtype].groups[gc];
                 return {
-                    index: index,
                     valuePath: group.valuePath,
                     itemLabelPath: group.itemLabelPath || group.valuePath
                 }
-            }
+            } 
         );
+
+        if (this.duplicates) {
+            group_categories.add({valuePath: "label", itemLabelPath: "label"})
+        }
+
         group_categories = new Array(...group_categories)
 
+        //HAndle case of no filtering
         if (group_categories.length === 0) {
             const entries = compendia_options.map(o => o.entries).flat()
             
@@ -427,11 +456,12 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 indeterminate: n_checked > 0 && n_checked.length < entries.length
             }]
         }
+
         compendia_options.forEach(
             o => {
                 o.entries.forEach( e => {
-                    const opt = group_categories.map(gc => e[gc.valuePath]).join(" | ").trim();
-                    const label = group_categories.map(gc => e[gc.itemLabelPath]).join(" | ").trim();
+                    const opt = group_categories.map(gc => e[gc.valuePath].trim()).join(" | ");
+                    const label = group_categories.map(gc => e[gc.itemLabelPath].trim()).join(" | ");
                     if (!newGroups[opt]) {
                         newGroups[opt] = {
                             label: label,
@@ -447,6 +477,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             k => {
                 const entries = newGroups[k].entries;
                 const n_checked = entries.filter(e => e.checked).length;
+
                 return {
                     id: k.slugify(),
                     entries: entries.sort((a,b) => a.label.localeCompare(b.label) 
@@ -459,7 +490,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     indeterminate: n_checked > 0 && n_checked.length < entries.length
                 }
             }
-        ).sort((a,b) => a.label.localeCompare(b.label))
+        ).filter(p => p.entries.length >= this.currentFilters.minItems)
+            .sort((a,b) => a.label.localeCompare(b.label))
     }
   
     _onChangeTab(event, tabs, active) {
@@ -505,7 +537,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         context.type = SETTINGS[this.tabGroups.primary].label
         context.enabled = getSetting(SETTINGS[this.tabGroups.primary].enabled);
         context.isSpelllist = this.tabGroups.primary === "spelllist";
+        context.itemtype = this.tabGroups.primary
         context.groups = this._prepareGroups(this.tabGroups.primary)
+        context.duplicates = this.duplicates
+        context.numSources = selectedCompendia.length
         return context;
     }
 }

@@ -49,6 +49,20 @@
                     </label> 
                 </li>
                 {{/each}}
+                <hr/>
+                <li>
+                    <label>
+                        <dnd5e-checkbox 
+                            class="compendium-checkbox"
+                            data-action="selectGrouping"
+                            name="duplicates"
+                            category="{{itemtype}}"
+                            {{#if duplicates}}checked{{/if}}
+                            data
+                        ></dnd5e-checkbox>
+                        <span>Find Duplicates</span>
+                    </label> 
+                </li>
             </menu>
         </div>
         <hr/>
