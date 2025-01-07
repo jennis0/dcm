@@ -6,8 +6,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 // Sourceelector.js
 export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     constructor(startTab="class", 
-        onClose=null,
-        onChange = null
+        onClose=null
     ) {
         super();
         this.tabGroups.primary = startTab;
@@ -59,21 +58,21 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const checked = target.checked;
         const packs = target.closest(".packs-list").querySelectorAll("dnd5e-checkbox[data-action=selectPack]")
 
-        if (!checked) {
-            target.indeterminate = false;
-        }
+        target.indeterminate = false;
 
         let newSources = []
         for (const p of packs) {
-            p.checked = checked;
+            p.checked = checked || p.disabled;
 
-            if (checked) {
+            if (checked || p.disabled) {
                 newSources.push(p.name)
+            }
+
+            if (p.disabled && !checked) {
+                target.indeterminate = true;
             }
         } 
         await setSetting(SETTINGS[category].sources, newSources)
-
-        this.onChangeFunc()
     }
 
     static async #onSelectPack(event, target) {
@@ -152,6 +151,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
     _getCompendiumOptions(itemType, documentType, selectedCompendia) {
         const module_packs = new Map();
+        const fixed = CONFIG.dndContentManager.fixed.get(itemType).compendia;
         game.packs
             .filter(p => (p.metadata.type === documentType) & p.metadata.packageName !== MODULE_NAME)
             .filter(p => !this.currentFilters.name 
@@ -176,9 +176,10 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     const entries = module_packs[k].map(p => {             
                         return {
                             uuid: p.metadata.id, 
-                            checked: selectedCompendia.has(p.metadata.id),
+                            checked: selectedCompendia.has(p.metadata.id) || fixed.has(p.metadata.id),
+                            fixed: fixed.has(p.metadata.id),
                             label: p.metadata.label,
-                            name: `(${p.metadata.id})`
+                            name: `${p.metadata.id}`
                         }
                     })
                     const n_checked = entries.filter(e => e.checked).length

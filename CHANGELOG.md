@@ -1,3 +1,6 @@
+### dev
+- Add QuickInsert integration
+
 ### v1.2.0
 - Fix breaking bug in migrations script
 - Add Item and Spell filtering

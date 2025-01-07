@@ -81,8 +81,6 @@ export function handleMigrations() {
             log("Migration: Writing to world settings")
             importSettings(CONFIG.dndContentManager.migrationData)
             CONFIG.dndContentManager.migrationData = null;
-
-            console.log(exportSettings())
         })
     }
 }

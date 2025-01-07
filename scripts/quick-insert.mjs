@@ -3,7 +3,7 @@ import { getSetting, SETTINGS } from "./settings.mjs";
 
 
 // Proxy for SearchLib class to capture only calls to the 'search' method
-class SearchLibWrapper {
+class SearchLibProxy {
 
     constructor(searchLib) {
         // Return a Proxy to handle only calls to 'search'
@@ -13,8 +13,10 @@ class SearchLibWrapper {
                 if (prop === 'search') {
                     return function(...args) {
                         return target[prop].apply(target, args) // Forward the call
-                            .filter(r => SearchLibWrapper._applyFilters(r.item))
+                            .filter(r => SearchLibProxy._applyFilters(r.item))
                     };
+                } else if (prop === "isSearchLibProxy") {
+                    return true;
                 }
                 // Default: forward all other property accesses
                 return target[prop];
@@ -76,10 +78,7 @@ class SearchLibWrapper {
 let FILTERS = null;
 let INDEX = null;
 
-Hooks.on("renderSearchAppV2", () => {
-    INDEX = SearchLibWrapper._constructIndex();
-    log("Updated Quick Insert index")
-})
+
 
 export async function patchQuickInsert()
 {
@@ -93,15 +92,23 @@ export async function patchQuickInsert()
         return false;
     }
 
-    FILTERS = SearchLibWrapper._constructFilterIndex()
-    INDEX = SearchLibWrapper._constructIndex();
-
-    await globalThis.QuickInsert.forceIndex();
-
-    globalThis.QuickInsert.searchLib = new SearchLibWrapper(
-        globalThis.QuickInsert.searchLib
-    );
-    log("Applied Quick Insert integration")
+    Hooks.on("renderSearchAppV2", async () => {    
+        //If searchLib hasn't yet been constructucted force one to exist
+        if (!globalThis.QuickInsert.searchLib) {
+            await globalThis.QuickInsert.forceIndex();
+        }
+        
+        //Wrap the searchLib so we can filter the results
+        if (!(globalThis.QuickInsert.searchLib.isSearchLibProxy)) {
+            globalThis.QuickInsert.searchLib = new SearchLibProxy(
+                globalThis.QuickInsert.searchLib
+            );
+        }
+        //Create updated set of filters and indicies
+        FILTERS = SearchLibProxy._constructFilterIndex()
+        INDEX = SearchLibProxy._constructIndex();        
+        log("Amended Quick Insert filters")
+    })
     return true;
 }
 

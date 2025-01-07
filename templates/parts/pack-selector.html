@@ -22,12 +22,13 @@
                     data-action="selectPack"
                     name="{{ uuid }}" 
                     {{ checked checked }} 
+                    {{#if fixed}}disabled{{/if}}
                     data-type="pack"
                     category="{{ ../itemType }}"
                 ></dnd5e-checkbox>
                 <div class="compendium-row-label">
                     <span class="title">{{ label }}</span>
-                    <span class="source">{{ name }}</span>
+                    <span class="source">({{ name }})</span>
                 </div>
             </label>
         </li>

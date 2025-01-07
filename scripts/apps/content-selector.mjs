@@ -95,15 +95,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const checked = target.checked;
         const packs = target.closest(".packs-list").querySelectorAll("dnd5e-checkbox[data-action=selectPack]")
 
-        if (!checked) {
-            target.indeterminate = false;
-        }
+        target.indeterminate = false;
 
         const sc = getSetting(SETTINGS[category].content);
         let selectedContent = new Set(sc);
 
         for (const p of packs) {
-            p.checked = checked;
+            p.checked = checked || p.disabled;
 
             if (checked) {
                 selectedContent.add(p.name)
@@ -112,6 +110,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             else {
                 selectedContent.delete(p.name)
                 log(`Removing ${p.name} from ${category} filter list`)
+            }
+
+            if (p.checked && !checked) {
+                target.indeterminate = true;
             }
         } 
         
@@ -293,6 +295,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
     async _getSpellLists(pack, selectedOptions) {
         const index = await pack.getDocuments()
+        const fixed = CONFIG.dndContentManager.fixed.get("spelllist").items;
         const module = this._getModule(pack)
         return index
             .map(d => d.pages.filter(p => p.type === "spells")
@@ -314,10 +317,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 return {
                     uuid: p.uuid,
                     label: p.name,
-                    checked: selectedOptions.has(p.uuid),
+                    checked: selectedOptions.has(p.uuid) || fixed.has(p.uuid),
                     metadata: ident,
                     module: module.id,
                     moduleName: module.title,
+                    fixed: fixed.has(p.uuid),
                     source: p.parent.uuid,
                     sourceName: p.parent.name,
                     compendium: pack.metadata.id,

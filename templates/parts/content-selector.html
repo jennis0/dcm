@@ -42,6 +42,7 @@
                     data-action="selectPack"
                     name="{{ uuid }}" 
                     {{ checked checked }} 
+                    {{#if fixed}}disabled{{/if}}
                     data-type="pack"
                     category="{{ ../category }}"
                 ></dnd5e-checkbox>

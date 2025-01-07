@@ -6,6 +6,7 @@ import { registerSpellLists } from "./spell-lists.mjs";
 import { handleMigrations } from "./migrations.mjs";
 import { ContentSelector } from "./apps/content-selector.mjs";
 import { patchQuickInsert } from "./quick-insert.mjs";
+import { SourceSelector } from "./apps/source-selector.mjs";
 
 
 Hooks.once("init", () => {
@@ -14,7 +15,8 @@ Hooks.once("init", () => {
 
     //Create config object
     CONFIG.dndContentManager = {
-        version: game.modules.get(MODULE_NAME).version
+        version: game.modules.get(MODULE_NAME).version,
+        fixed: new Map(SETTINGS.itemtypes.map(i => [i, {compendia: new Set(), items: new Set()}]))
     };
     
     //Perform any migration work we need to do
@@ -39,6 +41,11 @@ Hooks.once("ready", () => {
     //Add any additional spell lists
     registerSpellLists();
 
+    const w = new SourceSelector();
+    w.render(true);
+
+    const w2 = new ContentSelector();
+    w2.render(true);
 
     log("Finished ready steps")
 })
