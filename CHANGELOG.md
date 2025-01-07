@@ -1,5 +1,7 @@
 ### dev
 - Add QuickInsert integration
+- Visible lock on module-loaded spelllists which can't be disabled
+- Import and export of module settings
 
 ### v1.2.0
 - Fix breaking bug in migrations script

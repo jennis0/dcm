@@ -4,7 +4,8 @@ import { ClearSettings } from "./apps/clear.mjs";
 import { MODULE_NAME, SETTINGS } from "./settings.mjs"
 import { log } from "./lib.mjs";
 import { EnableMenu } from "./apps/enable-menu.mjs";
-import { exportSettings } from "./export.mjs";
+import { ExportDialog, exportSettings, ImportDialog } from "./export.mjs";
+import { FunctionApp } from "./apps/function-app.mjs";
 
 
 export function initVersionSetting() {
@@ -20,6 +21,8 @@ export function initVersionSetting() {
 }
 
 export function initSettings() {
+
+    console.groupCollapsed("DnD Content Manager | Registering Settings")
 
     SETTINGS.itemtypes.forEach(i => {
         const item = SETTINGS[i];
@@ -107,7 +110,30 @@ export function initSettings() {
         }
     )
 
-    if (game.modules.get("quick-insert")) {
+    game.settings.registerMenu(MODULE_NAME, "exportConfig", {
+        name: "Export Settings",
+        label: "Download File",
+        hint: "Download current settings as a JSON file",
+        scope: "world",
+        config: true,
+        type: ExportDialog,
+        restricted: true,
+        icon: "fas fa-file-export"
+    })
+
+    game.settings.registerMenu(MODULE_NAME, 'importConfig', {
+        name: 'Load Settings',
+        label: "Upload File",
+        hint: "Upload a JSON file with existing settings",
+        config: true,
+        scope: "world",
+        type: ImportDialog,
+        restricted: true,
+        icon: "fas fa-file-import"
+      });
+      
+
+      if (game.modules.get("quick-insert")) {
         game.settings.register(MODULE_NAME, SETTINGS.filterQuickInsert, 
             {
                 name: "Apply to Quick Insert",
@@ -122,5 +148,6 @@ export function initSettings() {
         )
     }
 
-    log("Finished registering settings")
+
+    console.groupEnd()
 }

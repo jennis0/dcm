@@ -11,7 +11,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         super();
         this.tabGroups.primary = startTab;
         this.currentFilters = {name: null}
-        this.onCloseFunc = () => onClose & onClose();
+        this.onCloseFunc = () => onClose && onClose();
         log("Creating Source Selection window")
     }
 
@@ -229,7 +229,6 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         context.tab = context.tabs[this.tabGroups.primary]
         context.label = SETTINGS[this.tabGroups.primary].label;
         context.isSpellList = this.tabGroups.primary === "spelllist"
-        console.log(context);
         return context;
     }
 }

@@ -381,7 +381,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
         return await Promise.all(sourceCompendia?.map(async (c) => {
             const pack = game.packs.get(c);
-            console.log(pack);
             const source = this._getSourceName(pack.metadata.packageType, pack.metadata.packageName);
             const entries = await this._getDocuments(pack, subtype, selectedOptions)
 
@@ -486,7 +485,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const selectedCompendia = [...new Set(getSetting(settings.sources).concat( 
             ...CONFIG.dndContentManager.fixed.get(this.tabGroups.primary).compendia)
         )];
-        console.log(selectedCompendia)
         const selectedContent = new Set(getSetting(settings.content));
 
         context.entries = await this._getContentOptions(settings.subtype, selectedCompendia, selectedContent);
