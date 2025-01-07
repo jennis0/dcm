@@ -116,7 +116,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     static async #onClearSearch(event, target) {
         const input = target.closest("search").querySelector(":scope > input");
         input.value = this.currentFilters.name = null;
-        this.render(false);
+        this.render({ parts: ["content"] };
     }
 
     static async #onToggleEnable(event, target) {
@@ -129,7 +129,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     _onSearchName(event) {
         if ( !event.target.matches("search > input[type='text']") ) return;
         this.currentFilters.name = event.target.value.toLowerCase();
-        this.render(false);
+        this.render({ parts: ["content"] });
       }
     _debouncedSearch = foundry.utils.debounce(this._onSearchName.bind(this), SourceSelector.SEARCH_DELAY);
 
