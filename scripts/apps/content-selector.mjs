@@ -417,7 +417,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             const n_checked = entries.filter(e => e.checked).length;
             return [{
                 id: "all",
-                entries,
+                entries: entries.sort((a,b) => a.label.localeCompare(b.label) 
+                    || a.compendium.localeCompare(b.compendium)),
                 label: "All",
                 source: null,
                 category: itemtype,
