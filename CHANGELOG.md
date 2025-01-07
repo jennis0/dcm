@@ -2,6 +2,7 @@
 - Add QuickInsert integration
 - Visible lock on module-loaded spelllists which can't be disabled
 - Import and export of module settings
+- Introduced "Find Duplicate" view mode which filters down to items with identical names
 
 ### v1.2.0
 - Fix breaking bug in migrations script
