@@ -1,10 +1,11 @@
 # DnD Content Manager
 ![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjennis0%2Fdcm%2Fmain%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.verified&colorB=orange)
-![Dynamic Json Bade](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjennis0%2Fdcm%2Fmain%2Fmodule.json&query=$.relationships.systems%5B%3A1%5D.compatibility.minimum&label=DnD%205e%20Core%20Version&color=orange)
+![Dynamic Json Bade](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjennis0%2Fdcm%2Fmain%2Fmodule.json&query=$.relationships.systems%5B%3A1%5D.compatibility.minimum&label=DnD%205e%20Minimum%20Version&color=orange)
+![Dynamic Json Bade](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjennis0%2Fdcm%2Fmain%2Fmodule.json&query=$.relationships.systems%5B%3A1%5D.compatibility.verified&label=DnD%205e%20Verified%20Version&color=orange)
+
 ![Repository License](https://img.shields.io/github/license/jennis0/dcm)
 
-A content manager for D&amp;D 5e in FoundryVTT. Supports v3.3.1 and v4+
-
+A content manager for D&amp;D 5e in FoundryVTT. Supports 5e v3.3.1 and v4+
 
 Have you ever wanted to:
 - Replace a core subclass, spell, or feat with a homebrew version?
@@ -19,18 +20,23 @@ If so, this module is for you.
 
 The goal of the DCM is to give DMs full control over what options are available to players. It allows you to choose exactly which classes, subclasses, species, feats, backgrounds, items and spells show up in the built-in Compendium Browser, turning it into a single source of available options for you and your players.
 
-![image](https://github.com/user-attachments/assets/1260a17d-0241-4dd3-a7b4-4cf73f512c7a)
+## Key Features
+- Manage exactly what classes, subclasses, backgrounds, feats, spells, and items appear within the compendium browser
+- Create and register new class and subclass spell lists without writing a new module (requires reloading)
+- Quickly identify duplicate items coming from multiple sources
+- Integrates with the [Quick Insert](https://foundryvtt.com/packages/quick-insert) module so only your chosen items are available
+
+![image](https://github.com/user-attachments/assets/712473d8-6576-4130-83ae-43f100e68cf5)
 
 ## Usage
-Once installed it is simple to configure which options are available via the module settings:
+Once installed it is simple to configure which options are available via the module settings or the Compendium Directory:
 1. (Optional) Set which types of item you want to filter using the "Select Filtered Types" setting
 2. Set the base sources for each type of item via the 'Compendium Sources' setting
 3. Select the available items from each source via the 'Approved Content' setting (accessible from the Compendium tab or Setting Browser)
 
 Once you've done this, any unselected content is hidden within the Compendium Browser. You can add or remove new options at any time, and unlike with creating compendium specifically for a particular game - there's no deletion, duplication or copying involved so no need to manage updates or changes!
 
-### Spell Lists
-The module currently manages spells based on spell lists rather than individual spells, so the filters are only applied when you select a class filter in the spell list browser. 
+[DCM-demo.webm](https://github.com/user-attachments/assets/5599f62d-e2ae-4390-91f6-2115491de756)
 
 ## Limitations/Known Issues
 
@@ -45,7 +51,7 @@ Currently we filter out items which are only in the world but not in a Compendiu
 
 ## Future Improvements
 
-#### Filter
+#### Improved Filtering
 DCM currently only supports grouping items and a basic text search so its not the best user experience for types where there are hundreds/thousands of items (e.g. Equipment). I'd like to improve this and give users better ways to quickly navigate and approve/deny content.
 
 #### Auto-Add Content
