@@ -51,7 +51,7 @@ class SearchLibProxy {
         const index = new Map();
         for (const s of SETTINGS.itemtypes) {
             //Dont apply to any item types that are disabled
-            if (!getSetting(SETTINGS[s].enabled)) {
+            if (!getSetting(SETTINGS[s].enabled) || getSetting(SETTINGS[s].content).length === 0) {
                 continue
             }
             index[s] = new Set(getSetting(SETTINGS[s].content))
