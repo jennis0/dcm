@@ -1,6 +1,7 @@
 import { exportSettings, importSettings } from "./export.mjs";
 import { log } from "./lib.mjs";
 import { getSetting, SETTINGS } from "./settings.mjs";
+import { Version } from "./version-utils.mjs";
 
 
 function v111MigrationRegisterSettings() {
@@ -30,49 +31,19 @@ function v111MigrationRegisterSettings() {
     })
 }
 
-
-function parseSemVer(version) {
-    if (typeof(version) != 'string') { return {
-        major: 0,
-        minor: 0,
-        build: 0
-    }; }
-
-    if (version === "dev") {
-        return {
-            major: 100,
-            minor: 100,
-            build: 100
-        }
-    }
-
-    version = version.replace(/^v/, '');
-    var arr = version.split('.');
-
-    // parse int or default to 0
-    var maj = parseInt(arr[0]) || 0;
-    var min = parseInt(arr[1]) || 0;
-    var rest = parseInt(arr[2]) || 0;
-    return {
-        major: maj,
-        minor: min,
-        build: rest
-    }
-}
-
 export function handleMigrations() {
     const currentVersion = CONFIG.dndContentManager.version;
-    //const currentVersionParsed = parseSemVer(currentVersion);
-    const lastVersion = getSetting(SETTINGS.lastLoadedVersion);
-    const lastVersionParsed = parseSemVer(currentVersion);
+    const lastVersion = Version.fromString(getSetting(SETTINGS.lastLoadedVersion));
 
     log(`Current version: ${currentVersion}, Last version: ${lastVersion}`)
 
-    if (currentVersion === lastVersion) {
+    console.log(typeof(currentVersion))
+
+    if (currentVersion.equals(lastVersion)) {
         return false
     }
 
-    if (lastVersionParsed.major === 1 && lastVersionParsed.minor === 1 && lastVersionParsed.build === 0) {
+    if (lastVersion.equals(new Version(1,1,0))) {
         log("Migration: Copying user settings to migrate to world settings")
         v111MigrationRegisterSettings();
         CONFIG.dndContentManager.migrationData = exportSettings();

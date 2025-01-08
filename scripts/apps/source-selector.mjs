@@ -116,7 +116,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     static async #onClearSearch(event, target) {
         const input = target.closest("search").querySelector(":scope > input");
         input.value = this.currentFilters.name = null;
-        this.render({ parts: ["content"] };
+        this.render({ parts: ["content"] });
     }
 
     static async #onToggleEnable(event, target) {

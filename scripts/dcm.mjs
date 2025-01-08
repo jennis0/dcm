@@ -7,6 +7,7 @@ import { handleMigrations } from "./migrations.mjs";
 import { ContentSelector } from "./apps/content-selector.mjs";
 import { patchQuickInsert } from "./quick-insert.mjs";
 import { SourceSelector } from "./apps/source-selector.mjs";
+import { Version } from "./version-utils.mjs";
 
 
 Hooks.once("init", () => {
@@ -15,7 +16,7 @@ Hooks.once("init", () => {
 
     //Create config object
     CONFIG.dndContentManager = {
-        version: game.modules.get(MODULE_NAME).version,
+        version: Version.fromString(game.modules.get(MODULE_NAME).version),
         fixed: new Map(SETTINGS.itemtypes.map(i => [i, {compendia: new Set(), items: new Set()}]))
     };
     
@@ -30,7 +31,7 @@ Hooks.once("init", () => {
 
 Hooks.once("ready", () => {
     // Set that we've successfully loaded this version
-    setSetting(SETTINGS.lastLoadedVersion, CONFIG.dndContentManager.version)
+    setSetting(SETTINGS.lastLoadedVersion, CONFIG.dndContentManager.version.toString())
 
     //Add our monkey patch to the Compendium Browser
     patchCompendiumBrowser();

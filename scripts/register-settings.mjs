@@ -6,6 +6,7 @@ import { log } from "./lib.mjs";
 import { EnableMenu } from "./apps/enable-menu.mjs";
 import { ExportDialog, exportSettings, ImportDialog } from "./export.mjs";
 import { FunctionApp } from "./apps/function-app.mjs";
+import { Version } from "./version-utils.mjs";
 
 
 export function initVersionSetting() {
@@ -15,7 +16,7 @@ export function initVersionSetting() {
             config: false,
             restricted: true,
             type: String,
-            default: ""
+            default: game.modules.get(MODULE_NAME).version
         }
     )
 }
