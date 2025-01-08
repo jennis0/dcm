@@ -12,8 +12,6 @@ export class Version extends Object {
         if (typeof(version) != 'string') { 
             return new Version(0, 0, 0)
         }
-
-        console.log(typeof(version))
     
         version = version.replace(/^v/, '');
         var arr = version.split('.');
