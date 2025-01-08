@@ -1,4 +1,4 @@
-### dev
+### v1.3.0
 - Add QuickInsert integration
 - Visible lock on module-loaded spelllists which can't be disabled
 - Import and export of module settings

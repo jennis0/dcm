@@ -37,8 +37,6 @@ export function handleMigrations() {
 
     log(`Current version: ${currentVersion}, Last version: ${lastVersion}`)
 
-    console.log(typeof(currentVersion))
-
     if (currentVersion.equals(lastVersion)) {
         return false
     }
