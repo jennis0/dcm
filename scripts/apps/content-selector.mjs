@@ -377,19 +377,19 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     _getDocuments(pack, subtype, selectedOptions) {
-        if (subtype === "subclass") {
+        if (subtype === SETTINGS.subclass.subtype) {
             return this._getSubclasses(pack, selectedOptions)
         }
-        if (subtype === "feature") {
+        if (subtype === SETTINGS.feat.subtype) {
             return this._getFeats(pack, selectedOptions);
         }
-        if (subtype === "spells") {
+        if (subtype === SETTINGS.spelllist.subtype) {
             return this._getSpellLists(pack, selectedOptions);
         }
-        if (subtype === "spell") {
+        if (subtype === SETTINGS.spell.subtype) {
             return this._getSpells(pack, selectedOptions);
         }
-        if (subtype === "items") {
+        if (subtype === SETTINGS.items.subtype) {
             return this._getItems(pack, selectedOptions);
         }
 

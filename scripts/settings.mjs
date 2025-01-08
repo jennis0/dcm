@@ -108,7 +108,7 @@ export const SETTINGS = {
         content: "feats",
         enabled: "filterFeats",
         type: "Item",
-        subtype: "feature",
+        subtype: "feat",
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},

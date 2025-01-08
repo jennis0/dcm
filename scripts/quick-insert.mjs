@@ -65,6 +65,7 @@ class SearchLibProxy {
             return true
         }
 
+
         if (!FILTERS[item.subType] || !INDEX[FILTERS[item.subType]]) {
             return true
         }
@@ -106,7 +107,7 @@ export async function patchQuickInsert()
         }
         //Create updated set of filters and indicies
         FILTERS = SearchLibProxy._constructFilterIndex()
-        INDEX = SearchLibProxy._constructIndex();        
+        INDEX = SearchLibProxy._constructIndex();    
         log("Amended Quick Insert filters")
     })
     return true;
