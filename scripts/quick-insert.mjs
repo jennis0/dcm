@@ -1,5 +1,5 @@
 import { log } from "./lib.mjs";
-import { getSetting, SETTINGS } from "./settings.mjs";
+import { getSetting, MODULE_NAME, SETTINGS } from "./settings.mjs";
 
 
 // Proxy for SearchLib class to capture only calls to the 'search' method
@@ -111,5 +111,3 @@ export async function patchQuickInsert()
     })
     return true;
 }
-
-
