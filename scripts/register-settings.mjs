@@ -4,9 +4,7 @@ import { ClearSettings } from "./apps/clear.mjs";
 import { MODULE_NAME, SETTINGS } from "./settings.mjs"
 import { log } from "./lib.mjs";
 import { EnableMenu } from "./apps/enable-menu.mjs";
-import { ExportDialog, exportSettings, ImportDialog } from "./export.mjs";
-import { FunctionApp } from "./apps/function-app.mjs";
-import { Version } from "./version-utils.mjs";
+import { ExportDialog, ImportDialog } from "./export.mjs";
 
 
 export function initVersionSetting() {
@@ -148,7 +146,6 @@ export function initSettings() {
             }
         )
     }
-
 
     console.groupEnd()
 }
