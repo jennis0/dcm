@@ -1,11 +1,15 @@
-import { patchCompendiumBrowser } from "./compendium-filters.mjs";
+
 import { MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
 import { initSettings, initVersionSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
 import { handleMigrations } from "./migrations.mjs";
 import { ContentSelector } from "./apps/content-selector.mjs";
-import { patchQuickInsert } from "./quick-insert.mjs";
+
+import { patchCompendiumBrowser } from "./integrations/compendium-filters.mjs";
+import { patchQuickInsert } from "./integrations/quick-insert.mjs";
+import { patchSpotlightOmnisearch } from "./integrations/spotlight.mjs";
+
 import { SourceSelector } from "./apps/source-selector.mjs";
 import { Version } from "./version-utils.mjs";
 
@@ -17,7 +21,8 @@ Hooks.once("init", () => {
     //Create config object
     CONFIG.dndContentManager = {
         version: Version.fromString(game.modules.get(MODULE_NAME).version),
-        fixed: new Map(SETTINGS.itemtypes.map(i => [i, {compendia: new Set(), items: new Set()}]))
+        fixed: new Map(SETTINGS.itemtypes.map(i => [i, {compendia: new Set(), items: new Set()}])),
+        forceRebuild: false
     };
     
     //Perform any migration work we need to do
@@ -25,6 +30,12 @@ Hooks.once("init", () => {
 
     //Register settings
     initSettings();
+
+    //Monkey patch quick insert (if present)
+    patchQuickInsert();
+
+    //Add hook to filter Spotlight results
+    patchSpotlightOmnisearch();
 
     log("Finished initialisation")
 })
@@ -36,13 +47,13 @@ Hooks.once("ready", () => {
     //Add our monkey patch to the Compendium Browser
     patchCompendiumBrowser();
 
-    //Monkey patch quick insert (if present)
-    patchQuickInsert();
-
     //Add any additional spell lists
     registerSpellLists();
 
     log("Finished ready steps")
+
+    const w = new ContentSelector();
+    w.render(true);
 })
 
 

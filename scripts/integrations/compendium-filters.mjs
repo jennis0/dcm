@@ -1,5 +1,5 @@
-import { getSetting, SETTINGS } from "./settings.mjs";
-import { log } from "./lib.mjs";
+import { getSetting, SETTINGS } from "../settings.mjs";
+import { log } from "../lib.mjs";
 
 
 function createFilters(itemtypes) {

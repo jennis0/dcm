@@ -1,5 +1,5 @@
-import { log } from "./lib.mjs";
-import { getSetting, MODULE_NAME, SETTINGS } from "./settings.mjs";
+import { log } from "../lib.mjs";
+import { getSetting, MODULE_NAME, SETTINGS } from "../settings.mjs";
 
 
 // Proxy for SearchLib class to capture only calls to the 'search' method

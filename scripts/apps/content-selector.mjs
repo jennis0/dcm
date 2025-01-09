@@ -4,6 +4,7 @@ import { getClassDetailsFromIdent } from "../enrich-class.mjs";
 import { enrichSource } from "../enrich-source.mjs";
 import { getOrdinalSuffix, log } from "../lib.mjs";
 import { SourceSelector } from "./source-selector.mjs";
+import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -17,6 +18,12 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         this.currentFilters = {
             name: null,
             minItems: 0
+        }
+    }
+
+    _onClose() {
+        if (CONFIG.dndContentManager.forceRebuild) {
+            forceSpotlightRebuild()
         }
     }
 
@@ -120,6 +127,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         } 
         
         await setSetting(SETTINGS[category].content, Array.from(selectedContent))
+        CONFIG.dndContentManager.forceRebuild = true
     }
 
     static async #onSelectPack(event, target) {
@@ -155,6 +163,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }
         }
         await setSetting(SETTINGS[category].content, content);
+        CONFIG.dndContentManager.forceRebuild = true
     }
 
     static #onSelectGroup(event, target) {
@@ -541,6 +550,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         context.groups = this._prepareGroups(this.tabGroups.primary)
         context.duplicates = this.duplicates
         context.numSources = selectedCompendia.length
+
         return context;
     }
 }

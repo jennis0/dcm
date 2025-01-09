@@ -150,7 +150,8 @@ export const SETTINGS = {
     },
 
     lastLoadedVersion: "lastLoadedVersion",
-    filterQuickInsert: "filterQuickInsert"
+    filterQuickInsert: "filterQuickInsert",
+    filterSpotlight: "filterSpotlight"
 }
 
 export function getSetting(path) {

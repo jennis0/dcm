@@ -135,12 +135,27 @@ export function initSettings() {
       if (game.modules.get("quick-insert")) {
         game.settings.register(MODULE_NAME, SETTINGS.filterQuickInsert, 
             {
-                name: "Apply to Quick Insert",
+                name: "Filter Quick Insert Results",
                 hint: "Filter results returned by Quick Insert (if installed)",
                 scope: "world",
                 config: true,
                 type: Boolean,
-                default: true,
+                default: false,
+                restricted: true,
+                requiresReload: true
+            }
+        )
+    }
+
+    if (game.modules.get("spotlight-omnisearch")) {
+        game.settings.register(MODULE_NAME, SETTINGS.filterSpotlight, 
+            {
+                name: "Filter Spotlight Omnisearch Results",
+                hint: "Filter results returned by Spotlight Omnisearch (if installed)",
+                scope: "world",
+                config: true,
+                type: Boolean,
+                default: false,
                 restricted: true,
                 requiresReload: true
             }
