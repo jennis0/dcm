@@ -33,6 +33,7 @@ Once installed it is simple to configure which options are available via the mod
 1. (Optional) Set which types of item you want to filter using the "Select Filtered Types" setting
 2. Set the base sources for each type of item via the 'Compendium Sources' setting
 3. Select the available items from each source via the 'Approved Content' setting (accessible from the Compendium tab or Setting Browser)
+4. To enable Spotlight Omnisearch or Quick Insert integration make sure you select this in the main settings menu
 
 Once you've done this, any unselected content is hidden within the Compendium Browser. You can add or remove new options at any time, and unlike with creating compendium specifically for a particular game - there's no deletion, duplication or copying involved so no need to manage updates or changes!
 
