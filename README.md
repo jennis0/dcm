@@ -24,7 +24,7 @@ The goal of the DCM is to give DMs full control over what options are available 
 - Manage exactly what classes, subclasses, backgrounds, feats, spells, and items appear within the compendium browser
 - Create and register new class and subclass spell lists without writing a new module (requires reloading)
 - Quickly identify duplicate items coming from multiple sources
-- Integrates with the [Quick Insert](https://foundryvtt.com/packages/quick-insert) module so only your chosen items are available
+- Integrates with the [Quick Insert](https://foundryvtt.com/packages/quick-insert) and [Spotlight Omnisearch] modules so only your chosen items are available within their search windows
 
 ![image](https://github.com/user-attachments/assets/712473d8-6576-4130-83ae-43f100e68cf5)
 
@@ -37,6 +37,9 @@ Once installed it is simple to configure which options are available via the mod
 Once you've done this, any unselected content is hidden within the Compendium Browser. You can add or remove new options at any time, and unlike with creating compendium specifically for a particular game - there's no deletion, duplication or copying involved so no need to manage updates or changes!
 
 [DCM-demo.webm](https://github.com/user-attachments/assets/5599f62d-e2ae-4390-91f6-2115491de756)
+
+### Adding Spell Lists
+Adding new spell lists is easy with the DCM. Simply go to the Spell List tab in the content selector window, and select the lists you want to be used. All selected lists will be loaded the next time you reload the window.
 
 ## Limitations/Known Issues
 

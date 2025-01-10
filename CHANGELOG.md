@@ -1,5 +1,6 @@
-### dev
+### 1.3.1
 - Add Spotlight Omnisearch integration
+- Fixed bug where using the toggle all button in source selector would cause source from other modules to become unselected
 
 ### v1.3.0
 - Add QuickInsert integration
