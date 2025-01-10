@@ -51,9 +51,6 @@ Hooks.once("ready", () => {
     registerSpellLists();
 
     log("Finished ready steps")
-
-    const w = new ContentSelector();
-    w.render(true);
 })
 
 
