@@ -24,7 +24,7 @@ The goal of the DCM is to give DMs full control over what options are available 
 - Manage exactly what classes, subclasses, backgrounds, feats, spells, and items appear within the compendium browser
 - Create and register new class and subclass spell lists without writing a new module (requires reloading)
 - Quickly identify duplicate items coming from multiple sources
-- Integrates with the [Quick Insert](https://foundryvtt.com/packages/quick-insert) and [Spotlight Omnisearch] modules so only your chosen items are available within their search windows
+- Integrates with the [Quick Insert](https://foundryvtt.com/packages/quick-insert) and [Spotlight Omnisearch](https://foundryvtt.com/packages/spotlight-omnisearch) modules so only your chosen items are available within their search windows
 
 ![image](https://github.com/user-attachments/assets/712473d8-6576-4130-83ae-43f100e68cf5)
 
