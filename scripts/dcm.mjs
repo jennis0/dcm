@@ -12,6 +12,7 @@ import { patchSpotlightOmnisearch } from "./integrations/spotlight.mjs";
 
 import { SourceSelector } from "./apps/source-selector.mjs";
 import { Version } from "./version-utils.mjs";
+import { DCMIndex } from "./index.mjs";
 
 
 Hooks.once("init", () => {
@@ -22,7 +23,8 @@ Hooks.once("init", () => {
     CONFIG.dndContentManager = {
         version: Version.fromString(game.modules.get(MODULE_NAME).version),
         fixed: new Map(SETTINGS.itemtypes.map(i => [i, {compendia: new Set(), items: new Set()}])),
-        forceRebuild: false
+        forceRebuild: false,
+        index: new DCMIndex()
     };
     
     //Perform any migration work we need to do
@@ -31,10 +33,8 @@ Hooks.once("init", () => {
     //Register settings
     initSettings();
 
-    //Monkey patch quick insert (if present)
+    //Load integrations with other modules (if present)
     patchQuickInsert();
-
-    //Add hook to filter Spotlight results
     patchSpotlightOmnisearch();
 
     log("Finished initialisation")
