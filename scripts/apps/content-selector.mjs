@@ -19,11 +19,21 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             name: null,
             minItems: 0
         }
+        this.reloadRequired = false;
     }
 
-    _onClose() {
+    async _onClose() {
         if (CONFIG.dndContentManager.forceRebuild) {
             forceSpotlightRebuild()
+        }
+
+        if (this.reloadRequired) {
+            foundry.applications.api.DialogV2.confirm({
+                window: { title: "Reload Page?" },
+                content: "<p>Changing spell lists only takes effect when Foundry is reloaded. Reload now?</p>",
+                modal: true,
+                submit: (result) => {if (result) {window.location.reload()}}
+              })
         }
     }
 
@@ -128,6 +138,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         
         await setSetting(SETTINGS[category].content, Array.from(selectedContent))
         CONFIG.dndContentManager.forceRebuild = true
+
+        if (category === "spelllist") {
+            this.reloadRequired = true
+        }
     }
 
     static async #onSelectPack(event, target) {
@@ -150,7 +164,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         //Update setting
         const category = target.getAttribute("category")
-        log(`Clearing filter list for ${category} filter list`)
 
         let content = getSetting(SETTINGS[category].content) || [];
         if (target.checked) {
@@ -158,12 +171,17 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             content.push(target.name);
         } else {
             const index = content.indexOf(target.name);
+            log(`Removing ${target.name} from ${category} filter list`)
             if (index !== -1) {
                 content.splice(index, 1);
             }
         }
         await setSetting(SETTINGS[category].content, content);
         CONFIG.dndContentManager.forceRebuild = true
+
+        if (category === "spelllist") {
+            this.reloadRequired = true
+        }
     }
 
     static #onSelectGroup(event, target) {
