@@ -13,7 +13,7 @@ class SearchLibProxy {
                 if (prop === 'search') {
                     return function(...args) {
                         return target[prop].apply(target, args) // Forward the call
-                            .filter(r => CONFIG.dndContentManager.index.quickInsertItemInIndex(r))
+                            .filter(r => CONFIG.dndContentManager.index.quickInsertItemInIndex(r.item))
                     };
                 } else if (prop === "isSearchLibProxy") {
                     return true;

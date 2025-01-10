@@ -1,5 +1,6 @@
 import { setSetting, getSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
 import { log } from "../lib.mjs";
+import { addSources, removeSources } from "../source-management.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -59,20 +60,29 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const packs = target.closest(".packs-list").querySelectorAll("dnd5e-checkbox[data-action=selectPack]")
 
         target.indeterminate = false;
+        const changedSources = new Array();
 
-        let newSources = []
         for (const p of packs) {
             p.checked = checked || p.disabled;
 
-            if (checked || p.disabled) {
-                newSources.push(p.name)
+            if (checked) {
+                changedSources.push(p.name)
             }
 
-            if (p.disabled && !checked) {
-                target.indeterminate = true;
+            if (!checked && !p.disabled) {
+                changedSources.push(p.name)
+            }
+
+            if (!checked && p.disabled) {
+                target.indeterminate = true
             }
         } 
-        await setSetting(SETTINGS[category].sources, newSources)
+
+        if (checked) {
+            addSources(category, changedSources)
+        } else {
+            removeSources(category, changedSources);
+        }
     }
 
     static async #onSelectPack(event, target) {
@@ -96,16 +106,11 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         //Update setting
         const category = target.getAttribute("category")
-        let sources = getSetting(SETTINGS[category].sources) || [];
         if (target.checked) {
-            sources.push(target.name);
+            addSources(category, [target.name])
         } else {
-            const index = sources.indexOf(target.name);
-            if (index !== -1) {
-                sources.splice(index, 1);
-            }
+            removeSources(category, [target.name])
         }
-        await setSetting(SETTINGS[category].sources, sources);
     }
 
     static #onChangeTab(event, target) {

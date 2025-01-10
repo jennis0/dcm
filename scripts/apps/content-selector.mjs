@@ -5,6 +5,7 @@ import { enrichSource } from "../enrich-source.mjs";
 import { getOrdinalSuffix, log } from "../lib.mjs";
 import { SourceSelector } from "./source-selector.mjs";
 import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
+import { addContent, removeContent } from "../content-management.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -118,27 +119,23 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         const sc = getSetting(SETTINGS[category].content);
         let selectedContent = new Set(sc);
+        const changedContent = new Array();
 
         for (const p of packs) {
             p.checked = checked || p.disabled;
-
-            if (checked) {
-                selectedContent.add(p.name)
-                log(`Adding ${p.name} to ${category} filter list`)
-            }
-            else {
-                selectedContent.delete(p.name)
-                log(`Removing ${p.name} from ${category} filter list`)
-            }
+            changedContent.push(p.name)
 
             if (p.checked && !checked) {
                 target.indeterminate = true;
             }
         } 
-        
-        await setSetting(SETTINGS[category].content, Array.from(selectedContent))
-        CONFIG.dndContentManager.forceRebuild = true
 
+        if (checked) {
+            addContent(category, changedContent)
+        } else {
+            removeContent(category, changedContent);
+        }
+        
         if (category === "spelllist") {
             this.reloadRequired = true
         }
@@ -165,19 +162,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         //Update setting
         const category = target.getAttribute("category")
 
-        let content = getSetting(SETTINGS[category].content) || [];
         if (target.checked) {
-            log(`Adding ${target.name} to ${category} filter list`)
-            content.push(target.name);
+            addContent(category, [target.name]);
         } else {
-            const index = content.indexOf(target.name);
-            log(`Removing ${target.name} from ${category} filter list`)
-            if (index !== -1) {
-                content.splice(index, 1);
-            }
+            removeContent(category, [target.name])
         }
-        await setSetting(SETTINGS[category].content, content);
-        CONFIG.dndContentManager.forceRebuild = true
 
         if (category === "spelllist") {
             this.reloadRequired = true
@@ -442,7 +431,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 entries,
                 category: this.tabGroups.primary,
                 checked: n_checked > 0,
-                indeterminate: n_checked > 0 & n_checked !== entries.length
+                indeterminate: n_checked > 0 && n_checked !== entries.length
             }
         }))
     }
@@ -512,9 +501,9 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     label: newGroups[k].label,
                     source: null,
                     category: itemtype,
-                    checked: n_checked === entries.length,
+                    checked: n_checked > 0,
                     metadataLabel: SETTINGS[itemtype].metadataLabel,
-                    indeterminate: n_checked > 0 && n_checked.length < entries.length
+                    indeterminate: n_checked > 0 && n_checked < entries.length
                 }
             }
         ).filter(p => p.entries.length >= this.currentFilters.minItems)

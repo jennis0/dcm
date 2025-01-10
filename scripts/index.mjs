@@ -5,6 +5,7 @@ import { getSetting, SETTINGS } from "./settings.mjs";
 export class DCMIndex extends Object {
     constructor() {
         super();
+        this.needsRebuild = false;
         this.itemTypeToIndexMap = new Map();
         this.permittedItemIndices = new Map();
     }
@@ -45,6 +46,7 @@ export class DCMIndex extends Object {
     }
 
     spotlightItemInIndex(item) {
+        //Check whether a Spotlight Item is in our index
 
         if (item.documentName !== "Item") {
             return true
@@ -66,6 +68,7 @@ export class DCMIndex extends Object {
     }
 
     quickInsertItemInIndex(item) {
+        //Check whether a QI item is in our index
 
         if (item.documentType !== "Item") {
             return true

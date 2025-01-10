@@ -1,0 +1,53 @@
+import { log } from "./lib.mjs";
+import { getSetting, setSetting, SETTINGS } from "./settings.mjs";
+
+
+export function getContent(itemtype) {
+    return getSetting(SETTINGS[itemtype].content)
+}
+
+export function addContent(itemtype, newContent) {
+    const content = new Set(getContent(itemtype))
+    const startLength = content.length
+
+    newContent.forEach(c => {
+        log(`Adding item: ${c} for type: ${itemtype}`)
+        content.add(c)
+    })
+    setSetting(SETTINGS[itemtype].content, [...content])
+    CONFIG.dndContentManager.forceRebuld = true
+
+    if (content.length != startLength) {
+        CONFIG.dndContentManager.forceRebuld = true
+    }
+}
+
+export function removeContent(itemtype, contentToRemove) {
+    const content = new Set(getContent(itemtype))
+    const startLength = content.length
+
+    contentToRemove.forEach(c => {
+        log(`Removing item: ${c} for type: ${itemtype}`)
+        content.delete(c)
+    })
+    setSetting(SETTINGS[itemtype].content, [...content])
+
+    if (content.length != startLength) {
+        CONFIG.dndContentManager.forceRebuld = true
+    }
+}
+
+export function removeContentBySource(itemtype, sourcesToRemove) {
+    const content = getContent(itemtype);
+    const sourceSet = new Set(sourcesToRemove)
+
+    const filteredContent = content.filter(
+        c => !sourceSet.has(foundry.utils.parseUuid(c).collection.metadata.id)
+    )
+    
+    setSetting(SETTINGS[itemtype].content, filteredContent)
+    
+    if (content.length != filteredContent.length) {
+        CONFIG.dndContentManager.forceRebuld = true
+    }
+}
