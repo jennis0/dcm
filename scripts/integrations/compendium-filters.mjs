@@ -1,6 +1,4 @@
-import { getSetting, SETTINGS } from "../settings.mjs";
 import { log } from "../lib.mjs";
-
 
 const fetchFunc = dnd5e.applications.CompendiumBrowser.fetch;
 function patchedFetch(...args) {

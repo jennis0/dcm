@@ -72,6 +72,8 @@ export class DCMIndex extends Object {
         if (parsedUuid.collection.metadata &&
                 !this.permittedItemIndices[indexName].sources.has(parsedUuid.collection.metadata.id)) {
             return false;
+        } else if (!parsedUuid.collection.metadata) {
+            return true;
         }
 
         //Finally check if in index
