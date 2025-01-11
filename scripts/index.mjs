@@ -1,5 +1,7 @@
+import { getContent } from "./content-management.mjs";
 import { log } from "./lib.mjs";
 import { getSetting, SETTINGS } from "./settings.mjs";
+import { getSources } from "./source-management.mjs";
 
 
 export class DCMIndex extends Object {
@@ -30,11 +32,11 @@ export class DCMIndex extends Object {
     static  _buildItemIndices() {
         const index = new Map();
         for (const s of SETTINGS.itemtypes) {
-            //Dont apply to any item types that are disabled
+            //Dont apply to any item types that are disabled or have no items selected
             if (!getSetting(SETTINGS[s].enabled) || getSetting(SETTINGS[s].content).length === 0) {
                 continue
             }
-            index[s] = new Set(getSetting(SETTINGS[s].content))
+            index[s] = {items: new Set(getContent(s)), sources: new Set(getSources(s))}
         }
         return index;
     };
@@ -45,48 +47,47 @@ export class DCMIndex extends Object {
         this.permittedItemIndices = DCMIndex._buildItemIndices();
     }
 
-    spotlightItemInIndex(item) {
-        //Check whether a Spotlight Item is in our index
-
-        if (item.documentName !== "Item") {
+    itemInIndex(documentType, subType, uuid) {
+        
+        //If not an item don't filter (we don't consider spell lists here)
+        if (documentType !== "Item") {
             return true
         }
 
-        if (!this.itemTypeToIndexMap[item.type]) {
+        //If no index for this item type, don't filter
+        if (!this.itemTypeToIndexMap[subType]) {
             return true;
         }
 
-        const indexName = this.itemTypeToIndexMap[item.type];
-
+        const indexName = this.itemTypeToIndexMap[subType];
         if (!this.permittedItemIndices[indexName]) {
             return true
         }
 
         //Have to reparse UUID as they sometimes use a slightly different format
-        const uuid = foundry.utils.parseUuid(item.uuid);
-        return this.permittedItemIndices[indexName].has(uuid.uuid)
+        const parsedUuid = foundry.utils.parseUuid(uuid);
+
+        //If compendium isn't considered an enabled source, skip item
+        //No metadata case is for world items which currently are kept enabled
+        if (parsedUuid.collection.metadata &&
+                !this.permittedItemIndices[indexName].sources.has(parsedUuid.collection.metadata.id)) {
+            return false;
+        }
+
+        //Finally check if in index
+        return this.permittedItemIndices[indexName].items.has(parsedUuid.uuid)
+    }
+
+    spotlightItemInIndex(item) {
+        return this.itemInIndex(item.documentName, item.type, item.uuid)
     }
 
     quickInsertItemInIndex(item) {
-        //Check whether a QI item is in our index
+        return this.itemInIndex(item.documentType, item.subType, item.uuid)
+    }
 
-        if (item.documentType !== "Item") {
-            return true
-        }
-
-        if (!this.itemTypeToIndexMap[item.subType]) {
-            return true;
-        }
-
-        const indexName = this.itemTypeToIndexMap[item.subType];
-
-        if (!this.permittedItemIndices[indexName]) {
-            return true
-        }
-
-        //Have to reparse UUID as they sometimes use a slightly different format
-        const uuid = foundry.utils.parseUuid(item.uuid);
-        return this.permittedItemIndices[indexName].has(uuid.uuid)
+    compendiumBrowserItemInIndex(item) {
+        return this.itemInIndex("Item", item.type, item.uuid)
     }
 
 }

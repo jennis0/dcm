@@ -1,5 +1,5 @@
 import { getFeatType } from "../enrich-feats.mjs";
-import { getSetting, setSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
+import { getSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
 import { getClassDetailsFromIdent } from "../enrich-class.mjs";
 import { enrichSource } from "../enrich-source.mjs";
 import { getOrdinalSuffix, log } from "../lib.mjs";
