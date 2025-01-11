@@ -1,6 +1,7 @@
 import { setSetting, getSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
 import { log } from "../lib.mjs";
 import { addSources, removeSources } from "../source-management.mjs";
+import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -17,6 +18,11 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     _onClose() {
+        
+        if (CONFIG.dndContentManager.forceRebuild) {
+            forceSpotlightRebuild();
+        }
+
         this.onCloseFunc()
     }
 

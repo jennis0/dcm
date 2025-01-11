@@ -8,23 +8,22 @@ export function getContent(itemtype) {
 
 export function addContent(itemtype, newContent) {
     const content = new Set(getContent(itemtype))
-    const startLength = content.length
+    const startSize = content.size
 
     newContent.forEach(c => {
         log(`Adding item: ${c} for type: ${itemtype}`)
         content.add(c)
     })
     setSetting(SETTINGS[itemtype].content, [...content])
-    CONFIG.dndContentManager.forceRebuld = true
 
-    if (content.length != startLength) {
-        CONFIG.dndContentManager.forceRebuld = true
+    if (content.size != startSize) {
+        CONFIG.dndContentManager.forceRebuild = true
     }
 }
 
 export function removeContent(itemtype, contentToRemove) {
     const content = new Set(getContent(itemtype))
-    const startLength = content.length
+    const startSize = content.size
 
     contentToRemove.forEach(c => {
         log(`Removing item: ${c} for type: ${itemtype}`)
@@ -32,14 +31,15 @@ export function removeContent(itemtype, contentToRemove) {
     })
     setSetting(SETTINGS[itemtype].content, [...content])
 
-    if (content.length != startLength) {
-        CONFIG.dndContentManager.forceRebuld = true
+    if (content.size != startSize) {
+        CONFIG.dndContentManager.forceRebuild = true
     }
 }
 
 export function removeContentBySource(itemtype, sourcesToRemove) {
     const content = getContent(itemtype);
     const sourceSet = new Set(sourcesToRemove)
+    const startSize = content.size
 
     const filteredContent = content.filter(
         c => !sourceSet.has(foundry.utils.parseUuid(c).collection.metadata.id)
@@ -47,7 +47,7 @@ export function removeContentBySource(itemtype, sourcesToRemove) {
     
     setSetting(SETTINGS[itemtype].content, filteredContent)
     
-    if (content.length != filteredContent.length) {
-        CONFIG.dndContentManager.forceRebuld = true
+    if (content.size != startSize) {
+        CONFIG.dndContentManager.forceRebuild = true
     }
 }

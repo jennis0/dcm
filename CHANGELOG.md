@@ -1,3 +1,6 @@
+### 1.3.2
+- Fix items still showing after a source has been removed
+
 ### 1.3.1
 - Add Spotlight Omnisearch integration
 - Fixed bug where using the toggle all button in source selector would cause source from other modules to become unselected

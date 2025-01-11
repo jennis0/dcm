@@ -18,6 +18,7 @@ export function patchCompendiumBrowser() {
     dnd5e.applications.CompendiumBrowser.fetch = patchedFetch;
 
     Hooks.on("renderCompendiumBrowser", () => {
+        //Ensure we rebuild the index when opening a CB tab
         CONFIG.dndContentManager.index.rebuild();
     })
 

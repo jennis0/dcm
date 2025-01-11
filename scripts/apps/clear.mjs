@@ -65,6 +65,9 @@ export class ClearSettings extends HandlebarsApplicationMixin(ApplicationV2) {
             }
             log(`Finished clearing settings for ${s.label}`)
         });
+
+        CONFIG.dndContentManager.forceRebuild = true
+        CONFIG.dndContentManager.index.rebuild()
         
     }
 
