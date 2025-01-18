@@ -5,6 +5,7 @@ import { MODULE_NAME, SETTINGS } from "./settings.mjs"
 import { log } from "./lib.mjs";
 import { EnableMenu } from "./apps/enable-menu.mjs";
 import { ExportDialog, ImportDialog } from "./export.mjs";
+import { PlayerHandbookMenu } from "./apps/player-handbook.mjs";
 
 
 export function initVersionSetting() {
@@ -93,6 +94,19 @@ export function initSettings() {
             type: ContentSelector,
             restricted: true,
             icon: "fas fa-ballot-check"
+        }
+    )
+
+    game.settings.registerMenu(MODULE_NAME, "handbookMenu",
+        {
+            name: "Player Handbook",
+            label: "Create Player Handbook",
+            hint: "Create a set of Journals which contain the selected player options",
+            scope: "world",
+            config: true,
+            restricted: true,
+            type: PlayerHandbookMenu,
+            icon: ""
         }
     )
 

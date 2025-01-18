@@ -1,0 +1,100 @@
+<div class="compendium-selector">
+    <p>The DnD Content Manager can use your options to auto-generate journals containing a complete set of player options.
+        If no filtering is applied to a type of item, them all of those items will be present.
+    </p>
+<menu class="filter-list unlist base">
+    <h3>Journals</h3>
+    <li>
+        <label>
+            <dnd5e-checkbox
+                class="compendium-checkbox"
+                data-action="toggleOption",
+                name="class"
+                {{#if options.class}}checked{{/if}}
+            ></dnd5e-checkbox>
+            <span>Make a journal with classes, subclasses, and their spell lists</span>
+        </label>
+        
+    </li>
+    <li>
+        <label>
+            <dnd5e-checkbox
+                class="compendium-checkbox"
+                data-action="toggleOption",
+                name="races"
+                {{#if options.races}}checked{{/if}}
+            ></dnd5e-checkbox>
+            <span>Make Species journal</span>
+        </label>
+    </li>
+    <li>
+        <label>
+            <dnd5e-checkbox
+                class="compendium-checkbox"
+                data-action="toggleOption",
+                name="backgrounds"
+                {{#if options.backgrounds}}checked{{/if}}
+            ></dnd5e-checkbox>
+            <span>Make Backgrounds journal<span>
+        </label>
+    </li>
+    <li>
+        <label>
+            <dnd5e-checkbox
+                class="compendium-checkbox"
+                data-action="toggleOption",
+                name="feats"
+                {{#if options.feats}}checked{{/if}}
+            ></dnd5e-checkbox>
+            <span>Make Feats journal</span>
+        </label>
+    </li>
+    <li>
+        <label>
+            <dnd5e-checkbox
+                class="compendium-checkbox"
+                data-action="toggleOption",
+                name="spells"
+                {{#if options.spells}}checked{{/if}}
+            ></dnd5e-checkbox>
+            <span>Make Spells journal</span>
+        </label>
+    </li>
+    
+    <h3>Options</h3>
+    <b>Existing Pages</b>
+
+    <li>
+
+        <label>
+            <dnd5e-checkbox
+                class="compendium-checkbox"
+                data-action="toggleOption",
+                name="existingPages"
+                {{#if options.existingPages}}checked{{/if}}
+            ></dnd5e-checkbox>
+            <span>Use existing class and subclass pages from compendia in this world</span>
+        </label>
+        
+    </li>
+
+    <b>Folder Title</b>
+    <li>
+        
+        <input type="text" name="folderTitle" value="{{folderTitle}}" placeholder="Player Handbook" data-dtype="String">
+    </li>
+
+    <b>Journal Style</b>
+    <li>
+        <select name="styleOption">
+            {{#each styleOptions}}
+                <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+            {{/each}}
+        </select>
+    </li>
+</menu>
+<div class="callout">
+    <p><strong>WARNING:</strong>This will overwrite any previously generated handbooks in the target folder</p>
+</div>
+</div>
+

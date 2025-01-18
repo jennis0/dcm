@@ -13,6 +13,7 @@ import { patchSpotlightOmnisearch } from "./integrations/spotlight.mjs";
 import { SourceSelector } from "./apps/source-selector.mjs";
 import { Version } from "./version-utils.mjs";
 import { DCMIndex } from "./index.mjs";
+import { PlayerHandbookMenu } from "./apps/player-handbook.mjs";
 
 
 Hooks.once("init", () => {
@@ -24,6 +25,8 @@ Hooks.once("init", () => {
         version: Version.fromString(game.modules.get(MODULE_NAME).version),
         fixed: new Map(SETTINGS.itemtypes.map(i => [i, {compendia: new Set(), items: new Set()}])),
         forceRebuild: false,
+        systemV3: game.system.version.startsWith("3"),
+        modernRules: game.settings.get("dnd5e", "rulesVersion") === "modern",
         index: new DCMIndex()
     };
     
@@ -36,6 +39,10 @@ Hooks.once("init", () => {
     //Load integrations with other modules (if present)
     patchQuickInsert();
     patchSpotlightOmnisearch();
+
+    if (!CONFIG.dndContentManager.modernRules) {
+        SETTINGS.race.label = "Races"
+    }
 
     log("Finished initialisation")
 })
@@ -51,6 +58,9 @@ Hooks.once("ready", () => {
     registerSpellLists();
 
     log("Finished ready steps")
+
+    const w = new PlayerHandbookMenu()
+    w.render(true)
 })
 
 

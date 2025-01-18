@@ -333,3 +333,44 @@
 :is(.theme-light, .dnd5e-theme-light) .dcm.selector .filter {
   background: var(--dnd5e-color-parchment);
 }
+
+.dcm.handbook-config {
+  h3 {
+    text-shadow: none;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+    font-size: var(--font-h4-size);
+  }
+
+  li {
+    padding-bottom: 0.5em;
+  }
+
+  label {
+    align-items: flex-start;
+    display: flex;
+    gap: 4px;
+  }
+
+  header {
+    margin-block-end: 2em;
+  }
+
+  .callout {
+      margin-left: 0.2em;
+      margin-right: 0.2em;
+      width:100%;
+      background: vaR(--dnd5e-background-card);
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      padding: 0.5em;
+      box-shadow: 0px 0px 5px var(--dnd5e-shadow-15);
+
+      p {
+        margin-top: 0.2em;
+        margin-bottom: 0.2em;
+        text-align: center;
+      }
+  }
+}
