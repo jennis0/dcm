@@ -57,7 +57,7 @@
     justify-content: right;
     font-family: var(--dnd5e-font-roboto-condensed);
 
-    slide-toggle {
+    dcm-slide-toggle {
       --slide-toggle-track-color-unchecked: var(--dnd5e-background-25);
       --slide-toggle-track-color-checked: var(--dnd5e-color-gold);
     }
@@ -325,16 +325,33 @@
 /* Theme specific requirements */
 :is(.theme-dark, .dnd5e-theme-dark) {
 
-  .dcm.selector .filter {
-    background: var(--dnd5e-background-card);
+  .dcm.selector .filter,
+  .dcm.handbook-config .callout,
+  .dcm button {
+    background: var(--dnd5e-color-blue-gray-2);
   }
+
 }
 
-:is(.theme-light, .dnd5e-theme-light) .dcm.selector .filter {
-  background: var(--dnd5e-color-parchment);
+:is(.theme-light, .dnd5e-theme-light) {
+    .dcm.selector .filter,
+    .dcm.handbook-config .callout {
+      background: var(--dnd5e-color-parchment);
+    }
 }
 
 .dcm.handbook-config {
+
+  .window-header {
+    margin-block-end: 0.5em;
+  }
+
+  .window-content {
+    background: var(--background);
+    padding: 1em;
+    gap: 8px;
+  }
+
   h3 {
     text-shadow: none;
     color: var(--color-text-primary);
@@ -361,7 +378,6 @@
       margin-left: 0.2em;
       margin-right: 0.2em;
       width:100%;
-      background: vaR(--dnd5e-background-card);
       margin-top: 0.5em;
       margin-bottom: 0.5em;
       padding: 0.5em;
@@ -373,4 +389,59 @@
         text-align: center;
       }
   }
+}
+
+
+  /* ---------------------------------- */
+/*  Slide Toggles                     */
+/* ---------------------------------- */
+
+.dnd5e2 label.dcm-slide-toggle {
+  display: block;
+}
+.dnd5e2 label.dcm-slide-toggle:has(input:not([disabled])) {
+  cursor: pointer;
+}
+
+dcm-slide-toggle {
+  --slide-toggle-height: 20px;
+  --slide-toggle-width: 36px;
+  --slide-toggle-padding: 3px;
+  --slide-toggle-track-color-unchecked: black;
+  --slide-toggle-track-color-checked: #3ba55d;
+  --slide-toggle-thumb-color: white;
+  --slide-toggle-thumb-width: calc(var(--slide-toggle-height) - var(--slide-toggle-padding) * 2);
+  --slide-toggle-thumb-height: var(--slide-toggle-thumb-width);
+  --slide-toggle-transition-time: 250ms;
+  display: inline-block;
+  width: var(--slide-toggle-width);
+  height: var(--slide-toggle-height);
+  cursor: pointer;
+  /* Checked state */
+}
+dcm-slide-toggle .slide-toggle-track {
+  width: 100%;
+  height: 100%;
+  background: var(--slide-toggle-track-color-unchecked);
+  border-radius: calc((var(--slide-toggle-height) * 2) / 3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding: var(--slide-toggle-padding);
+}
+dcm-slide-toggle .slide-toggle-thumb {
+  width: var(--slide-toggle-thumb-width);
+  height: var(--slide-toggle-thumb-height);
+  border-radius: 100%;
+  background: var(--slide-toggle-thumb-color);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
+  text-align: center;
+  transition: margin-left var(--slide-toggle-transition-time) ease;
+}
+dcm-slide-toggle[checked] .slide-toggle-track {
+  background: var(--slide-toggle-track-color-checked);
+}
+dcm-slide-toggle[checked] .slide-toggle-thumb {
+  margin-left: calc(100% - var(--slide-toggle-thumb-width));
 }

@@ -125,7 +125,7 @@ export async function createClassbook(folder, useExistingPages, sheet) {
     // Initialize class map with "unknown" category for orphaned subclasses
     const classMap = new Map();
     classMap.set('unknown', {
-        page: makePage("Unknown Class", "<p>These subclasses are for an unknown class</p>"),
+        page: await makePage("Unknown Class", "<p>These subclasses are for an unknown class</p>"),
         subclassPages: []
     });
     
@@ -158,6 +158,8 @@ export async function createClassbook(folder, useExistingPages, sheet) {
     if (classMap.get("unknown").subclassPages.length === 0) {
         classMap.delete("unknown");
     }
+
+    console.log(classMap)
     
     // Sort classes alphabetically and flatten into single page array
     const sortedClassIds = Array.from(classMap.keys()).sort((a, b) => 

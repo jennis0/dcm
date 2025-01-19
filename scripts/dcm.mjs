@@ -62,6 +62,9 @@ Hooks.once("ready", () => {
 
     const w = new PlayerHandbookMenu()
     w.render(true)
+
+    const w2 = new SourceSelector()
+    w2.render(true)
 })
 
 

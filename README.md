@@ -69,4 +69,4 @@ This module wouldn't be possible without the core D&D 5E system, the UI heavily 
 Additional thanks to folks from the League of Extraordinary FoundryVTT Developers discord for answer some no-doubt silly questions
 
 ### D&D5E
-This module currently copies the code for presentational elements from the dnd5e v4.2 module to provide compatibility with dnd5e v3.3.1. The elements in /scripts/elements/ were originally written by the dnd5e system authors.
+This module duplicates the code for a small number of HTML elements from the dnd5e v4.2 module to provide compatibility with dnd5e v3.3.1. The elements in /scripts/elements/ were originally written by the dnd5e system authors. This code is re-published in accordance with the MIT License.

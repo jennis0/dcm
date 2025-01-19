@@ -1,3 +1,10 @@
+/**
+ * Element is recreated from the core DND5E system so we can re-use the ApplicationV2 instance in 3.3.1
+ * Sourced from https://github.com/foundryvtt/dnd5e/blob/10e96a0dd704aa461fc346b26fc9e4aeafc7e9e1/module/applications/components/
+ * Code will be removed once 3.3.1 support is dropped
+ */
+
+
 import { CheckboxElement } from "./checkbox.mjs";
 
 /**
@@ -52,4 +59,4 @@ export class SlideToggleElement extends CheckboxElement {
   }
 }
 
-window.customElements.define("dcm-slide-toggle", CheckboxElement)
+window.customElements.define("dcm-slide-toggle", SlideToggleElement)
