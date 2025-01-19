@@ -22,6 +22,7 @@ The goal of the DCM is to give DMs full control over what options are available 
 
 ## Key Features
 - Manage exactly what classes, subclasses, backgrounds, feats, spells, and items appear within the compendium browser
+- Generate formatted Journals to show your players containing the approved player options
 - Create and register new class and subclass spell lists without writing a new module (requires reloading)
 - Quickly identify duplicate items coming from multiple sources
 - Integrates with the [Quick Insert](https://foundryvtt.com/packages/quick-insert) and [Spotlight Omnisearch](https://foundryvtt.com/packages/spotlight-omnisearch) modules so only your chosen items are available within their search windows
@@ -30,12 +31,13 @@ The goal of the DCM is to give DMs full control over what options are available 
 
 ## Usage
 Once installed it is simple to configure which options are available via the module settings or the Compendium Directory:
-1. (Optional) Set which types of item you want to filter using the "Select Filtered Types" setting
-2. Set the base sources for each type of item via the 'Compendium Sources' setting
-3. Select the available items from each source via the 'Approved Content' setting (accessible from the Compendium tab or Setting Browser)
-4. To enable Spotlight Omnisearch or Quick Insert integration make sure you select this in the main settings menu
+1. Open the Player Content Configuration menu from the Compendium sidebar or module settings menu
+2. Use the cog button in the top right to open the Source Selection menu and select the content types you want to filter and the sources you want to use for each content type, then close it.
+3. Select the available items from each source in the Player Content Configuration Menu
+4. (Optional) You can make a set of journals containing these options using the Create Player Option Journal button on the compendium browser tab
+5. (Optional) To enable Spotlight Omnisearch or Quick Insert integration make sure you select this in the main settings menu
 
-Once you've done this, any unselected content is hidden within the Compendium Browser. You can add or remove new options at any time, and unlike with creating compendium specifically for a particular game - there's no deletion, duplication or copying involved so no need to manage updates or changes!
+Once you've done this, any unselected content is hidden within the Compendium Browser. You can add or remove new options at any time, and unlike with creating compendium specifically for a particular game - there's no deletion, duplication or copying involved so no need to manage updates or changes! Though you'll need to re-generate the player journals if options change
 
 [DCM-demo.webm](https://github.com/user-attachments/assets/5599f62d-e2ae-4390-91f6-2115491de756)
 
