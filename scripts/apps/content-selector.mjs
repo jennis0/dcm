@@ -113,7 +113,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         const category = target.getAttribute("category")
         const checked = target.checked;
-        const packs = target.closest(".packs-list").querySelectorAll("dnd5e-checkbox[data-action=selectPack]")
+        const packs = target.closest(".packs-list").querySelectorAll("dcm-checkbox[data-action=selectPack]")
 
         target.indeterminate = false;
 
@@ -144,8 +144,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     static async #onSelectPack(event, target) {
         //Set pack 'All' box to correct state
         const pack_list = target.closest(".packs-list")
-        const all_box = pack_list.querySelector("dnd5e-checkbox[data-action=selectAll]")
-        const siblings = pack_list.querySelectorAll("dnd5e-checkbox[data-action=selectPack]")
+        const all_box = pack_list.querySelector("dcm-checkbox[data-action=selectAll]")
+        const siblings = pack_list.querySelectorAll("dcm-checkbox[data-action=selectPack]")
         
         //Check number of siblings currently turned on
         if (all_box !== null & all_box !== undefined) {
@@ -553,6 +553,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         context.type = SETTINGS[this.tabGroups.primary].label
         context.enabled = getSetting(SETTINGS[this.tabGroups.primary].enabled);
         context.isSpelllist = this.tabGroups.primary === "spelllist";
+        context.isV3 = CONFIG.dndContentManager.systemV3;
         context.itemtype = this.tabGroups.primary
         context.groups = this._prepareGroups(this.tabGroups.primary)
         context.duplicates = this.duplicates

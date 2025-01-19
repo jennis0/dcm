@@ -67,3 +67,6 @@ This package is under an MIT license and the Foundry Virtual Tabletop Limited Li
 ## Acknowledgements
 This module wouldn't be possible without the core D&D 5E system, the UI heavily borrows from the excellent dev work on the Compendium Browser makes extensive re-use of it's styling, so a big thank you to the developers!
 Additional thanks to folks from the League of Extraordinary FoundryVTT Developers discord for answer some no-doubt silly questions
+
+### D&D5E
+This module currently copies the code for presentational elements from the dnd5e v4.2 module to provide compatibility with dnd5e v3.3.1. The elements in /scripts/elements/ were originally written by the dnd5e system authors.

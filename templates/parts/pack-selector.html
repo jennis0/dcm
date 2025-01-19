@@ -6,10 +6,10 @@
         {{#if (gt entries.length 1)}}
         <li class="all">
             <label class="checkbox">
-                <dnd5e-checkbox name="all-{{ name }}" {{ checked checked }} data-type="pack"
+                <dcm-checkbox name="all-{{ name }}" {{ checked checked }} data-type="pack"
                                 category="{{ itemType }}"
                                 data-action="selectAll"
-                                {{#if indeterminate}}indeterminate{{/if}}></dnd5e-checkbox>
+                                {{#if indeterminate}}indeterminate{{/if}}></dcm-checkbox>
                 <span class="title">{{ localize "All" }}</span>
             </label>
         </li>
@@ -18,14 +18,14 @@
         {{#each entries}}
         <li class="compendium-list-row">
             <label class="checkbox compendium-checkbox">
-                <dnd5e-checkbox 
+                <dcm-checkbox 
                     data-action="selectPack"
                     name="{{ uuid }}" 
                     {{ checked checked }} 
                     {{#if fixed}}disabled{{/if}}
                     data-type="pack"
                     category="{{ ../itemType }}"
-                ></dnd5e-checkbox>
+                ></dcm-checkbox>
                 <div class="compendium-row-label">
                     <span class="title">{{ label }}</span>
                     <span class="source">({{ name }})</span>
@@ -46,11 +46,11 @@
 
         <div class="enabled-toggle">
             <label>
-            <slide-toggle data-action="toggleEnabled" name="{{type}}" {{#if enabled}}checked{{/if}}>    
-            <div class="slide-toggle-track">
-                <div class="slide-toggle-thumb"></div>
+            <dcm-slide-toggle data-action="toggleEnabled" name="{{type}}" {{#if enabled}}checked{{/if}}>    
+            <div class="dcm-slide-toggle-track">
+                <div class="dcm-slide-toggle-thumb"></div>
             </div>
-            </slide-toggle>
+            </dcm-slide-toggle>
             <span>Apply Management</span>
             </label>
         </div>

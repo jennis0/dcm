@@ -6,10 +6,10 @@
         {{#if (gt entries.length 1)}}
         <li class="compendium-list-row all">
             <label class="checkbox">
-                <dnd5e-checkbox name="all-{{ type }}" {{ checked checked }} data-type="pack"
+                <dcm-checkbox name="all-{{ type }}" {{ checked checked }} data-type="pack"
                                 category="{{ category }}"
                                 data-action="selectAll"
-                                {{#if indeterminate}}indeterminate{{/if}}></dnd5e-checkbox>
+                                {{#if indeterminate}}indeterminate{{/if}}></dcm-checkbox>
                 <span class="title">{{ localize "Select All" }}</span>
             </label>
         </li>
@@ -37,7 +37,7 @@
             </a>
 
             <label class="checkbox compendium-checkbox">
-                <dnd5e-checkbox 
+                <dcm-checkbox 
                     class="compendium-checkbox"
                     data-action="selectPack"
                     name="{{ uuid }}" 
@@ -45,7 +45,7 @@
                     {{#if fixed}}disabled{{/if}}
                     data-type="pack"
                     category="{{ ../category }}"
-                ></dnd5e-checkbox>
+                ></dcm-checkbox>
 
                 <div class="compendium-row-label">
                     <div class="left-text">
@@ -67,11 +67,17 @@
 
 <section class="content-selector">
     {{#if isSpelllist}}
-        <div class="filter note roboto-condensed-upper">
-            <p>Work In Progress</p>
-            <p>Spell lists are only updated when the game is reloaded. In addition, spell lists loaded by modules
-            cannot be unloaded.</p>
-        </div>
+        {{#if isV3}}
+            <div class="filter note roboto-condensed-upper">
+                <p>You need to update to D&D5E v4 or higher to manage spell lists</p>
+            </div>
+        {{else}}
+            <div class="filter note roboto-condensed-upper">
+                <p>Work In Progress</p>
+                <p>Spell lists are only updated when the game is reloaded. In addition, spell lists loaded by modules
+                cannot be unloaded.</p>
+            </div>
+        {{/if}}
     {{/if}}
 
     {{#if enabled}}

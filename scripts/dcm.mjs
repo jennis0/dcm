@@ -26,7 +26,8 @@ Hooks.once("init", () => {
         fixed: new Map(SETTINGS.itemtypes.map(i => [i, {compendia: new Set(), items: new Set()}])),
         forceRebuild: false,
         systemV3: game.system.version.startsWith("3"),
-        modernRules: game.settings.get("dnd5e", "rulesVersion") === "modern",
+        modernRules: game.settings.settings.has("dnd5e.rulesVersion")
+            && game.settings.get("dnd5e", "rulesVersion") === "modern",
         index: new DCMIndex()
     };
     

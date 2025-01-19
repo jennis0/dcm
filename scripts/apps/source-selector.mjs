@@ -2,6 +2,7 @@ import { setSetting, getSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
 import { log } from "../lib.mjs";
 import { addSources, removeSources } from "../source-management.mjs";
 import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
+import { SlideToggleElement } from "../elements/slide-toggle.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -63,7 +64,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     static async #onSelectAll(event, target) {
         const category = target.getAttribute("category")
         const checked = target.checked;
-        const packs = target.closest(".packs-list").querySelectorAll("dnd5e-checkbox[data-action=selectPack]")
+        const packs = target.closest(".packs-list").querySelectorAll("dcm-checkbox[data-action=selectPack]")
 
         target.indeterminate = false;
         const changedSources = new Array();
@@ -95,8 +96,8 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         //Set pack 'All' box to correct state
         const pack_list = target.closest(".packs-list")
-        const all_box = pack_list.querySelector("dnd5e-checkbox[data-action=selectAll]")
-        const siblings = pack_list.querySelectorAll("dnd5e-checkbox[data-action=selectPack]")
+        const all_box = pack_list.querySelector("dcm-checkbox[data-action=selectAll]")
+        const siblings = pack_list.querySelectorAll("dcm-checkbox[data-action=selectPack]")
         
         //Check number of siblings currently turned on
         if (all_box) {

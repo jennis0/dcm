@@ -37,14 +37,14 @@
                 {{#each groups}}
                 <li>
                     <label>
-                        <dnd5e-checkbox 
+                        <dcm-checkbox 
                             class="compendium-checkbox"
                             data-action="selectGrouping"
                             name="{{ id }}"
                             category="{{ itemtype }}"
                             {{#if checked}}checked{{/if}}
                             data
-                        ></dnd5e-checkbox>
+                        ></dcm-checkbox>
                         <span>{{label}}</span>
                     </label> 
                 </li>
@@ -52,14 +52,14 @@
                 <hr/>
                 <li>
                     <label>
-                        <dnd5e-checkbox 
+                        <dcm-checkbox 
                             class="compendium-checkbox"
                             data-action="selectGrouping"
                             name="duplicates"
                             category="{{itemtype}}"
                             {{#if duplicates}}checked{{/if}}
                             data
-                        ></dnd5e-checkbox>
+                        ></dcm-checkbox>
                         <span>Find Duplicates</span>
                     </label> 
                 </li>

@@ -1,6 +1,7 @@
 import { MODULE_NAME, getSetting, setSetting, SETTINGS } from "../settings.mjs";
 import { log } from "../lib.mjs";
 import { createHandbooks } from "../presentation/create-handbook.mjs";
+import { CheckboxElement } from "../elements/checkbox.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -47,6 +48,8 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
         if (!options.folderTitle) {
             options.folderTitle = "Player Handbook"
         }
+
+        console.log(formData)
 
         createHandbooks(options)
     }

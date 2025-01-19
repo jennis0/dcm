@@ -1,3 +1,4 @@
+import { log } from "../lib.mjs";
 import { createClassbook } from "./create-classbook.mjs";
 import { createGroupedItembook, createItembook } from "./create-itembook.mjs";
 
@@ -23,27 +24,33 @@ export async function createHandbooks(options) {
     
     // Initialize array to track handbook creation promises
     const journalPromises = [];
+
+    console.log(options)
     
     // Create requested handbooks
     if (options.class) {
+        log("Creating class handbook")
         journalPromises.push(
             createClassbook(folder, options.existingPages, options.styleOption)
         );
     }
     
     if (options.races) {
+        log("Creating Species handbook")
         journalPromises.push(
             createItembook("race", folder, options.styleOption)
         );
     }
     
     if (options.backgrounds) {
+        log("Creating Background handbook")
         journalPromises.push(
             createItembook("background", folder, options.styleOption)
         );
     }
     
     if (options.feats) {
+        log("Creating Feat handbook")
         journalPromises.push(
             createGroupedItembook("feat", "Feats", folder, options.styleOption)
         );
