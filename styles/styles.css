@@ -335,9 +335,15 @@
 
 :is(.theme-light, .dnd5e-theme-light) {
     .dcm.selector .filter,
-    .dcm.handbook-config .callout {
+    .dcm.handbook-config .callout, {
       background: var(--dnd5e-color-parchment);
     }
+
+    .dcm.handbook-config {
+      background: url("/systems/dnd5e/ui/texture1.webp") no-repeat top center / auto 770px,
+        var(--dnd5e-color-parchment) url("/systems/dnd5e/ui/texture2.webp") no-repeat
+    }
+    
 }
 
 .dcm.handbook-config {
