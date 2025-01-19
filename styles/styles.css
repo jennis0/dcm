@@ -1,471 +1,470 @@
-.dcm.dnd5e2.dialog-lg.compendium-browser {
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
+/* ==========================================================================
+   DnD5e Content Manager (DCM) Styles
+   ========================================================================== */
 
-
-.dcm.selector .window-header {
- 
-  padding-left: 2em;
-
-
-  .window-icon::before {
+/* Base Dialog Styles
+   ========================================================================== */
+   .dcm.dnd5e2.dialog-lg.compendium-browser {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  
+  /* Window Header Styles
+     ========================================================================== */
+  .dcm.selector .window-header {
+    padding-left: 2em;
+  }
+  
+  .dcm.selector .window-header .window-icon::before {
     margin-top: 10px;
     margin-left: -35px;
     font-size: large;
     color: var(--dnd5e-color-gold);
   }
-
-  h1.window-title {
+  
+  .dcm.selector .window-header h1.window-title {
     visibility: visible;
     font-size: x-large;
     text-align: center;
     color: var(--color-text-primary);
   }
-}
-
-.dcm .operation-dialog {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: var(--background);
-  padding: 1em;
-}
-
-.dcm {
-  .packs-section {
-    max-width: 630px;
+  
+  /* Operation Dialog
+     ========================================================================== */
+  .dcm .operation-dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--background);
     padding: 1em;
   }
-
-  .source-title-row {
+  
+  /* Main Content Sections
+     ========================================================================== */
+  .dcm .packs-section {
+    max-width: 630px;
+    padding: 1em;
+    margin-bottom: 1.5em;
+  }
+  
+  /* Source Title Layout
+     ----------------- */
+  .dcm .source-title-row {
     display: flex;
     flex-direction: row;
     align-items: center;
-
-    .title {
-      font-size: large;
-      width: 200px;
-    }
   }
-
-   .enabled-toggle {
+  
+  .dcm .source-title-row .title {
+    font-size: large;
+    width: 200px;
+  }
+  
+  /* Toggle Controls
+     ----------------- */
+  .dcm .enabled-toggle {
     display: flex;
     gap: 2em;
     width: 100%;
     z-index: 1;
     justify-content: right;
     font-family: var(--dnd5e-font-roboto-condensed);
-
-    dcm-slide-toggle {
-      --slide-toggle-track-color-unchecked: var(--dnd5e-background-25);
-      --slide-toggle-track-color-checked: var(--dnd5e-color-gold);
-    }
   }
-
-  .filter.note {
+  
+  .dcm .enabled-toggle dcm-slide-toggle {
+    --slide-toggle-track-color-unchecked: var(--dnd5e-background-25);
+    --slide-toggle-track-color-checked: var(--dnd5e-color-gold);
+  }
+  
+  /* Filter and Layout Elements
+     ========================================================================== */
+  .dcm .filter.note {
     text-align: center;
     border-style: solid;
     border-color: var(--dnd5e-color-gold);
     border-width: thin;
   }
-
-  legend {
+  
+  .dcm legend {
     font-size: var(--font-size-15);
     background: var(--dnd5e-background-card);
   }
-
-  .window-content {
+  
+  /* Window Content Grid Layout
+     ========================================================================== */
+  .dcm .window-content {
     grid-template-columns: 230px auto !important;
     grid-template-areas: "sidebar results" "sidebar footer" !important;
-    height: 100%
+    height: 100%;
   }
-
-  .sidebar {
+  
+  /* Sidebar Styles
+     ========================================================================== */
+  .dcm .sidebar {
     width: 230px;
     border-right-width: 2px;
     border-right-color: black;
-
-    li.active {
-      span {
-        text-decoration: underline;
-      }
-    }
   }
-
-  dnd5e-icon {
-    --icon-fill : var(--dnd5e-color-gold);
-    .svg {
-      width: 0.1em;
-      height: 0.1em;
-    }
+  
+  .dcm .sidebar .title {
+    font-family: var(--dnd5e-font-roboto-slab);
   }
-
-  .pack-selector, .content-selector {
-    margin: 0px;
-    margin-top: 0.5em;
+  
+  .dcm .sidebar li.active span {
+    text-decoration: underline;
+  }
+  
+  /* Icon Styles
+     ========================================================================== */
+  .dcm dnd5e-icon {
+    --icon-fill: var(--dnd5e-color-gold);
+  }
+  
+  .dcm dnd5e-icon .svg {
+    width: 0.1em;
+    height: 0.1em;
+  }
+  
+  /* Selector Components
+     ========================================================================== */
+  .dcm .pack-selector,
+  .dcm .content-selector {
+    margin: 0.5em 0 1em 0;
     height: 600px;
     width: 100%;
-    margin-bottom: 1em;
     padding-bottom: 1em;
     padding-right: 1em;
     overflow-y: auto;
     overflow-x: hidden;
   }
-
-
-  .pack-list li {
+  
+  /* Pack List Styles
+     ----------------- */
+  .dcm .pack-list li {
     margin-bottom: 0.6em;
   }
-
-  .pack-list li.active {
-    span {
-      text-decoration: underline;
-    }
+  
+  .dcm .pack-list li.active span {
+    text-decoration: underline;
   }
-
-  .sidebar .title {
-    font-family: var(--dnd5e-font-roboto-slab);
-  }
-
-  .filter {
-    margin-left: 0.2em;
-    margin-right: 0.2em;
-    width:100%;
-    margin-top: 1em;
-    margin-bottom: 1em;
+  
+  /* Filter Styles
+     ----------------- */
+  .dcm .filter {
+    margin: 1em 0.2em;
+    width: 100%;
     padding: 0.5em;
     box-shadow: 0px 0px 5px var(--dnd5e-shadow-15);
-
-    .filter-title {
-      font-family: var(--dnd5e-font-roboto-slab);
-    }
-
-    .filter-list {
-      margin-top: 0.3em;
-    }
   }
-
-  .packs-section {
-    margin-bottom: 1.5em;
+  
+  .dcm .filter .filter-title {
+    font-family: var(--dnd5e-font-roboto-slab);
   }
-
-  .pack.control {
+  
+  .dcm .filter .filter-list {
+    margin-top: 0.3em;
+  }
+  
+  /* Pack Controls
+     ----------------- */
+  .dcm .pack.control {
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.5em;
     vertical-align: middle;
-
-    .title {
-      vertical-align: middle;
-    }
   }
-
-  .compendium-row-label {
+  
+  .dcm .pack.control .title {
+    vertical-align: middle;
+  }
+  
+  /* Compendium List Styles
+     ========================================================================== */
+  .dcm .compendium-row-label {
     width: 100%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
   }
-
-  .compendium-list-row {
+  
+  .dcm .compendium-list-row {
     height: 2.5em;
-
-    .all {
-      height: 1.5em;
-    }
   }
-
-  .enable-options {
-    height: 2em;
-
-    .compendium-checkbox {
-      flex-direction: row;
-      display: flex;
-      align-items: center;
-    }
-
-    .checkbox-label {
-      margin-left: 0.3em;
-      align-items: center;
-      height: 1em;
-      font-size: large;
-    }
-
-  }
-
-
-
-}
-
-.dcm .content-selector {
-
-  .all.compendium-list-row {
-    margin-bottom: 0;
-    margin-top: 0;
+  
+  .dcm .compendium-list-row .all {
     height: 1.5em;
   }
-
-  .compendium-list-row {
-    height: 45px; 
+  
+  /* Enable Options
+     ----------------- */
+  .dcm .enable-options {
+    height: 2em;
+  }
+  
+  .dcm .enable-options .compendium-checkbox {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dcm .enable-options .checkbox-label {
+    margin-left: 0.3em;
+    align-items: center;
+    height: 1em;
+    font-size: large;
+  }
+  
+  /* Content Selector Specific Styles
+     ========================================================================== */
+  .dcm .content-selector .compendium-list-row {
+    height: 45px;
     align-items: center;
     display: flex;
     flex-direction: row;
-
-    .compendium-checkbox {
-      margin: 2.5px
-    }
-
-    .compendium-icon {
-      width: 35px;
-      height: 35px;
-      margin: 2.5px;
-    }
-
-    .left-text {
-      display: flex;
-      gap: 10px;
-      width: 260px;
-      text-overflow: ellipsis;
-      
-      .title {
-        width: 150px; /* Fixed width for title and metadata */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .metadata {
-        width: 100px; /* Fixed width for title and metadata */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-    }
-
-    .right-text {
-      display: flex;
-      width: 260px;
-      gap: 10px;
-      justify-items: right;
-      justify-content: right;
-      flex-wrap: nowrap;
-
-
-      .source, .module {
-
-        width: 120px;
-        justify-content: right;
-        text-align: right;
-        white-space: nowrap;
-        overflow:hidden;
-        text-overflow: ellipsis;
-      } 
-    }
-
-    
-
-    
   }
-
-  .compendium-row-label.header-labels {
-    margin: 0px;
-    margin-left: 50px;
+  
+  /* Row Components
+     ----------------- */
+  .dcm .content-selector .compendium-checkbox {
+    margin: 2.5px;
+  }
+  
+  .dcm .content-selector .compendium-icon {
+    width: 35px;
+    height: 35px;
+    margin: 2.5px;
+  }
+  
+  /* Text Layout
+     ----------------- */
+  .dcm .content-selector .left-text {
+    display: flex;
+    gap: 10px;
+    width: 260px;
+    text-overflow: ellipsis;
+  }
+  
+  .dcm .content-selector .left-text .title,
+  .dcm .content-selector .left-text .metadata {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .dcm .content-selector .left-text .title {
+    width: 150px;
+  }
+  
+  .dcm .content-selector .left-text .metadata {
+    width: 100px;
+  }
+  
+  .dcm .content-selector .right-text {
+    display: flex;
+    width: 260px;
+    gap: 10px;
+    justify-content: right;
+    flex-wrap: nowrap;
+  }
+  
+  .dcm .content-selector .right-text .source,
+  .dcm .content-selector .right-text .module {
+    width: 120px;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Header Styles
+     ----------------- */
+  .dcm .content-selector .compendium-row-label.header-labels {
+    margin: 0 0 0 50px;
     color: var(--color-text-light-1);
   }
-
-  .compendium-list-row.header-row {
+  
+  .dcm .content-selector .compendium-list-row.header-row {
     margin: -1em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    padding-top: 0em;
-    padding-bottom: 0em;
-    padding-left: 1em;
-    padding-right: 1em;
+    margin: 0.5em -1em;
+    padding: 0 1em;
     background: var(--dnd5e-color-gold);
-    height: 30px;   
+    height: 30px;
   }
-
-}
-
-.dcm .sidebar .filter-element {
-  margin-top: 1em;
-  margin-bottom: 1em;
-
-  search {
+  
+  /* Filter Element Styles
+     ========================================================================== */
+  .dcm .sidebar .filter-element {
+    margin: 1em 0;
+  }
+  
+  .dcm .sidebar .filter-element search,
+  .dcm .sidebar .filter-element search > input[type="text"],
+  .dcm .sidebar .filter-element search:hover,
+  .dcm .sidebar .filter-element search:focus,
+  .dcm .sidebar .filter-element search:focus-visible,
+  .dcm .sidebar .filter-element search > input[type="text"]:hover,
+  .dcm .sidebar .filter-element search > input[type="text"]:focus,
+  .dcm .sidebar .filter-element search > input[type="text"]:focus-visible {
     height: 2em;
   }
-
-  search > input[type="text"] {
-    height: 2em;
+  
+  /* Search Input Focus States
+     ----------------- */
+  .dnd5e2 item-list-controls search > input[type="text"]:hover,
+  .dnd5e2 .filter-element search > input[type="text"]:hover,
+  .dnd5e2 item-list-controls search > input[type="text"]:focus-visible,
+  .dnd5e2 .filter-element search > input[type="text"]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 12px var(--dnd5e-color-gold);
   }
-
-  search:hover,
-  search:focus,
-  search:focus-visible,
-  search > input[type="text"]:hover,
-  search > input[type="text"]:focus,
-  search > input[type="text"]:focus-visible {
-    height: 2em
-  }
-}
-
-.dnd5e2 item-list-controls search > input[type="text"]:hover,
-.dnd5e2 .filter-element search > input[type="text"]:hover,
-.dnd5e2 item-list-controls search > input[type="text"]:focus-visible,
-.dnd5e2 .filter-element search > input[type="text"]:focus-visible {
-  outline: none;
-  box-shadow: 0 0 12px var(--dnd5e-color-gold);
-}
-
-
-/* Theme specific requirements */
-:is(.theme-dark, .dnd5e-theme-dark) {
-
-  .dcm.selector .filter,
-  .dcm.handbook-config .callout,
-  .dcm button {
+  
+  /* Theme-Specific Styles
+     ========================================================================== */
+  /* Dark Theme */
+  :is(.theme-dark, .dnd5e-theme-dark) .dcm.selector .filter,
+  :is(.theme-dark, .dnd5e-theme-dark) .dcm .filter.note,
+  :is(.theme-dark, .dnd5e-theme-dark) .dcm.handbook-config .callout,
+  :is(.theme-dark, .dnd5e-theme-dark) .dcm button {
     background: var(--dnd5e-color-blue-gray-2);
   }
-
-}
-
-:is(.theme-light, .dnd5e-theme-light) {
-    .dcm.selector .filter,
-    .dcm.handbook-config .callout, {
-      background: var(--dnd5e-color-parchment);
-    }
-
-    .dcm.handbook-config {
-      background: url("/systems/dnd5e/ui/texture1.webp") no-repeat top center / auto 770px,
-        var(--dnd5e-color-parchment) url("/systems/dnd5e/ui/texture2.webp") no-repeat
-    }
-    
-}
-
-.dcm.handbook-config {
-
-  .window-header {
+  
+  /* Light Theme */
+  :is(.theme-light, .dnd5e-theme-light) .dcm.selector .filter,
+  :is(.theme-light, .dnd5e-theme-light) .dcm .filter.note,
+  :is(.theme-light, .dnd5e-theme-light) .dcm.handbook-config .callout {
+    background: var(--dnd5e-color-parchment);
+  }
+  
+  :is(.theme-light, .dnd5e-theme-light) .dcm.handbook-config {
+    background: 
+      url("/systems/dnd5e/ui/texture1.webp") no-repeat top center / auto 770px,
+      var(--dnd5e-color-parchment) url("/systems/dnd5e/ui/texture2.webp") no-repeat;
+  }
+  
+  /* Handbook Config Styles
+     ========================================================================== */
+  .dcm.handbook-config .window-header {
     margin-block-end: 0.5em;
   }
-
-  .window-content {
+  
+  .dcm.handbook-config .window-content {
     background: var(--background);
     padding: 1em;
     gap: 8px;
   }
-
-  h3 {
+  
+  .dcm.handbook-config h3 {
     text-shadow: none;
     color: var(--color-text-primary);
-    margin-bottom: 0.5em;
-    margin-top: 0.5em;
+    margin: 0.5em 0;
     font-size: var(--font-h4-size);
   }
-
-  li {
+  
+  .dcm.handbook-config li {
     padding-bottom: 0.5em;
   }
-
-  label {
+  
+  .dcm.handbook-config label {
     align-items: flex-start;
     display: flex;
     gap: 4px;
   }
-
-  header {
+  
+  .dcm.handbook-config header {
     margin-block-end: 2em;
   }
-
-  .callout {
-      margin-left: 0.2em;
-      margin-right: 0.2em;
-      width:100%;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-      padding: 0.5em;
-      box-shadow: 0px 0px 5px var(--dnd5e-shadow-15);
-
-      p {
-        margin-top: 0.2em;
-        margin-bottom: 0.2em;
-        text-align: center;
-      }
-  }
-}
-
-
-  /* ---------------------------------- */
-/*  Slide Toggles                     */
-/* ---------------------------------- */
-
-.dnd5e2 label.dcm-slide-toggle {
-  display: block;
-}
-.dnd5e2 label.dcm-slide-toggle:has(input:not([disabled])) {
-  cursor: pointer;
-}
-
-dcm-slide-toggle {
-  --slide-toggle-height: 20px;
-  --slide-toggle-width: 36px;
-  --slide-toggle-padding: 3px;
-  --slide-toggle-track-color-unchecked: black;
-  --slide-toggle-track-color-checked: #3ba55d;
-  --slide-toggle-thumb-color: white;
-  --slide-toggle-thumb-width: calc(var(--slide-toggle-height) - var(--slide-toggle-padding) * 2);
-  --slide-toggle-thumb-height: var(--slide-toggle-thumb-width);
-  --slide-toggle-transition-time: 250ms;
-  display: inline-block;
-  width: var(--slide-toggle-width);
-  height: var(--slide-toggle-height);
-  cursor: pointer;
-  /* Checked state */
-}
-dcm-slide-toggle .slide-toggle-track {
-  width: 100%;
-  height: 100%;
-  background: var(--slide-toggle-track-color-unchecked);
-  border-radius: calc((var(--slide-toggle-height) * 2) / 3);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  padding: var(--slide-toggle-padding);
-}
-dcm-slide-toggle .slide-toggle-thumb {
-  width: var(--slide-toggle-thumb-width);
-  height: var(--slide-toggle-thumb-height);
-  border-radius: 100%;
-  background: var(--slide-toggle-thumb-color);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
-  text-align: center;
-  transition: margin-left var(--slide-toggle-transition-time) ease;
-}
-dcm-slide-toggle[checked] .slide-toggle-track {
-  background: var(--slide-toggle-track-color-checked);
-}
-dcm-slide-toggle[checked] .slide-toggle-thumb {
-  margin-left: calc(100% - var(--slide-toggle-thumb-width));
-}
-
-.dcm-button-row {
-  display: flex;
-  flex-direction: row; 
   
-  button.player-handbook-button {
+  .dcm.handbook-config .callout {
+    margin: 0.5em 0.2em;
+    width: 100%;
+    padding: 0.5em;
+    box-shadow: 0px 0px 5px var(--dnd5e-shadow-15);
+  }
+  
+  .dcm.handbook-config .callout p {
+    margin: 0.2em 0;
+    text-align: center;
+  }
+  
+  /* Slide Toggle Components
+     ========================================================================== */
+  .dnd5e2 label.dcm-slide-toggle {
+    display: block;
+  }
+  
+  .dnd5e2 label.dcm-slide-toggle:has(input:not([disabled])) {
+    cursor: pointer;
+  }
+  
+  /* Slide Toggle Custom Properties and Base Styles */
+  dcm-slide-toggle {
+    --slide-toggle-height: 20px;
+    --slide-toggle-width: 36px;
+    --slide-toggle-padding: 3px;
+    --slide-toggle-track-color-unchecked: black;
+    --slide-toggle-track-color-checked: #3ba55d;
+    --slide-toggle-thumb-color: white;
+    --slide-toggle-thumb-width: calc(var(--slide-toggle-height) - var(--slide-toggle-padding) * 2);
+    --slide-toggle-thumb-height: var(--slide-toggle-thumb-width);
+    --slide-toggle-transition-time: 250ms;
+    
+    display: inline-block;
+    width: var(--slide-toggle-width);
+    height: var(--slide-toggle-height);
+    cursor: pointer;
+  }
+  
+  /* Slide Toggle Track */
+  dcm-slide-toggle .slide-toggle-track {
+    width: 100%;
+    height: 100%;
+    background: var(--slide-toggle-track-color-unchecked);
+    border-radius: calc((var(--slide-toggle-height) * 2) / 3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    padding: var(--slide-toggle-padding);
+  }
+  
+  /* Slide Toggle Thumb */
+  dcm-slide-toggle .slide-toggle-thumb {
+    width: var(--slide-toggle-thumb-width);
+    height: var(--slide-toggle-thumb-height);
+    border-radius: 100%;
+    background: var(--slide-toggle-thumb-color);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
+    text-align: center;
+    transition: margin-left var(--slide-toggle-transition-time) ease;
+  }
+  
+  /* Checked State Styles */
+  dcm-slide-toggle[checked] .slide-toggle-track {
+    background: var(--slide-toggle-track-color-checked);
+  }
+  
+  dcm-slide-toggle[checked] .slide-toggle-thumb {
+    margin-left: calc(100% - var(--slide-toggle-thumb-width));
+  }
+  
+  /* Button Row Styles
+     ========================================================================== */
+  .dcm-button-row {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .dcm-button-row button.player-handbook-button {
     width: 50px;
-    margin-left: 0px;
+    margin-left: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
-
-  button.content-selector-button {
-    margin-right: 0px;
+  
+  .dcm-button-row button.content-selector-button {
+    margin-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
-}
