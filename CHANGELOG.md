@@ -1,5 +1,7 @@
-### 1.3.2
+### 1.4.0
+- Introduce Player Option Journal creation - on-demand generation of journals containing approved player options
 - Fix items still showing after a source has been removed
+- Fix checkbox and slider behaviour in D&D v3.3.1
 
 ### 1.3.1
 - Add Spotlight Omnisearch integration
