@@ -158,8 +158,6 @@ export async function createClassbook(folder, useExistingPages, sheet) {
     if (classMap.get("unknown").subclassPages.length === 0) {
         classMap.delete("unknown");
     }
-
-    console.log(classMap)
     
     // Sort classes alphabetically and flatten into single page array
     const sortedClassIds = Array.from(classMap.keys()).sort((a, b) => 

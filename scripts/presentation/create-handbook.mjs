@@ -24,8 +24,6 @@ export async function createHandbooks(options) {
     
     // Initialize array to track handbook creation promises
     const journalPromises = [];
-
-    console.log(options)
     
     // Create requested handbooks
     if (options.class) {

@@ -62,8 +62,6 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
             options.folderTitle = "Player Handbook"
         }
 
-        console.log(formData)
-
         createHandbooks(options)
     }
 
