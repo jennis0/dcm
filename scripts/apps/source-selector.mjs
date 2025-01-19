@@ -3,7 +3,6 @@ import { log } from "../lib.mjs";
 import { addSources, removeSources } from "../source-management.mjs";
 import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
 import { SlideToggleElement } from "../elements/slide-toggle.mjs";
-
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
 // Sourceelector.js
