@@ -58,19 +58,6 @@ export function initSettings() {
         log(`Registered setting ${item.enabled}`)
     })
 
-    game.settings.registerMenu(MODULE_NAME, "enableMenu",
-        {
-            name:"Filtered Types",
-            label: "Toggle Filters",
-            hint: "Choose which item types to filter",
-            scope: "world",
-            config: true,
-            type: EnableMenu,
-            restricted: true,
-            icon: "fas fa-check"
-        }
-    )
-
     game.settings.registerMenu(MODULE_NAME, "sourceMenu", 
         {
             name: "Compendium Sources",
@@ -99,14 +86,14 @@ export function initSettings() {
 
     game.settings.registerMenu(MODULE_NAME, "handbookMenu",
         {
-            name: "Player Handbook",
-            label: "Create Player Handbook",
+            name: "Player Option Journals",
+            label: "Create Player Option Journals",
             hint: "Create a set of Journals which contain the selected player options",
             scope: "world",
             config: true,
             restricted: true,
             type: PlayerHandbookMenu,
-            icon: ""
+            icon: "fas fa-book-sparkles"
         }
     )
 
@@ -144,6 +131,19 @@ export function initSettings() {
         restricted: true,
         icon: "fas fa-file-import"
       });
+
+      game.settings.register(MODULE_NAME, SETTINGS.injectCompendiumButtons, 
+        {
+            name: "Add Buttons",
+            hint: "Add buttons for configuring options and creating the player journal to the compendium tab",
+            config: true,
+            scope: "player",
+            type: Boolean,
+            default: true,
+            restricted: true,
+            requiresReload: true
+        }
+      )
       
 
       if (game.modules.get("quick-insert")) {

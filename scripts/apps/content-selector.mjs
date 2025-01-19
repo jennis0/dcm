@@ -39,16 +39,15 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     //Add a button to open the ContentSelector to the Compendium Sidebar
-    static injectSidebarButton(html) {
-        log("Injecting sidebar button")
+    static createSidebarButton() {
         const button = document.createElement("button");
+        button.classList.add("content-selector-button")
         button.type = "button";
+        button.setAttribute("data-tooltip", "Open Content Selector")
         button.innerHTML = `
           <i class="fas fa-ballot" inert></i>Configure Player Content`;
         button.addEventListener("click", event => (new ContentSelector()).render({ force: true }));
-    
-        const headerActions = html.querySelector(".header-actions");
-        headerActions.prepend(button);
+        return button;
       }
 
     async _renderFrame(options) {

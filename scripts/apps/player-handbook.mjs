@@ -33,6 +33,19 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
             resizable: false,
     }
 
+    //Add a button to open the ContentSelector to the Compendium Sidebar
+    static createSidebarButton() {
+        const button = document.createElement("button", {caption:"Create Player Option Journals"});
+        button.classList.add("player-handbook-button")
+        button.setAttribute("data-tooltip", "Create Player Option Journals")
+        button.type = "button";
+        button.innerHTML = `
+            <i class="fas fa-book-sparkles" inert></i>`;
+        button.addEventListener("click", event => (new PlayerHandbookMenu()).render({ force: true }));
+        return button;
+        }
+
+
     static PARTS = {
         enable: {
             template: `modules/${MODULE_NAME}/templates/ph.html`

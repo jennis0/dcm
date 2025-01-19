@@ -1,5 +1,5 @@
 
-import { MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
+import { getSetting, MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
 import { initSettings, initVersionSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
@@ -59,19 +59,27 @@ Hooks.once("ready", () => {
     registerSpellLists();
 
     log("Finished ready steps")
-
-    const w = new PlayerHandbookMenu()
-    w.render(true)
-
-    const w2 = new SourceSelector()
-    w2.render(true)
 })
 
 
+function injectCompendiumButtons(html) {
+    log("Injecting sidebar buttons")
+
+    const div = document.createElement("div")
+    div.setAttribute("caption", "Test Caption")
+    div.classList.add("dcm-button-row")
+    div.appendChild(ContentSelector.createSidebarButton())
+    div.appendChild(PlayerHandbookMenu.createSidebarButton())
+
+    const headerActions = html.querySelector(".header-actions");
+    headerActions.prepend(div);
+}
+
 //Add Sidebar button
 Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
+    if (getSetting(SETTINGS.injectCompendiumButtons))
         if (game.user.role === 4) {
-            ContentSelector.injectSidebarButton(html)
+            injectCompendiumButtons(html)
         };
     }
 )

@@ -152,7 +152,8 @@ export const SETTINGS = {
     lastLoadedVersion: "lastLoadedVersion",
     filterQuickInsert: "filterQuickInsert",
     filterSpotlight: "filterSpotlight",
-    premadePageCompendia: "premadePageCompendia"
+    premadePageCompendia: "premadePageCompendia",
+    injectCompendiumButtons: "injectCompendiumButtons"
 }
 
 export function getSetting(path) {

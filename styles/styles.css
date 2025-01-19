@@ -445,3 +445,21 @@ dcm-slide-toggle[checked] .slide-toggle-track {
 dcm-slide-toggle[checked] .slide-toggle-thumb {
   margin-left: calc(100% - var(--slide-toggle-thumb-width));
 }
+
+.dcm-button-row {
+  display: flex;
+  flex-direction: row; 
+  
+  button.player-handbook-button {
+    width: 50px;
+    margin-left: 0px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  button.content-selector-button {
+    margin-right: 0px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
