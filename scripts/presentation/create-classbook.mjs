@@ -56,6 +56,49 @@ async function makeClassPage(existingPages, title, classUuid, content) {
 }
 
 /**
+ * Creates a spell list journal entry
+ * 
+ * @param {string} className - Name of the target class
+ * @param {string} classIdentifier - Identifier of the target class
+ * @returns {JournalEntryPageData} The created or retrieved class page
+ */
+function makeCombinedSpellList(className, classIdentifier) {
+
+    // Don't try and make a spell list if still on v3.3.1
+    if (CONFIG.dndContentManager.systemV3) {
+        return null;
+    }
+
+    // Get class spells
+    const spells = game.system.registry.spellLists.forType("class", classIdentifier)
+    
+    // Return null if no spells registered for class
+    if (!spells) {
+        return null;
+    }
+
+    // Restrict to spells which are accepted (or take all if spell filtering disabled)
+    const filteredSpells = getSetting(SETTINGS.spell.enabled) 
+        && CONFIG.dndContentManager.index.permittedItemIndices.spell.items.size > 0? 
+            [...spells.uuids.filter(u => CONFIG.dndContentManager.index.itemInIndex("Item", "spell", u))] :
+            [...spells.uuids]
+
+    // Create new spell list page data
+    return {
+        name: `${className} Spell List`,
+        type: "spells",
+        sort: null,
+        title: {level :2},
+        system: {
+            grouping: "level",
+            identifier: "classIdentifier",
+            type: "class",
+            spells: filteredSpells
+        }
+    }    
+}
+
+/**
  * Creates or retrieves an existing subclass journal page
  * 
  * @param {Map} existingPages - Map of existing pages indexed by item UUID
@@ -118,7 +161,8 @@ export async function createClassbook(folder, useExistingPages, sheet) {
         const cls = await fromUuid(classUuid);
         return [
             cls.system.identifier,
-            await makeClassPage(existingPageIndex, cls.name, cls.uuid, cls.description)
+            await makeClassPage(existingPageIndex, cls.name, cls.uuid, cls.description),
+            makeCombinedSpellList(cls.name, cls.system.identifier)
         ];
     }));
     
@@ -130,8 +174,8 @@ export async function createClassbook(folder, useExistingPages, sheet) {
     });
     
     // Populate class map with class pages
-    classPages.forEach(([classId, page]) => 
-        classMap.set(classId, { page, subclassPages: [] })
+    classPages.forEach(([classId, page, spellListPage]) => 
+        classMap.set(classId, { page, subclassPages: [], spellListPage})
     );
     
     // Process subclasses and add them to their respective class entries
@@ -168,6 +212,11 @@ export async function createClassbook(folder, useExistingPages, sheet) {
     sortedClassIds.forEach(classId => {
         const classData = classMap.get(classId);
         allPages.push(classData.page);
+
+        if (classData.spellListPage) {
+            allPages.push(classData.spellListPage)
+        }
+
         allPages.push(...classData.subclassPages);
     });
     

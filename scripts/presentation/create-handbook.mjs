@@ -21,6 +21,9 @@ export async function createHandbooks(options) {
     if (options.folderTitle) {
         folder = await getOrCreateFolder(options.folderTitle);
     }
+
+    // Rebuild index for fast filtering
+    await CONFIG.dndContentManager.index.rebuild()
     
     // Initialize array to track handbook creation promises
     const journalPromises = [];
