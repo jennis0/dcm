@@ -29,19 +29,25 @@ export class Version extends Object {
     }
 
     versionCompare(otherVersion) {
-        const majorComp = this.major < otherVersion.major;
-        if (majorComp) {
-            return majorComp;
+        if (this.major < otherVersion.major) {
+            return -1;
+        }
+        if (this.major > otherVersion.major) {
+            return 1;
         }
 
-        const minorComp = this.minor < otherVersion.minor;
-        if (minorComp) {
-            return minorCompt
+        if (this.minor < otherVersion.minor) {
+            return -1;
         }
-
-        const buildComp = this.build < otherVersion.build;
-        if (buildComp) {
-            return buildComp
+        if (this.minor > otherVersion.minor) {
+            return 1;
+        }
+        
+        if (this.build < otherVersion.build) {
+            return -1;
+        }
+        if (this.build > otherVersion.build) {
+            return 1;
         }
 
         return 0

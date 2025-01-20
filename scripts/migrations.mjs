@@ -1,6 +1,6 @@
 import { exportSettings, importSettings } from "./export.mjs";
 import { log } from "./lib.mjs";
-import { getSetting, SETTINGS } from "./settings.mjs";
+import { getSetting, SETTINGS, MODULE_LABEL, MODULE_NAME} from "./settings.mjs";
 import { Version } from "./version-utils.mjs";
 
 
@@ -31,15 +31,48 @@ function v111MigrationRegisterSettings() {
     })
 }
 
+
+function createUpdateMessage() {
+
+    log("Creating update message")
+
+    const updates = [
+        "Introduces one-click Player Option Journal creation - see the new button on the Compendium tab",
+        "Fixed a variety of UI bugs with D&D v3.3.1"
+    ]
+
+    const content = `<p><i>Module updated to ${getSetting(SETTINGS.lastLoadedVersion)}</i></p>`
+        + "<h3>Change Log</h3><ul><li>" + updates.join("</li><li>") + "</li></ul>";
+
+
+    ChatMessage.create({content: content, author: game.userId,
+            type: CONST.CHAT_MESSAGE_STYLES.OTHER, 
+            whisper: [game.userId], 
+            speaker: {alias: `${MODULE_LABEL}`}
+        }
+    )
+}
+
+
 export function handleMigrations() {
     const currentVersion = CONFIG.dndContentManager.version;
     const lastVersion = Version.fromString(getSetting(SETTINGS.lastLoadedVersion));
 
     log(`Current version: ${currentVersion}, Last version: ${lastVersion}`)
 
+    log(lastVersion.equals(currentVersion))
+    log(currentVersion.equals(lastVersion))
+    log(currentVersion.versionCompare(lastVersion))
+    log(currentVersion.equals(new Version(1,1,0)))
+    log(lastVersion.equals(new Version(1,1,0)))
+
     if (currentVersion.equals(lastVersion)) {
         return false
     }
+    
+    Hooks.on("ready", () => {
+        createUpdateMessage()
+    })
 
     if (lastVersion.equals(new Version(1,1,0))) {
         log("Migration: Copying user settings to migrate to world settings")

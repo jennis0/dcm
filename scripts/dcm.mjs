@@ -48,6 +48,8 @@ Hooks.once("init", () => {
     log("Finished initialisation")
 })
 
+
+
 Hooks.once("ready", () => {
     // Set that we've successfully loaded this version
     setSetting(SETTINGS.lastLoadedVersion, CONFIG.dndContentManager.version.toString())
@@ -77,9 +79,18 @@ function injectCompendiumButtons(html) {
 
 //Add Sidebar button
 Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
-    if (getSetting(SETTINGS.injectCompendiumButtons))
+    
+    //Wrap catch statement in case it's loaded before the setting is fired
+    let inject = false;
+    try {
+        inject = getSetting(SETTINGS.injectCompendiumButtons)
+    } catch {
+        inject = true
+    }
+
+    if (inject)
         if (game.user.role === 4) {
             injectCompendiumButtons(html)
         };
     }
-)
+)    

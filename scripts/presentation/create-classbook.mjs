@@ -79,7 +79,7 @@ function makeCombinedSpellList(className, classIdentifier) {
 
     // Restrict to spells which are accepted (or take all if spell filtering disabled)
     const filteredSpells = getSetting(SETTINGS.spell.enabled) 
-        && CONFIG.dndContentManager.index.permittedItemIndices.spell.items.size > 0? 
+        && CONFIG.dndContentManager.index.permittedItemIndices?.spell?.items.size > 0? 
             [...spells.uuids.filter(u => CONFIG.dndContentManager.index.itemInIndex("Item", "spell", u))] :
             [...spells.uuids]
 
