@@ -41,7 +41,7 @@ function createUpdateMessage() {
         "Fixed a variety of UI bugs with D&D v3.3.1"
     ]
 
-    const content = `<p><i>Module updated to ${getSetting(SETTINGS.lastLoadedVersion)}</i></p>`
+    const content = `<p><i>Module updated to ${CONFIG.dndContentManager.version}</i></p>`
         + "<h3>Change Log</h3><ul><li>" + updates.join("</li><li>") + "</li></ul>";
 
 
@@ -59,12 +59,6 @@ export function handleMigrations() {
     const lastVersion = Version.fromString(getSetting(SETTINGS.lastLoadedVersion));
 
     log(`Current version: ${currentVersion}, Last version: ${lastVersion}`)
-
-    log(lastVersion.equals(currentVersion))
-    log(currentVersion.equals(lastVersion))
-    log(currentVersion.versionCompare(lastVersion))
-    log(currentVersion.equals(new Version(1,1,0)))
-    log(lastVersion.equals(new Version(1,1,0)))
 
     if (currentVersion.equals(lastVersion)) {
         return false
