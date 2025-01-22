@@ -468,3 +468,79 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
+
+
+  /* Item Migrate
+    ========================================================================== */
+
+/* Item Pair Styles */
+.dcm .item-pair {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+/* Item Card Styles */
+.dcm .item-card {
+  display: flex;
+  align-items: center;
+  background: var(--background-color);
+  padding: 5px;
+  border-radius: 0px;
+  margin: 0 10px;
+  width: 250px; /* Fixed width */
+  max-width: 250px;
+  min-width: 250px;
+  justify-content: left;
+  border-style: solid;
+  border-width: thin;
+  border-color: var(--dnd5e-color-gold);
+}
+
+.dcm .item-card.empty {
+  background: none;
+  height: 60px;
+  justify-content: center;
+}
+
+.dcm .item-card.is-selected {
+  box-shadow: 0 0 10px var(--dnd5e-color-gold);
+}
+
+.dcm .item-card img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  filter: grayscale(100%); /* Greyed out image */
+}
+
+.dcm .item-card .title {
+  font-weight: bold;
+}
+
+.dcm .item-card.is-selected img {
+  filter: none; /* Remove greyed out effect when selected */
+}
+
+.dcm .fas.fa-arrow-right {
+  font-size: 1.5em;
+  color: var(--text-color);
+  margin: 0 20px;
+}
+
+.dcm .item-card-text {
+  display: flex;
+  flex-direction: column;
+}
+
+:is(.theme-dark, .dnd5e-theme-dark) .dcm .item-card {
+  background: var(--dnd5e-color-blue-gray-2);
+}
+
+/* Light Theme */
+:is(.theme-light, .dnd5e-theme-light) .dcm .item-card {
+  background: var(--dnd5e-color-parchment);
+}
+

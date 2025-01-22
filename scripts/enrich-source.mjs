@@ -26,6 +26,7 @@ function getPackage(uuid) {
  * @param {string} uuid  Compendium source or document UUID.
  */
 export function enrichSource(source, uuid) {
+
     const pkg = getPackage(uuid);
     if ( !source.book ) {
         source.book = getModuleBook(pkg) ?? "";
@@ -40,4 +41,5 @@ export function enrichSource(source, uuid) {
 
     source.value = source.book || (pkg?.title ?? "");
     source.slug = source.value.slugify({ strict: true });
+    return source
 }

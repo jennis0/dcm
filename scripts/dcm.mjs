@@ -14,6 +14,7 @@ import { SourceSelector } from "./apps/source-selector.mjs";
 import { Version } from "./version-utils.mjs";
 import { DCMIndex } from "./index.mjs";
 import { PlayerHandbookMenu } from "./apps/player-handbook.mjs";
+import { ItemMigrateApp } from "./apps/item-migrate.mjs";
 
 
 Hooks.once("init", () => {
@@ -59,6 +60,12 @@ Hooks.once("ready", () => {
 
     //Add any additional spell lists
     registerSpellLists();
+
+    log("Registering item hook")
+    ItemMigrateApp.injectButton();
+
+    const w = new ItemMigrateApp({actorUuid: "Actor.227pPHhuVQlDgSFN"})
+    w.render(true)
 
     log("Finished ready steps")
 })

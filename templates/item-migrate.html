@@ -1,0 +1,45 @@
+<section>
+    {{#each items}}
+        <div class="item-pair">          
+            <div name="{{this.original_item.id}}" 
+                class="item-card {{#if (eq this.migrate -1)}}is-selected{{/if}}" 
+                data-index="-1"
+                data-action="pickMigrateOption">
+                <img src="{{this.original_item.img}}" alt="{{this.original_item.name}}">
+                <div class="item-card-text">
+                    <span class="title">{{this.original_item.name}}</span>
+                    <span>{{this.original_item.src.label}}</span>
+                </div>
+            </div>
+            <i class="fas fa-arrow-right"></i>
+            <div class="matched-items">
+                {{#if (eq this.newItems.size 0)}}
+                    <div class="item-card empty {{#if (eq migrate -2)}}is-selected{{/if}}" 
+                            name="{{this.original_item.id}}"
+                            data-action="pickMigrateOption"
+                            data-index="-2"
+                            
+                    >
+                    <div class="item-card-text">
+                        <span>Remove Item?</span>
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#each this.newItems}}
+                    <div name="{{../original_item.id}}"
+                        class="item-card {{#if (eq ../migrate @index)}}is-selected{{/if}}" 
+                        data-action="pickMigrateOption"
+                        data-index="{{@index}}">
+                        <img src="{{this.img}}" alt="{{this.name}}" 
+                            data-action="openItem" name="{{this.id}}">
+                        <div class="item-card-text">
+                            <span class="title">{{this.name}}</span>
+                            <span>{{this.src.label}}</span>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    {{/each}}
+</section>
