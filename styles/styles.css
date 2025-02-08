@@ -355,7 +355,7 @@
     gap: 8px;
   }
   
-  .dcm.handbook-config h3 {
+  .dcm h3 {
     text-shadow: none;
     color: var(--color-text-primary);
     margin: 0.5em 0;
@@ -478,35 +478,61 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    margin-top: 8px;
     justify-content: space-between;
 }
 
 /* Item Card Styles */
 .dcm .item-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
   background: var(--background-color);
   padding: 5px;
-  border-radius: 0px;
-  margin: 0 10px;
-  width: 250px; /* Fixed width */
-  max-width: 250px;
-  min-width: 250px;
+  border-radius: 2px;
+  margin: 0px;
+  width: 450px; /* Fixed width */
+  /* max-width: 250px;
+  min-width: 250px; */
   justify-content: left;
   border-style: solid;
   border-width: thin;
   border-color: var(--dnd5e-color-gold);
 }
 
+.dcm .item-card-header {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.dcm .item-card-changes {
+  margin-top: 5px;
+}
+
 .dcm .item-card.empty {
   background: none;
+  width: 223px;
+  min-width: 223px;
+  height: 60px;
+  justify-content: center;
+}
+
+.dcm .item-card.drop {
+  border-style: dashed;
+  background: none;
+  width: 223px;
+  min-width: 223px;
   height: 60px;
   justify-content: center;
 }
 
 .dcm .item-card.is-selected {
   box-shadow: 0 0 10px var(--dnd5e-color-gold);
+  border-width: 1px;
+  border-color: var(--dnd5e-color-maroon);
 }
 
 .dcm .item-card img {
@@ -524,7 +550,7 @@
   filter: none; /* Remove greyed out effect when selected */
 }
 
-.dcm .fas.fa-arrow-right {
+.dcm .item-pair .fas.fa-arrow-right {
   font-size: 1.5em;
   color: var(--text-color);
   margin: 0 20px;
@@ -535,6 +561,32 @@
   flex-direction: column;
 }
 
+.dcm .item-pair-list {
+  overflow-y: auto;
+  max-height: 1000px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.dcm .form-footer {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+}
+
+.dcm .matched-items{
+  gap: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dcm .default-matched-items {
+  display:flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+
 :is(.theme-dark, .dnd5e-theme-dark) .dcm .item-card {
   background: var(--dnd5e-color-blue-gray-2);
 }
@@ -544,3 +596,84 @@
   background: var(--dnd5e-color-parchment);
 }
 
+/* Item Migrate Table
+  ========================================================================== */
+
+.dcm .item-card table {
+    background: var(--dnd5e-color-card);
+    border-color: var(--dnd5e-color-gold);
+    border-radius: 0;
+    margin: 0;
+    table-layout: fixed; /* Ensure table respects specified widths */
+    width: 100%; /* Ensure table takes full width */
+}
+
+.dcm .item-card table table thead tr:nth-child(n) {
+  background: unset;
+}
+.dcm .item-card table table thead td {
+  word-break: normal;
+}
+.dcm .item-card table thead th {
+  line-height: normal;
+  font-size: var(--font-size-10);
+}
+.dcm .item-card table tr {
+  font-size: var(--font-size-10);
+  padding: 5px;
+}
+.dcm .item-card table tr:nth-child(even) {
+  background-color: var(--dnd5e-color-table-row-even);
+}
+.dcm .item-card table tr:nth-child(odd) {
+  background-color: var(--dnd5e-color-table-row-odd);
+}
+.dcm .item-card table td {
+  display: inline-block;
+  padding: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dcm .item-card td.table-arrow {
+  width: 30px; 
+}
+.dcm .item-card td.table-arrow i.fas.fa-arrow-right {
+  margin-left: 8px;
+}
+
+
+.dcm .item-card tr > td.header {
+  width: 120px;
+}
+.dcm .item-card td.to {
+  width: 140px;
+}
+.dcm .item-card td.from {
+  width: 140px; 
+}
+
+
+.dcm .item-card .accept-table tr > td.header {
+  width: 115px;
+}
+.dcm .item-card .accept-table tr > td.accept {
+  width: 25px;
+}
+.dcm .item-card .accept-table td.to {
+  width: 130px;
+}
+.dcm .item-card .accept-table td.from {
+  width: 130px; 
+}
+
+.dcm .item-card .item-card-changes h4{
+  font-size: var(--font-size-14);
+  color: var(--color-text-primary);
+  text-shadow: none;
+  font-weight:bold;
+  margin-top: 0.2em;
+  margin-bottom: 0.1em;
+  padding-bottom: 0;
+}

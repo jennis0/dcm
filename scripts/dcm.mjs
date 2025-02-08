@@ -64,7 +64,7 @@ Hooks.once("ready", () => {
     log("Registering item hook")
     ItemMigrateApp.injectButton();
 
-    const w = new ItemMigrateApp({actorUuid: "Actor.227pPHhuVQlDgSFN"})
+    const w = new ItemMigrateApp({actorUuid: "Actor.QuW4ORA59uoLOhSQ"})
     w.render(true)
 
     log("Finished ready steps")

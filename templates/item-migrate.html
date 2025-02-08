@@ -1,45 +1,112 @@
+{{#*inline ".changeTable"}}
+    <div class="item-card-changes">
+        <!-- <h4>Changes</h4> -->
+        <table>
+            <tbody>
+                {{#each changes}}
+                <label>
+                <tr>
+                    
+                    <td class="header"><b>{{label}}</b></td>
+                    
+                    <td class="from">{{from}}</td>
+                    <td class="table-arrow"><i class="fas fa-arrow-right"></i></td>
+                    <td class="to">{{to}}</td>
+                </tr>
+            </label>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+{{/inline}}
+
+{{#*inline ".acceptedChangeTable"}}
+    <div class="item-card-changes accept-table">
+        <!-- <h4>Changes</h4> -->
+        <table>
+            <tbody>
+                {{#each changes}}
+                <tr>
+                    <td class="accept"><dcm-checkbox checked/></td>
+                    <td class="header"><b>{{label}}</b></td>
+                    <td class="from">{{from}}</td>
+                    <td class="table-arrow"><i class="fas fa-arrow-right"></i></td>
+                    <td class="to">{{to}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+{{/inline}}
+
 <section>
+    <div class="migration-text">
+        <p>The following items have been identified for migration. The items on the left are the originals, 
+            the items on the right are the identified replacements from the approved content. If there are 
+        multiple possible options, they are all included, select which one to keep.</p>
+    </div>
+    <div class="item-pair-list">
+    <h3>Items to Migrate</h3>
     {{#each items}}
-        <div class="item-pair">          
+        <div class="item-pair">
             <div name="{{this.original_item.id}}" 
                 class="item-card {{#if (eq this.migrate -1)}}is-selected{{/if}}" 
                 data-index="-1"
                 data-action="pickMigrateOption">
-                <img src="{{this.original_item.img}}" alt="{{this.original_item.name}}">
-                <div class="item-card-text">
-                    <span class="title">{{this.original_item.name}}</span>
-                    <span>{{this.original_item.src.label}}</span>
+                <div class="item-card-header">
+                    <img src="{{this.original_item.img}}" 
+                        alt="{{this.original_item.name}}"
+                        name="{{this.original_item.uuid}}"
+                        data-action="openItem"
+                    >
+                    <div class="item-card-text">
+                        <span class="title">{{this.original_item.name}}</span>
+                        <span>{{this.original_item.src.label}}</span>
+                    </div>
                 </div>
+                {{#if this.original_item.changes}}
+                    {{> ".changeTable" changes=this.original_item.changes}}
+                {{/if}}
             </div>
             <i class="fas fa-arrow-right"></i>
             <div class="matched-items">
-                {{#if (eq this.newItems.size 0)}}
-                    <div class="item-card empty {{#if (eq migrate -2)}}is-selected{{/if}}" 
-                            name="{{this.original_item.id}}"
-                            data-action="pickMigrateOption"
-                            data-index="-2"
-                            
-                    >
-                    <div class="item-card-text">
-                        <span>Remove Item?</span>
-                    </div>
-                </div>
-                {{/if}}
-
                 {{#each this.newItems}}
                     <div name="{{../original_item.id}}"
                         class="item-card {{#if (eq ../migrate @index)}}is-selected{{/if}}" 
                         data-action="pickMigrateOption"
                         data-index="{{@index}}">
-                        <img src="{{this.img}}" alt="{{this.name}}" 
-                            data-action="openItem" name="{{this.id}}">
-                        <div class="item-card-text">
-                            <span class="title">{{this.name}}</span>
-                            <span>{{this.src.label}}</span>
+                        <div class="item-card-header">
+                            <img src="{{this.img}}" alt="{{this.name}}" 
+                                data-action="openItem" name="{{this.id}}">
+                            <div class="item-card-text">
+                                <span class="title">{{this.name}}</span>
+                                <span><i>{{this.src.label}}</i></span>
+                            </div>
                         </div>
+                        {{#if this.changes}}
+                            {{> ".acceptedChangeTable" changes=this.changes}}
+                        {{/if}}
                     </div>
                 {{/each}}
+                <div class="default-matched-items">
+                    <div class="item-card empty {{#if (eq migrate -2)}}is-selected{{/if}}" 
+                        name="{{this.original_item.id}}"
+                        data-action="pickMigrateOption"
+                        data-index="-2">
+                        <div class="item-card-text">
+                            <span>Remove Item?</span>
+                        </div>
+                    </div>
+                    <div class="item-card drop" 
+                        name="{{this.original_item.id}}">
+                        <div class="item-card-text">
+                            <span>Drag New Option</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <hr/>
     {{/each}}
+    </div>
 </section>
