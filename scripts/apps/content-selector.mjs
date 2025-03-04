@@ -302,6 +302,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         if (!doc.system.source) {
             doc.system.source = {}
         }
+        if (typeof doc.system.source === 'string') {
+          doc.system.source = {
+            book: doc.system.source
+          }
+        }
         //dnd5e.dataModels.shared.SourceField.prepareData.call(doc.system.source, doc.uuid);
         enrichSource(doc.system.source, doc.uuid);
         return doc;
@@ -323,7 +328,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             (d) => {
                 const levelInt = d.system.level;
                 const level = levelInt === 0 ? "Cantrip" : `${getOrdinalSuffix(levelInt)} level`
-                const school = CONFIG.DND5E.spellSchools[d.system.school].label;
+                const school = CONFIG.DND5E.spellSchools[d.system.school]?.label ?? "Unknown";
                 return {metadata: `${level} | ${school}`, levelInt: levelInt, level: level, school: school}},
             (a,b) => a.label.localeCompare(b.label),
             selectedOptions,
@@ -373,8 +378,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
     _getFeats(pack, selectedOptions) {
         return this._fetch(pack,
-            d => d.type === "feat" && d.system.type.value === "feat",
-            d => {return {metadata: getFeatType(d.system.type.subtype)}},
+            d => d.type === "feat" && d.system.type?.value === "feat",
+            d => {return {metadata: getFeatType(d.system.type?.subtype)}},
             (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label),
             selectedOptions,
             ["system.type"]
