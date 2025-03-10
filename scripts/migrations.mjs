@@ -3,7 +3,9 @@ import { log } from "./lib.mjs";
 import { getSetting, SETTINGS, MODULE_LABEL, MODULE_NAME} from "./settings.mjs";
 import { Version } from "./version-utils.mjs";
 
-
+/**
+ * Handles a bug from v1.1.0 where user settings were not copied to world settings
+ */
 function v111MigrationRegisterSettings() {
     SETTINGS.itemtypes.forEach(i => {
         const item = SETTINGS[i];
@@ -31,7 +33,9 @@ function v111MigrationRegisterSettings() {
     })
 }
 
-
+/**
+ * Creates a chat message describing the changes in the current version
+ */
 function createUpdateMessage() {
 
     log("Creating update message")
@@ -53,7 +57,9 @@ function createUpdateMessage() {
     )
 }
 
-
+/**
+ * Checks current and last loaded versions and handles any necessary migrations
+ */
 export function handleMigrations() {
     const currentVersion = CONFIG.dndContentManager.version;
     const lastVersion = Version.fromString(getSetting(SETTINGS.lastLoadedVersion));
