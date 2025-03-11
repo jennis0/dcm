@@ -162,7 +162,8 @@ export const SETTINGS = {
     filterQuickInsert: "filterQuickInsert",
     filterSpotlight: "filterSpotlight",
     premadePageCompendia: "premadePageCompendia",
-    injectCompendiumButtons: "injectCompendiumButtons"
+    injectCompendiumButtons: "injectCompendiumButtons",
+    injectItemButton: "injectItemButton"
 }
 
 /**

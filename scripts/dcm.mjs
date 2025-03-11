@@ -14,6 +14,7 @@ import { SourceSelector } from "./apps/source-selector.mjs";
 import { Version } from "./version-utils.mjs";
 import { DCMIndex } from "./index.mjs";
 import { PlayerHandbookMenu } from "./apps/player-handbook.mjs";
+import { registerUIButtons } from "./headers.mjs";
 
 
 Hooks.once("init", () => {
@@ -60,37 +61,21 @@ Hooks.once("ready", () => {
     //Add any additional spell lists
     registerSpellLists();
 
+    //Add header and sidebar buttons
+    registerUIButtons();
+
     log("Finished ready steps")
+
+    const item = fromUuid("Compendium.dnd-dungeon-masters-guide.equipment.Item.dmgBeadOfForce00");
+    item.then(i => i.sheet.render(true));
+
+    fromUuid("Compendium.dnd5e.items.Item.eVbPkYjpl29RE2uW").then(i => i.sheet.render(true));
 })
 
 
-function injectCompendiumButtons(html) {
-    log("Injecting sidebar buttons")
 
-    const div = document.createElement("div")
-    div.setAttribute("caption", "Test Caption")
-    div.classList.add("dcm-button-row")
-    div.appendChild(ContentSelector.createSidebarButton())
-    div.appendChild(PlayerHandbookMenu.createSidebarButton())
 
-    const headerActions = html.querySelector(".header-actions");
-    headerActions.prepend(div);
-}
 
-//Add Sidebar button
-Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
-    
-    //Wrap catch statement in case it's loaded before the setting is fired
-    let inject = false;
-    try {
-        inject = getSetting(SETTINGS.injectCompendiumButtons)
-    } catch {
-        inject = true
-    }
 
-    if (inject)
-        if (game.user.role === 4) {
-            injectCompendiumButtons(html)
-        };
-    }
-)    
+
+
