@@ -1,5 +1,5 @@
 import {getSetting, SETTINGS} from '../settings.mjs';
-import { getAllItems, makeJournal, makePage, addPages } from './common.mjs';
+import { getAllItems, makeJournal, makePage, addPages, makeSpellPage } from './common.mjs';
 
 
 /**
@@ -84,18 +84,11 @@ function makeCombinedSpellList(className, classIdentifier) {
             [...spells.uuids]
 
     // Create new spell list page data
-    return {
-        name: `${className} Spell List`,
-        type: "spells",
-        sort: null,
-        title: {level :2},
-        system: {
-            grouping: "level",
-            identifier: "classIdentifier",
-            type: "class",
-            spells: filteredSpells
-        }
-    }    
+    return makeSpellPage(
+        `${className} Spell List`,
+        filteredSpells,
+        2
+    )
 }
 
 /**
