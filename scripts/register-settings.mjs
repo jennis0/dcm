@@ -191,12 +191,12 @@ export function initSettings() {
 
     game.settings.register(MODULE_NAME, SETTINGS.playerHandbookOptions, 
         {
-            name: "Default Handbook Title",
+            name: "Player Handbook Options",
             config: false,
             default: {
                 class: true,
                 races: true,
-                backgrounds: false,
+                backgrounds: true,
                 feats: true,
                 spells: true,
                 existingPages: true,
