@@ -161,7 +161,6 @@ export const SETTINGS = {
     lastLoadedVersion: "lastLoadedVersion",
     filterQuickInsert: "filterQuickInsert",
     filterSpotlight: "filterSpotlight",
-    premadePageCompendia: "premadePageCompendia",
     injectCompendiumButtons: "injectCompendiumButtons",
     injectItemButton: "injectItemButton",
     playerHandbookOptions: "playerHandbookOptions"
