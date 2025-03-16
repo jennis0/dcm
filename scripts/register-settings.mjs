@@ -189,5 +189,24 @@ export function initSettings() {
         )
     }
 
+    game.settings.register(MODULE_NAME, SETTINGS.playerHandbookOptions, 
+        {
+            name: "Default Handbook Title",
+            config: false,
+            default: {
+                class: true,
+                races: true,
+                backgrounds: false,
+                feats: true,
+                spells: true,
+                existingPages: true,
+                folderTitle: "Player Handbook",
+                styleOption: null
+            },
+            restricted: true,
+            type: Object
+        }
+    ) 
+
     console.groupEnd()
 }

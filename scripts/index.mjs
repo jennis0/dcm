@@ -7,7 +7,6 @@ import { getSources } from "./source-management.mjs";
 export class DCMIndex extends Object {
     constructor() {
         super();
-        this.needsRebuild = false;
         this.itemTypeToIndexMap = new Map();
         this.permittedItemIndices = new Map();
     }
@@ -41,10 +40,12 @@ export class DCMIndex extends Object {
         return index;
     };
 
+    //Rebuilds the index
     rebuild() {
         log("Rebuilding DCM Index")
         this.itemTypeToIndexMap = DCMIndex._buildIndexMap();
         this.permittedItemIndices = DCMIndex._buildItemIndices();
+        CONFIG.dndContentManager.forceRebuild = false;
     }
 
     itemInIndex(documentType, subType, uuid) {

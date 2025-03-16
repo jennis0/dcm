@@ -1,4 +1,6 @@
 import { SourceSelector } from "./apps/source-selector.mjs";
+import { ContentSelector } from "./apps/content-selector.mjs";
+import { PlayerHandbookMenu } from "./apps/player-handbook.mjs";
 import { addContent, removeContent } from "./content-management.mjs";
 import { log } from "./lib.mjs";
 import { getSetting, SETTINGS } from "./settings.mjs";
@@ -38,8 +40,6 @@ async function injectItemButton(app, buttons) {
     }
 
     const handleItemToggle = (event) => {
-        console.log(event)
-
         if (!disabled) {
             if (event.target.classList.contains("fa-eye-slash")) {
                 event.target.classList.remove("fa-eye-slash");
@@ -57,8 +57,6 @@ async function injectItemButton(app, buttons) {
             source.render(true)
         }
     }
-
-    console.log(app);
 
     //Insert to left of close button
     buttons.unshift(
@@ -87,13 +85,30 @@ function injectCompendiumButtons(html) {
 
     const headerActions = html.querySelector(".header-actions");
     headerActions.prepend(div);
+
+    log(headerActions)
 }
 
+/**
+ * Registers the Interface buttons - needs to be done pre-render step in init
+ */
+export function registerInterfaceButtons() {
+    if (getSetting(SETTINGS.injectCompendiumButtons)) {
+        Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
+            if (game.user.role == 4) {
+                log("Adding compendium sidebar buttons")
+                injectCompendiumButtons(html)
+            }
+        })
+    }
+    log("Registered interface buttons");
+}
 
 /**
- * Registers the UI buttons for the DND5e system.
+ * Registers the System buttons - needs to be done post system initialisation
+ *  in ready step
  */
-export function registerUIButtons() {
+export function registerSystemButtons() {
 
     //If DM, don't do anything
     if (game.user.role != 4) {
@@ -106,11 +121,5 @@ export function registerUIButtons() {
         })
     }
 
-    if (getSetting(SETTINGS.injectCompendiumButtons)) {
-        Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
-            injectCompendiumButtons(html)
-        })
-    }
-
-    log("Registered header buttons");
+    log("Registered system buttons");
 }

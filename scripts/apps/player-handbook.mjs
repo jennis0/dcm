@@ -73,10 +73,13 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
      */
     static async submitHandler(event, form, formData) {
         const options = formData.object;
+
         if (!options.folderTitle) {
-            options.folderTitle = "Player Handbook";
+            options.folderTitle = getSetting(SETTINGS.playerHandbookOptions).folderTitle;
+
         }
 
+        setSetting(SETTINGS.playerHandbookOptions, options)
         createHandbooks(options)
     }
 
@@ -97,23 +100,14 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
         }];
 
         // Set default options for handbook content
-        context.options = {
-            class: true,
-            races: true,
-            backgrounds: true,
-            feats: true,
-            spells: true,
-            existingPages: true,
-            folderTitle: null,
-            journalStyle: null
-        };
-
+        context.options = getSetting(SETTINGS.playerHandbookOptions)
         // Prepare journal style options
         context.styleOptions = [
             { value: null, label: "Default Style", selected: true },
             ...Object.keys(CONFIG.JournalEntry.sheetClasses.base).map(k => ({
                 value: k,
-                label: CONFIG.JournalEntry.sheetClasses.base[k].label
+                label: CONFIG.JournalEntry.sheetClasses.base[k].label,
+                selected: k === context.options.styleOption
             }))
         ];
 

@@ -163,7 +163,8 @@ export const SETTINGS = {
     filterSpotlight: "filterSpotlight",
     premadePageCompendia: "premadePageCompendia",
     injectCompendiumButtons: "injectCompendiumButtons",
-    injectItemButton: "injectItemButton"
+    injectItemButton: "injectItemButton",
+    playerHandbookOptions: "playerHandbookOptions"
 }
 
 /**

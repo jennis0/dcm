@@ -4,17 +4,14 @@ import { log } from "./lib.mjs";
 import { initSettings, initVersionSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
 import { handleMigrations } from "./migrations.mjs";
-import { ContentSelector } from "./apps/content-selector.mjs";
 
 import { patchCompendiumBrowser } from "./integrations/compendium-filters.mjs";
 import { patchQuickInsert } from "./integrations/quick-insert.mjs";
 import { patchSpotlightOmnisearch } from "./integrations/spotlight.mjs";
 
-import { SourceSelector } from "./apps/source-selector.mjs";
 import { Version } from "./version-utils.mjs";
 import { DCMIndex } from "./index.mjs";
-import { PlayerHandbookMenu } from "./apps/player-handbook.mjs";
-import { registerUIButtons } from "./headers.mjs";
+import { registerInterfaceButtons, registerSystemButtons } from "./ui-integration.mjs";
 
 
 Hooks.once("init", () => {
@@ -31,17 +28,21 @@ Hooks.once("init", () => {
             && game.settings.get("dnd5e", "rulesVersion") === "modern",
         index: new DCMIndex()
     };
-    
+
     //Perform any migration work we need to do
     handleMigrations();
 
     //Register settings
     initSettings();
+    
+    //Add custom buttons to the Foundry UI
+    registerInterfaceButtons();
 
-    //Load integrations with other modules (if present)
-    patchQuickInsert();
-    patchSpotlightOmnisearch();
+    Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
+        log("Init Injecting injecting")
+    })
 
+    //Patch terminology for D&D5e v3
     if (!CONFIG.dndContentManager.modernRules) {
         SETTINGS.race.label = "Races"
     }
@@ -61,15 +62,14 @@ Hooks.once("ready", () => {
     //Add any additional spell lists
     registerSpellLists();
 
-    //Add header and sidebar buttons
-    registerUIButtons();
+    //Add custom buttons to the D&D5e Item Sheet
+    registerSystemButtons();
+
+    //Load integrations with other modules (if present)
+    patchQuickInsert();
+    patchSpotlightOmnisearch();
 
     log("Finished ready steps")
-
-    const item = fromUuid("Compendium.dnd-dungeon-masters-guide.equipment.Item.dmgBeadOfForce00");
-    item.then(i => i.sheet.render(true));
-
-    fromUuid("Compendium.dnd5e.items.Item.eVbPkYjpl29RE2uW").then(i => i.sheet.render(true));
 })
 
 
