@@ -41,8 +41,10 @@ function createUpdateMessage() {
     log("Creating update message")
 
     const updates = [
-        "Introduces one-click Player Option Journal creation - see the new button on the Compendium tab",
-        "Fixed a variety of UI bugs with D&D v3.3.1"
+        "Fix for Quick Insert integration broken by latest QI update",
+        "Retain settings when generating player handbooks",
+        "Hide/Unhide items directly from the 5e Item Sheet",
+        "Fix for labels of custom feat types",
     ]
 
     const content = `<p><i>Module updated to ${CONFIG.dndContentManager.version}</i></p>`
