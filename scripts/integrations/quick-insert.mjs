@@ -11,6 +11,9 @@ class SearchLibProxy {
 
             get(target, prop) {
                 if (prop === 'search') {
+                    if (CONFIG.dndContentManager.forceRebuild) {
+                        CONFIG.dndContentManager.index.rebuild();   
+                    }
                     return function(...args) {
                         return target[prop].apply(target, args) // Forward the call
                             .filter(r => CONFIG.dndContentManager.index.quickInsertItemInIndex(r.item))
@@ -43,21 +46,18 @@ export async function patchQuickInsert()
         return false;
     }
 
-    Hooks.on("renderSearchAppV2", async () => {    
-        //If searchLib hasn't yet been constructucted force one to exist
-        if (!globalThis.QuickInsert.searchLib) {
-            await globalThis.QuickInsert.forceIndex();
-        }
-        
-        //Wrap the searchLib so we can filter the results
-        if (!(globalThis.QuickInsert.searchLib.isSearchLibProxy)) {
-            globalThis.QuickInsert.searchLib = new SearchLibProxy(
-                globalThis.QuickInsert.searchLib
-            );
-        }
-        //Create updated set of filters and indicies
-        CONFIG.dndContentManager.index.rebuild();   
-        log("Amended Quick Insert filters")
-    })
+    //If searchLib hasn't yet been constructed force one to exist
+    if (!globalThis.QuickInsert.searchLib) {
+        await globalThis.QuickInsert.forceIndex();
+    }
+    
+    //Wrap the searchLib so we can filter the results
+    if (!(globalThis.QuickInsert.searchLib.isSearchLibProxy)) {
+        globalThis.QuickInsert.searchLib = new SearchLibProxy(
+            globalThis.QuickInsert.searchLib
+        );
+    }
+
+    log("Amended Quick Insert filters")
     return true;
 }

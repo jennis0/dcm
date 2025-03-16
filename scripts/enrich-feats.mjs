@@ -6,8 +6,8 @@ const FEAT_TYPES = new Map([
 ])
 
 export function getFeatType(ident) {
-    if (FEAT_TYPES.has(ident)) {
-        return FEAT_TYPES.get(ident)
+    if (CONFIG.DND5E.featureTypes.feat.has(ident)) {
+        return CONFIG.DND5E.featureTypes.feat.get(ident)
     }
     return "Feat"
 }

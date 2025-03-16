@@ -1,3 +1,9 @@
+### 1.4.1
+- Fix for Quick Insert integration broken by latest QI update
+- Retain settings when generating player handbooks
+- Hide/Unhide items directly from the 5e Item Sheet
+- Fix for labels of custom feat types
+
 ### 1.4.0
 - Introduce Player Option Journal creation - on-demand generation of journals containing approved player options
 - Fix items still showing after a source has been removed

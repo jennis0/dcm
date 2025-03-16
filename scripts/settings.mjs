@@ -1,8 +1,14 @@
 export const MODULE_NAME = "dnd5e-content-manager"
 export const MODULE_LABEL = "DnD Content Manager"
 
+/**
+ * A global settings object for the module
+ */
 export const SETTINGS = {
 
+    /**
+     * The list of item types that can be managed by the module
+     */
     itemtypes: [
         "class",
         "subclass",
@@ -14,6 +20,9 @@ export const SETTINGS = {
         "spelllist"
     ],
 
+    /**
+     * Configuration of the 'item' type management
+     */
     items : {
         label: "Items",
         metadataLabel: "Type",
@@ -153,13 +162,28 @@ export const SETTINGS = {
     filterQuickInsert: "filterQuickInsert",
     filterSpotlight: "filterSpotlight",
     premadePageCompendia: "premadePageCompendia",
-    injectCompendiumButtons: "injectCompendiumButtons"
+    injectCompendiumButtons: "injectCompendiumButtons",
+    injectItemButton: "injectItemButton",
+    playerHandbookOptions: "playerHandbookOptions"
 }
 
+/**
+ * Wrapper for game.settings.get that includes the module name
+ * @param {string} path - The path of the setting
+ * @returns {*} The value of the setting
+ */
 export function getSetting(path) {
     return game.settings.get(MODULE_NAME, path);
 }
 
+/**
+ * Sets a game setting and incorporates checks for whether user has the 
+ * correct role to do so.
+ * @param {string} path - The path of the setting
+ * @param {*} value - The value of the setting
+ * @param {number} min_role - The minimum role required to set the setting. Default is 4 (GM)
+ * @returns 
+ */
 export function setSetting(path, value, min_role=4) {
     if (game.user.role < min_role) {
         return

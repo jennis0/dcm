@@ -134,7 +134,7 @@ export function initSettings() {
 
       game.settings.register(MODULE_NAME, SETTINGS.injectCompendiumButtons, 
         {
-            name: "Add Buttons",
+            name: "Add Compendium Sidebar Buttons",
             hint: "Add buttons for configuring options and creating the player journal to the compendium tab",
             config: true,
             scope: "player",
@@ -143,8 +143,21 @@ export function initSettings() {
             restricted: true,
             requiresReload: true
         }
-      )
+      );
       
+      
+      game.settings.register(MODULE_NAME, SETTINGS.injectItemButton, 
+        {
+            name: "Add Item Toggle",
+            hint: "Adds toggle to item sheets to directly enable/disable without opening the configuration menu",
+            config: true,
+            scope: "player",
+            type: Boolean,
+            default: true,
+            restricted: true,
+            requiresReload: true
+        }
+      );
 
       if (game.modules.get("quick-insert")) {
         game.settings.register(MODULE_NAME, SETTINGS.filterQuickInsert, 
@@ -175,6 +188,25 @@ export function initSettings() {
             }
         )
     }
+
+    game.settings.register(MODULE_NAME, SETTINGS.playerHandbookOptions, 
+        {
+            name: "Default Handbook Title",
+            config: false,
+            default: {
+                class: true,
+                races: true,
+                backgrounds: false,
+                feats: true,
+                spells: true,
+                existingPages: true,
+                folderTitle: "Player Handbook",
+                styleOption: null
+            },
+            restricted: true,
+            type: Object
+        }
+    ) 
 
     console.groupEnd()
 }

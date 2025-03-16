@@ -4,16 +4,14 @@ import { log } from "./lib.mjs";
 import { initSettings, initVersionSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
 import { handleMigrations } from "./migrations.mjs";
-import { ContentSelector } from "./apps/content-selector.mjs";
 
 import { patchCompendiumBrowser } from "./integrations/compendium-filters.mjs";
 import { patchQuickInsert } from "./integrations/quick-insert.mjs";
 import { patchSpotlightOmnisearch } from "./integrations/spotlight.mjs";
 
-import { SourceSelector } from "./apps/source-selector.mjs";
 import { Version } from "./version-utils.mjs";
 import { DCMIndex } from "./index.mjs";
-import { PlayerHandbookMenu } from "./apps/player-handbook.mjs";
+import { registerInterfaceButtons, registerSystemButtons } from "./ui-integration.mjs";
 
 
 Hooks.once("init", () => {
@@ -30,17 +28,21 @@ Hooks.once("init", () => {
             && game.settings.get("dnd5e", "rulesVersion") === "modern",
         index: new DCMIndex()
     };
-    
+
     //Perform any migration work we need to do
     handleMigrations();
 
     //Register settings
     initSettings();
+    
+    //Add custom buttons to the Foundry UI
+    registerInterfaceButtons();
 
-    //Load integrations with other modules (if present)
-    patchQuickInsert();
-    patchSpotlightOmnisearch();
+    Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
+        log("Init Injecting injecting")
+    })
 
+    //Patch terminology for D&D5e v3
     if (!CONFIG.dndContentManager.modernRules) {
         SETTINGS.race.label = "Races"
     }
@@ -60,37 +62,20 @@ Hooks.once("ready", () => {
     //Add any additional spell lists
     registerSpellLists();
 
+    //Add custom buttons to the D&D5e Item Sheet
+    registerSystemButtons();
+
+    //Load integrations with other modules (if present)
+    patchQuickInsert();
+    patchSpotlightOmnisearch();
+
     log("Finished ready steps")
 })
 
 
-function injectCompendiumButtons(html) {
-    log("Injecting sidebar buttons")
 
-    const div = document.createElement("div")
-    div.setAttribute("caption", "Test Caption")
-    div.classList.add("dcm-button-row")
-    div.appendChild(ContentSelector.createSidebarButton())
-    div.appendChild(PlayerHandbookMenu.createSidebarButton())
 
-    const headerActions = html.querySelector(".header-actions");
-    headerActions.prepend(div);
-}
 
-//Add Sidebar button
-Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
-    
-    //Wrap catch statement in case it's loaded before the setting is fired
-    let inject = false;
-    try {
-        inject = getSetting(SETTINGS.injectCompendiumButtons)
-    } catch {
-        inject = true
-    }
 
-    if (inject)
-        if (game.user.role === 4) {
-            injectCompendiumButtons(html)
-        };
-    }
-)    
+
+

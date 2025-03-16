@@ -7,7 +7,6 @@ import { getSources } from "./source-management.mjs";
 export class DCMIndex extends Object {
     constructor() {
         super();
-        this.needsRebuild = false;
         this.itemTypeToIndexMap = new Map();
         this.permittedItemIndices = new Map();
     }
@@ -41,10 +40,12 @@ export class DCMIndex extends Object {
         return index;
     };
 
+    //Rebuilds the index
     rebuild() {
         log("Rebuilding DCM Index")
         this.itemTypeToIndexMap = DCMIndex._buildIndexMap();
         this.permittedItemIndices = DCMIndex._buildItemIndices();
+        CONFIG.dndContentManager.forceRebuild = false;
     }
 
     itemInIndex(documentType, subType, uuid) {
@@ -90,6 +91,40 @@ export class DCMIndex extends Object {
 
     compendiumBrowserItemInIndex(item) {
         return this.itemInIndex("Item", item.type, item.uuid)
+    }
+
+    itemTypeInIndex(item) {
+        const indexName = this.getItemIndexType(item)
+        if (indexName === null) {
+            return false;
+        }
+
+        const itemIndex = this.permittedItemIndices[indexName];
+        if (itemIndex === undefined || itemIndex === null) {
+            return false;
+        }
+        return true;
+    }
+
+    itemSourceInIndex(item) {
+
+        if (!this.itemTypeInIndex(item)) {
+            return false;
+        }
+
+        const parsedUuid = foundry.utils.parseUuid(item.uuid);
+
+        return this.permittedItemIndices[this.itemTypeToIndexMap[item.type]]
+            .sources
+            .has(parsedUuid.collection.metadata.id)
+    }
+
+    getItemIndexType(item) {
+        const indexName = this.itemTypeToIndexMap[item.type];
+        if (indexName === undefined || indexName === null) {
+            return null;
+        }
+        return indexName;
     }
 
 }
