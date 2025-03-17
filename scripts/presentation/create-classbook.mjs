@@ -137,12 +137,12 @@ export async function createClassbook(folder, useExistingPages, sheet) {
     // Get classes based on settings or get all available classes
     const classes = getSetting(SETTINGS.class.enabled)
         ? getSetting(SETTINGS.class.content) 
-        : getAllItems("class");
+        : await getAllItems("class");
     
     // Get subclasses based on settings or get all available subclasses
     const subclasses = getSetting(SETTINGS.subclass.enabled)
         ? getSetting(SETTINGS.subclass.content)
-        : getAllItems("subclass");
+        : await getAllItems("subclass");
     
     // Build index of existing pages if requested
     const existingPageIndex = useExistingPages 

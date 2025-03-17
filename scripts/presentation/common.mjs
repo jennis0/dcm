@@ -1,17 +1,39 @@
 import { SETTINGS } from "../settings.mjs"
 
 /**
+ * Retrieves all item UUIDs of a specified type from a single pack.
+ * Applies special filtering to handle feats
+ *
+ * @param {string} type - The type of items to retrieve.
+ * @param {strimg} pack - The pack to retrieve items from 
+ * @returns {Promise<string[]>} An array of item UUIDs of the specified type.
+ */
+async function getItemsFromPack(type, pack) {
+    if (type === 'feat') {
+        return await pack.getIndex(
+            {fields: new Set(["uuid", "system.type"])}
+        )
+        .then(
+            index =>  index.filter(d => d.system.type?.value === type)
+                .map(d => d.uuid)
+        )
+    }
+    return await pack.index.filter(d => d.type === type).map(item => item.uuid)
+}
+
+/**
  * Retrieves all item UUIDs of a specified type from the game packs.
  *
  * @param {string} type - The type of items to retrieve.
  * @returns {string[]} An array of item UUIDs of the specified type.
  */
-export function getAllItems(type) {
-    return game.packs.filter(p => p.metadata.type === "Item")
+export async function getAllItems(type) {
+    return (await Promise.all(game.packs.filter(p => p.metadata.type === "Item")
         .map(
-            p => p.index.filter(item => item.type === type).map(item => item.uuid)
-        ).flat()
+            async (p) => await getItemsFromPack(type, p)
+        ))).flat()
 }
+
 
 /**
  * Creates a new journal entry with the specified title, sheet, journal type, and folder.

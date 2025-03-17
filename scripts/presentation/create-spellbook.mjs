@@ -16,7 +16,7 @@ export async function createSpellbook(folder, sheet) {
     const spells = (
         getSetting(SETTINGS.spell.enabled) && content.length > 0
         ? content 
-        : getAllItems(SETTINGS.spell.subtype)
+        : await getAllItems(SETTINGS.spell.subtype)
     )
 
     const spellPage = makeSpellPage("Spell List", spells, 1)
