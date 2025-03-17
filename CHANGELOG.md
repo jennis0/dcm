@@ -1,3 +1,6 @@
+### 1.4.2dev
+- "Make Spells journal" option in Create Player Handbook now actually creates a journal
+
 ### 1.4.1
 - Fix for Quick Insert integration broken by latest QI update
 - Retain settings when generating player handbooks
