@@ -50,6 +50,20 @@
                 </li>
                 {{/each}}
                 <hr/>
+                <span class="filter-title">Filter:</span>
+                <!-- <li>
+                    <label>
+                        <dcm-checkbox 
+                            class="compendium-checkbox"
+                            data-action="selectGrouping"
+                            name="unique"
+                            category="{{ itemtype }}"
+                            {{#if unique}}checked{{/if}}
+                            data
+                        ></dcm-checkbox>
+                        <span>Unique Only</span>
+                    </label> 
+                </li> -->
                 <li>
                     <label>
                         <dcm-checkbox 
@@ -60,7 +74,7 @@
                             {{#if duplicates}}checked{{/if}}
                             data
                         ></dcm-checkbox>
-                        <span>Find Duplicates</span>
+                        <span>Duplicates Only</span>
                     </label> 
                 </li>
             </menu>

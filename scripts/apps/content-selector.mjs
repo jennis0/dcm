@@ -18,7 +18,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         this.duplicates = false
         this.currentFilters = {
             name: null,
-            minItems: 0
+            minItems: 0,
+            uniques: false
         }
         this.reloadRequired = false;
     }
@@ -39,6 +40,14 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     //Add a button to open the ContentSelector to the Compendium Sidebar
+    /**
+     * Creates a sidebar button for the content selector.
+     *
+     * This button is styled with the class "content-selector-button" and includes an icon and text.
+     * When clicked, it opens the Content Selector application.
+     *
+     * @returns {HTMLButtonElement} The created button element.
+     */
     static createSidebarButton() {
         const button = document.createElement("button");
         button.classList.add("content-selector-button")
@@ -50,6 +59,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return button;
       }
 
+    /**
+     * Intercepts the frame rendering and adds a settings button to the header.
+     * 
+     * @param {Object} options - The options to render the frame with.
+     * @returns {Promise<HTMLElement>} The rendered HTML element.
+     * @override
+     */
     async _renderFrame(options) {
         const html = await super._renderFrame(options);
 
@@ -102,6 +118,14 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
               },
     }
 
+    /**
+     * Toggles the visibility of the pack content in the compendium.
+     *
+     * @param {Event} event - The event object triggered by the user interaction.
+     * @param {HTMLElement} target - The target element that was interacted with.
+     * @private
+     * @async
+     */
     static async #onTogglePackContent(event, target) {
         const pack = target.closest(".packs-list").querySelector(".compendium-content");
         const icon = target.querySelector("i");
@@ -125,6 +149,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
 
+    /**
+     * Handles the event when an item is opened.
+     *
+     * @param {Event} event - The event object triggered by the user action.
+     * @param {HTMLElement} target - The target HTML element that contains the data-id attribute.
+     * @private
+     */
     static async #onOpenItem(event, target) {
         const item = await fromUuid(target.getAttribute("data-id"))
         if (item) {
@@ -132,17 +163,31 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
 
+    /**
+     * Handles the selection or deselection of all items within a category.
+     * 
+     * @param {Event} event - The event object triggered by the user action.
+     * @param {HTMLElement} target - The target element that triggered the event.
+     * @private
+     * @async
+     */
     static async #onSelectAll(event, target) {
         //Add/remove all members of this group
 
         const category = target.getAttribute("category")
         const checked = target.checked;
-        const packs = target.closest(".packs-list").querySelectorAll("dcm-checkbox[data-action=selectPack]")
+        const packsList = target.closest(".packs-list")
+        const packs = packsList.querySelectorAll("dcm-checkbox[data-action=selectPack]")
+        const count = packsList.querySelector(".selected-count")
+
+        // Handle updating count
+        const [n_selected, n_total] = count.textContent.split(" ")[0]
+            .split("/").map(Number);
+        count.textContent = checked ? `${n_total}/${n_total} Selected` : `0/${n_total} Selected`;
 
         target.indeterminate = false;
 
         const sc = getSetting(SETTINGS[category].content);
-        let selectedContent = new Set(sc);
         const changedContent = new Array();
 
         for (const p of packs) {
@@ -165,12 +210,29 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
 
+    /**
+     * Handles the selection of a content pack.
+     * 
+     * @param {Event} event - The event object triggered by the selection.
+     * @param {HTMLElement} target - The target element that was selected.
+     * @private
+     * @async
+     */
     static async #onSelectPack(event, target) {
         //Set pack 'All' box to correct state
         const pack_list = target.closest(".packs-list")
         const all_box = pack_list.querySelector("dcm-checkbox[data-action=selectAll]")
         const siblings = pack_list.querySelectorAll("dcm-checkbox[data-action=selectPack]")
         
+        const count = pack_list.querySelector(".selected-count")
+
+        // Handle updating count
+        const [n_selected, n_total] = count.textContent.split(" ")[0]
+            .split("/").map(Number);
+        count.textContent = target.checked ? `${n_selected + 1}/${n_total} Selected` 
+            : `${n_selected - 1}/${n_total} Selected`;
+
+
         //Check number of siblings currently turned on
         if (all_box !== null & all_box !== undefined) {
             let n_on = 0;
@@ -197,14 +259,28 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
 
+    /**
+     * Handles the selection of a group based on the target element's attributes and state.
+     *
+     * @param {Event} event - The event object triggered by the selection action.
+     * @param {HTMLElement} target - The target element that triggered the event.
+     * @private
+     */
     static #onSelectGroup(event, target) {
 
         const category = target.getAttribute("category");
 
-        if (target.name =="duplicates") {
+        if (target.name === "duplicates") {
             this.group_category[category] =  new Set();
             this.duplicates = !this.duplicates;
+            this.currentFilters.unique = false;
             this.currentFilters.minItems = this.duplicates ? 2 : 0
+        } else if (target.name === "unique") {
+            this.currentFilters.unique = ! this.currentFilters.unique;
+            if (this.currentFilters.unique) {
+                this.duplicates = false;
+                this.currentFilters.minItems = 0;
+            }
         } else {
             const index = parseInt(target.name);
     
@@ -219,13 +295,21 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         this.render(false);
     }
 
+    /**
+     * Handles the change of tabs in the content selector.
+     * 
+     * @param {Event} event - The event object triggered by the tab change.
+     * @param {HTMLElement} target - The target element representing the new tab.
+     * @private
+     */
     static #onChangeTab(event, target) {
         this.tabGroups.primary = target.getAttribute("category")
 
         //Reset filters
         this.currentFilters = {
             name: null,
-            minItems: this.duplicates ? 2 : 0
+            minItems: this.duplicates ? 2 : 0,
+            unique: this.uniques
         }
 
         //Keep duplicate selection between tabs
@@ -235,19 +319,45 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         this.render(false);
     }
 
+    /**
+     * Clears the search input field and resets the current filter's name to null.
+     * Then re-renders the content.
+     *
+     * @param {Event} event - The event object triggered by the clear search action.
+     * @param {HTMLElement} target - The target element that initiated the clear search action.
+     * @private
+     * @async
+     */
     static async #onClearSearch(event, target) {
         const input = target.closest("search").querySelector(":scope > input");
         input.value = this.currentFilters.name = null;
         this.render({ parts: ["content"] });
     }
 
+    /**
+     * Handles the search input event to filter content by name.
+     *
+     * @param {Event} event - The input event triggered by the search field.
+     */
     _onSearchName(event) {
         if ( !event.target.matches("search > input[type='text']") ) return;
         this.currentFilters.name = event.target.value.toLowerCase();
         this.render({ parts: ["content"] });
       }
+    
+    //Debounce search input
     _debouncedSearch = foundry.utils.debounce(this._onSearchName.bind(this), ContentSelector.SEARCH_DELAY);
 
+    /**
+     * Attaches event listeners to the frame element.
+     * 
+     * This method overrides the parent class's _attachFrameListeners method
+     * to add a keydown event listener to the element. The event listener
+     * triggers a debounced search function.
+     * 
+     * @override
+     * @private
+     */
     _attachFrameListeners() {
         super._attachFrameListeners();
         this.element.addEventListener("keydown", this._debouncedSearch, { passive: true });
@@ -264,6 +374,14 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         },
     }
 
+    /**
+     * Get the name of the source based on its type and ID, handling needed special case
+     * for world and system compendia.
+     *
+     * @param {string} sourceType - The type of the source (e.g., "world", "system", "module").
+     * @param {string} sourceId - The ID of the source.
+     * @returns {string} The name of the source.
+     */
     _getSourceName(sourceType, sourceId) {
         if (sourceType === "world") {
             return "World";
@@ -274,6 +392,17 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return game.modules.get(sourceId).title;
     }
 
+    /**
+     * Retrieve the module information based on the package type.
+     *
+     * @param {Object} pack - The package object.
+     * @param {Object} pack.metadata - Metadata of the package.
+     * @param {string} pack.metadata.packageType - The type of the package (e.g., "world", "system").
+     * @param {string} pack.metadata.packageName - The name of the package.
+     * @returns {Object} The module information. If the package type is "world", returns an object with id and title.
+     *                   If the package type is "system", returns the game system object.
+     *                   Otherwise, returns the module from the game modules collection.
+     */
     _getModule(pack) {
         if (pack.metadata.packageType === "world") {
             return {
@@ -294,7 +423,18 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return true;
     }
 
-    //Retrieve a fast index and enrich it with source information after the fetch
+    //
+    /**
+     * Retrieve a fast index and enrich it with source information after the fetch
+     *
+     * @param {Object} pack - The compendium pack to fetch data from.
+     * @param {Function} filter_fn - A function to filter the data.
+     * @param {Function} data_fn - A function to transform the data.
+     * @param {Function} sort_fn - A function to sort the data.
+     * @param {Set} selectedOptions - A set of selected options.
+     * @param {Array} [fields=[]] - Additional fields to include in the fetch.
+     * @returns {Promise<Array>} A promise that resolves to an array of processed data objects.
+     */
     async _fetch(pack, filter_fn, data_fn, sort_fn, selectedOptions, fields = []) {
         const module = this._getModule(pack)
         return pack.getIndex(
@@ -322,7 +462,20 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
-    // Insert correct source information about a document from its index
+    /**
+     * Retrieves and enriches the source information for a given document.
+     * 
+     * This method ensures that the `doc.system.source` property is properly initialized
+     * and formatted as an object. If `doc.system.source` is a string, it converts it to
+     * an object with a `book` property. It then calls the `enrichSource` function to
+     * further process the source data.
+     * 
+     * @param {Object} doc - The document object containing the source information.
+     * @param {Object} doc.system - The system-specific data of the document.
+     * @param {Object|string} doc.system.source - The source information, which can be a string or an object.
+     * @param {string} doc.uuid - The unique identifier of the document.
+     * @returns {Object} The document object with enriched source information.
+     */
     _getSource(doc) {
         if (!doc.system.source) {
             doc.system.source = {}
@@ -337,6 +490,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return doc;
     }
 
+    /**
+     * Fetches and returns a list of subclasses from a specified pack.
+     *
+     * @param {string} pack - The identifier of the pack to fetch subclasses from.
+     * @param {Object} selectedOptions - Options to filter the fetched subclasses.
+     * @returns {Promise<Array>} A promise that resolves to an array of subclass objects.
+     */
     _getSubclasses(pack, selectedOptions) {
         return this._fetch(pack, 
             (d) => d.type === "subclass", 
@@ -347,6 +507,15 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
+    /**
+     * Fetches and filters spells from a given compendium pack.
+     *
+     * @param {string} pack - The identifier of the compendium pack to fetch spells from.
+     * @param {Object} selectedOptions - The options selected by the user for filtering.
+     * @returns {Promise<Array<Object>>} A promise that resolves to an array of spell objects.
+     *
+     * @private
+     */
     _getSpells(pack, selectedOptions) {
         return this._fetch(pack, 
             (d) => d.type === "spell", 
@@ -361,6 +530,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
+    /**
+     * Retrieves a list of spell lists from a given compendium pack.
+     *
+     * @param {Object} pack - The compendium pack to retrieve spell lists from.
+     * @param {Set} selectedOptions - A set of selected options to determine which spell lists are checked.
+     * @returns {Promise<Array<Object>>} A promise that resolves to an array of spell list objects.
+     */
     async _getSpellLists(pack, selectedOptions) {
         const index = await pack.getDocuments()
         const fixed = CONFIG.dndContentManager.fixed.get("spelllist").items;
@@ -401,6 +577,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         })).flat()
     }
 
+    /**
+     * Fetches and filters feats from a specified compendium pack.
+     *
+     * @param {string} pack - The identifier of the compendium pack to fetch data from.
+     * @param {Object} selectedOptions - The options selected by the user.
+     * @returns {Promise<Array>} A promise that resolves to an array of filtered and sorted feats.
+     */
     _getFeats(pack, selectedOptions) {
         return this._fetch(pack,
             d => d.type === "feat" && d.system.type?.value === "feat",
@@ -411,6 +594,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
+    /**
+     * Fetches and filters items from a given pack based on specified criteria.
+     *
+     * @param {string} pack - The identifier of the pack to fetch items from.
+     * @param {Array} selectedOptions - An array of selected options to filter the items.
+     * @returns {Promise<Array>} A promise that resolves to an array of filtered items.
+     */
     _getItems(pack, selectedOptions) {
         return this._fetch(pack,
             d => SETTINGS.items.item_subtypes.includes(d.type) && !d.system.container,
@@ -421,6 +611,14 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
+    /**
+     * Retrieves documents from a specified pack based on the given subtype and selected options.
+     *
+     * @param {Object} pack - The data pack from which to retrieve documents.
+     * @param {string} subtype - The subtype of documents to retrieve.
+     * @param {Object} selectedOptions - Additional options to filter the documents.
+     * @returns {Promise<Array>} A promise that resolves to an array of documents matching the criteria.
+     */
     _getDocuments(pack, subtype, selectedOptions) {
         if (subtype === SETTINGS.subclass.subtype) {
             return this._getSubclasses(pack, selectedOptions)
@@ -446,6 +644,14 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
+    /**
+     * Retrieves content options based on the provided subtype, source compendia, and selected options.
+     *
+     * @param {string} subtype - The subtype of content to retrieve.
+     * @param {Array<string>} sourceCompendia - An array of compendium identifiers to source content from.
+     * @param {Array<Object>} selectedOptions - An array of selected options to filter the content.
+     * @returns {Promise<Array<Object>>} A promise that resolves to an array of content options.
+     */
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
         return await Promise.all(sourceCompendia?.map(async (c) => {
             const pack = game.packs.get(c);
@@ -466,7 +672,20 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }))
     }
 
+    /**
+     * Regroups the given compendia options based on the specified item type and group categories.
+     * 
+     * This function is designed to categorize and sort entries from compendia options into groups
+     * based on the provided item type and its associated group categories. It handles cases where
+     * no filtering is applied and ensures that entries are properly grouped, sorted, and labeled.
+     * 
+     * @param {string} itemtype - The type of item to group (e.g., "spell", "item").
+     * @param {Array} compendia_options - An array of compendia options, each containing entries to be grouped.
+     * @returns {Array} - An array of grouped entries, each with metadata such as label, category, and checked status.
+     */
     _reGroup(itemtype, compendia_options) {
+
+        
         const newGroups = new Map();
 
         let group_categories = this.group_category[itemtype].map(
@@ -485,7 +704,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         group_categories = new Array(...group_categories)
 
-        //HAndle case of no filtering
+        // Handle case of no filtering
         if (group_categories.length === 0) {
             const entries = compendia_options.map(o => o.entries).flat()
             
@@ -545,6 +764,16 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         super._onChangeTab(event, tabs, active);
     }
 
+    /**
+     * Prepares groups for a given item type.
+     *
+     * @param {string} itemtype - The type of item for which to prepare groups.
+     * @returns {Array<Object>} An array of group objects, each containing:
+     *   - {string} label: The label of the group.
+     *   - {number} id: The index of the group.
+     *   - {string} itemtype: The type of item.
+     *   - {boolean} checked: Whether the group is checked.
+     */
     _prepareGroups(itemtype) {
         return SETTINGS[itemtype].groups.map(
             (g, index) => {
@@ -558,6 +787,12 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )
     }
 
+    /**
+     * Prepares the context for the content selector.
+     *
+     * @param {Object} options - The options for preparing the context.
+     * @returns {Promise<Object>} The prepared context.
+     */
     async _prepareContext(options) {
         // Get current selections from settings
         const context = await super._prepareContext(options);
