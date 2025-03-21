@@ -10,56 +10,64 @@
                                 category="{{ category }}"
                                 data-action="selectAll"
                                 {{#if indeterminate}}indeterminate{{/if}}></dcm-checkbox>
-                <span class="title">{{ localize "Select All" }}</span>
+                <span class="title select-all">{{ localize "Select All" }}</span>
+                <span class="title selected-count">{{ selected }}/{{ entries.length }} Selected</span>
+                <button class="toggle-content-button"
+                    data-action="togglePackContent">
+                    <i class="fas fa-arrow-down"></i>
+                </button>
             </label>
         </li>
-
-        <li class="compendium-list-row header-row">
-            <div class="compendium-row-label header-labels">
-                <div class="left-text">
-                    <span class="title" style="margin-right: 50px">Name</span>
-                    <span class="metadata">{{metadataLabel}}</span>
-                </div>
-                <div class="right-text">
-                    <span class="source">Source</span>
-                    <span class="module">Module</span>
-                </div>
-            </div>
-        </li>
-
         {{/if}}
+
+        <div class="compendium-content">
+            {{#if (gt entries.length 1)}}
+                <li class="compendium-list-row header-row">
+                    <div class="compendium-row-label header-labels">
+                        <div class="left-text">
+                            <span class="title" style="margin-right: 50px">Name</span>
+                            <span class="metadata">{{metadataLabel}}</span>
+                        </div>
+                        <div class="right-text">
+                            <span class="source">Source</span>
+                            <span class="module">Module</span>
+                        </div>
+                    </div>
+                </li>
+            {{/if}}
         {{#each entries}}
-        <li class="compendium-list-row">
-            
-            <a class="entity-link" draggable="true" data-entity="Item" data-action="openItem", 
-                data-id="{{ uuid }}">
-                <img class="compendium-icon" src="{{ img }}" width=20px height=20px>
-            </a>
+            <li class="compendium-list-row">
+                
+                <a class="entity-link" draggable="true" data-entity="Item" data-action="openItem", 
+                    data-id="{{ uuid }}">
+                    <img class="compendium-icon" src="{{ img }}" width=20px height=20px>
+                </a>
 
-            <label class="checkbox compendium-checkbox">
-                <dcm-checkbox 
-                    class="compendium-checkbox"
-                    data-action="selectPack"
-                    name="{{ uuid }}" 
-                    {{ checked checked }} 
-                    {{#if fixed}}disabled{{/if}}
-                    data-type="pack"
-                    category="{{ ../category }}"
-                ></dcm-checkbox>
+                <label class="checkbox compendium-checkbox">
+                    <dcm-checkbox 
+                        class="compendium-checkbox"
+                        data-action="selectPack"
+                        name="{{ uuid }}" 
+                        {{ checked checked }} 
+                        {{#if fixed}}disabled{{/if}}
+                        data-type="pack"
+                        category="{{ ../category }}"
+                    ></dcm-checkbox>
 
-                <div class="compendium-row-label">
-                    <div class="left-text">
-                        <span class="title">{{ label }}</span>
-                        <span class="metadata">{{ metadata }}</span>
+                    <div class="compendium-row-label">
+                        <div class="left-text">
+                            <span class="title">{{ label }}</span>
+                            <span class="metadata">{{ metadata }}</span>
+                        </div>
+                        <div class="right-text">
+                            <span class="source">{{ sourceName }}</span>
+                            <span class="module">{{ moduleName }}</span>
+                        </div>
                     </div>
-                    <div class="right-text">
-                        <span class="source">{{ sourceName }}</span>
-                        <span class="module">{{ moduleName }}</span>
-                    </div>
-                </div>
-            </label>
-        </li>
+                </label>
+            </li>
         {{/each}}
+        </div>
     </menu>
 </fieldset>
 

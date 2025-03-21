@@ -72,6 +72,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const header = html.querySelector(".window-header");
         const button = header.querySelector(":not(.hidden).header-control");
         header.insertBefore(settingsButton, button);
+
         return html;
     }  
     
@@ -87,8 +88,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             id: 'content-selector',
             classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
-                width: 880,
-                height: 650,
+                width: 900,
+                height: 700,
               },
             actions: {
                 selectPack: ContentSelector.#onSelectPack,
@@ -96,8 +97,32 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 selectGrouping: ContentSelector.#onSelectGroup,
                 clearSearch: ContentSelector.#onClearSearch,
                 changeTab: ContentSelector.#onChangeTab,
-                openItem: ContentSelector.#onOpenItem
+                openItem: ContentSelector.#onOpenItem,
+                togglePackContent: ContentSelector.#onTogglePackContent
               },
+    }
+
+    static async #onTogglePackContent(event, target) {
+        const pack = target.closest(".packs-list").querySelector(".compendium-content");
+        const icon = target.querySelector("i");
+        if (pack) {
+            if (pack.style.display === "none") {
+                pack.style.display = "block";
+                pack.style.height = pack.scrollHeight + "px";
+                icon.classList.remove("fa-arrow-down");
+                icon.classList.add("fa-arrow-up");
+            } else {
+                pack.style.height = pack.scrollHeight + "px";
+                setTimeout(() => {
+                    pack.style.height = "0px";
+                }, 5);
+                setTimeout(() => {
+                    pack.style.display = "none";
+                }, 300);
+                icon.classList.remove("fa-arrow-up");
+                icon.classList.add("fa-arrow-down");
+            }
+        }
     }
 
     static async #onOpenItem(event, target) {
@@ -435,7 +460,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 entries,
                 category: this.tabGroups.primary,
                 checked: n_checked > 0,
-                indeterminate: n_checked > 0 && n_checked !== entries.length
+                indeterminate: n_checked > 0 && n_checked !== entries.length,
+                selected: n_checked
             }
         }))
     }
@@ -471,9 +497,9 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 label: "All",
                 source: null,
                 category: itemtype,
-                metadataLabel: SETTINGS[itemtype].metadataLabel,
                 checked: n_checked === entries.length,
-                indeterminate: n_checked > 0 && n_checked.length < entries.length
+                indeterminate: n_checked > 0 && n_checked.length < entries.length,
+                selected: n_checked
             }]
         }
 
@@ -507,7 +533,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     category: itemtype,
                     checked: n_checked > 0,
                     metadataLabel: SETTINGS[itemtype].metadataLabel,
-                    indeterminate: n_checked > 0 && n_checked < entries.length
+                    indeterminate: n_checked > 0 && n_checked < entries.length,
+                    selected: n_checked
                 }
             }
         ).filter(p => p.entries.length >= this.currentFilters.minItems)
