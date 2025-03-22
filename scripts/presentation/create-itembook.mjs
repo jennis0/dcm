@@ -246,7 +246,7 @@ export async function createItembook(itemtype, folder, sheet) {
     // Determine which items to include - either from content setting or get all items
     const items = (shouldUseCustomContent(itemtype, content) 
         ? content 
-        : getAllItems(SETTINGS[itemtype].subtype))
+        : await getAllItems(SETTINGS[itemtype].subtype))
     
     // Create individual pages for each item, sorted alphabetically
     const { sortedPages, sortedItems } = await createSortedItemPages(items);
@@ -275,7 +275,7 @@ export async function createItembook(itemtype, folder, sheet) {
 export async function createGroupedItembook(itemtype, defaultName, folder, sheet) {
     const content = getSetting(SETTINGS[itemtype].content)
     const items = getSetting(SETTINGS[itemtype].enabled) && content.length > 0 ? 
-        content : getAllItems(SETTINGS[itemtype].subtype);
+        content : await getAllItems(SETTINGS[itemtype].subtype);
 
     const itemTypeMap = new Map();
     await Promise.all(items.map(async itemUuid => {

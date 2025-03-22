@@ -1,10 +1,10 @@
 {
   "id": "dnd5e-content-manager",
   "title": "DnD Content Manager",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "compatibility": {
     "minimum": "12",
-    "maximum": "12",
+    "maximum": "13",
     "verified": "12"
   },
   "esmodules": [

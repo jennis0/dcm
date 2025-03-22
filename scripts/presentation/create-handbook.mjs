@@ -1,6 +1,7 @@
 import { log } from "../lib.mjs";
 import { createClassbook } from "./create-classbook.mjs";
 import { createGroupedItembook, createItembook } from "./create-itembook.mjs";
+import { createSpellbook } from "./create-spellbook.mjs";
 
 /**
  * Creates various player handbook journals based on provided options
@@ -54,6 +55,13 @@ export async function createHandbooks(options) {
         log("Creating Feat handbook")
         journalPromises.push(
             createGroupedItembook("feat", "Feats", folder, options.styleOption)
+        );
+    }
+
+    if (options.spells) {
+        log("Creating Spell handbook")
+        journalPromises.push(
+            createSpellbook(folder, options.styleOption)
         );
     }
     

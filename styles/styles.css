@@ -42,8 +42,7 @@
   /* Main Content Sections
      ========================================================================== */
   .dcm .packs-section {
-    max-width: 630px;
-    padding: 1em;
+    max-width: 680px;
     margin-bottom: 1.5em;
   }
   
@@ -130,7 +129,7 @@
   .dcm .pack-selector,
   .dcm .content-selector {
     margin: 0.5em 0 1em 0;
-    height: 600px;
+    height: 650px;
     width: 100%;
     padding-bottom: 1em;
     padding-right: 1em;
@@ -187,14 +186,15 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    padding-right: 1em;
   }
   
-  .dcm .compendium-list-row {
+  .dcm li.compendium-list-row {
     height: 2.5em;
   }
   
-  .dcm .compendium-list-row .all {
-    height: 1.5em;
+  .dcm li.compendium-list-row.all {
+    height: 2.5em;
   }
   
   /* Enable Options
@@ -286,11 +286,10 @@
   }
   
   .dcm .content-selector .compendium-list-row.header-row {
-    margin: -1em;
-    margin: 0.5em -1em;
-    padding: 0 1em;
+    margin: 0 0 0.5em 0;
     background: var(--dnd5e-color-gold);
-    height: 30px;
+    height: 2em;
+    overflow:visible;
   }
   
   /* Filter Element Styles
@@ -467,4 +466,42 @@
     margin-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+
+  .packs-list .toggle-content-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    box-shadow: none;
+  }
+
+  .dcm .packs-list .toggle-content-button:hover,
+  .dcm .packs-list .toggle-content-button:focus {
+    box-shadow: 0 0 5px var(--dnd5e-color-gold);
+  }
+
+  .packs-list .toggle-content-button i {
+    font-size: 1em;
+    color: var(--color-text-primary);
+    margin-right: 0;
+  }
+
+  .packs-list .compendium-content {
+    overflow: hidden;
+    display: block;
+    transition: height 0.2s ease-out;
+  }
+
+  .packs-list .select-all {
+    font-weight: bold;
+    margin-right: 1em;
+  }
+
+  .packs-list .selected-count {
+    margin-left: 0em;
+    font-weight: bold;
   }

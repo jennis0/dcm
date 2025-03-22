@@ -2,6 +2,14 @@ import { error, log } from "./lib.mjs"
 import { SETTINGS } from "./settings.mjs"
 import { setSetting, getSetting } from "./settings.mjs"
 
+const SETTING_KEYS = [
+    SETTINGS.lastLoadedVersion,
+    SETTINGS.filterQuickInsert,
+    SETTINGS.filterSpotlight,
+    SETTINGS.injectCompendiumButtons,
+    SETTINGS.injectItemButton,
+    SETTINGS.playerHandbookOptions
+]
 
 export function exportSettings() {
     const settings_obj = {
@@ -15,7 +23,9 @@ export function exportSettings() {
             enabled: getSetting(SETTINGS[item].enabled)
         }
     }   
-    settings_obj.version = getSetting(SETTINGS.lastLoadedVersion)
+    for (const key of SETTING_KEYS) {
+        settings_obj[key] = getSetting(key)
+    }
 
     return JSON.stringify(settings_obj)
 }
@@ -28,6 +38,9 @@ export function importSettings(json) {
         setSetting(SETTINGS[item].sources, settings_obj[item].sources)
         setSetting(SETTINGS[item].content, settings_obj[item].content)
         setSetting(SETTINGS[item].enabled, settings_obj[item].enabled)
+    }
+    for (const key of SETTING_KEYS) {
+        setSetting(key, settings_obj[key])
     }
 }
 
@@ -56,7 +69,7 @@ export class ExportDialog extends foundry.applications.api.DialogV2 {
 
         const element = document.createElement('a');
         element.setAttribute('href', window.URL.createObjectURL(blob));
-        element.setAttribute('download', "dcm-settins.json");
+        element.setAttribute('download', "dcm-settings.json");
     
         element.dispatchEvent(
             new MouseEvent("click", { bubbles: !0, cancelable: !0, view: window })
