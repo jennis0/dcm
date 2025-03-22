@@ -6,7 +6,7 @@ New Features:
 Bug Fixes
 - "Make Spells journal" option in Create Player Handbook now actually creates a journal
 - Fixed QuickInsert integration bug which caused it not to function until changes we made
-- Feat handbook no longer contains non-feat features if when not being managed by DCM
+- Feat handbook no longer contains non-feat features if when Feats are not being managed by DCM
 
 ### 1.4.1
 - Fix for Quick Insert integration broken by latest QI update
