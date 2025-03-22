@@ -184,6 +184,12 @@
   .dcm .pack.control .title {
     vertical-align: middle;
   }
+
+  .dcm .window-content .sidebar {
+    height: 640px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
   
   /* Compendium List Styles
      ========================================================================== */
