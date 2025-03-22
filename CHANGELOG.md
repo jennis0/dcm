@@ -1,5 +1,6 @@
 ### 1.4.3
 - General tweaks to presentation to make a better experience
+  
 Bug Fixes:
 - Resolved CSS issue with content selector sidebar spacing in Firefox
 - Add feat types back in for 5e 2024
