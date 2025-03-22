@@ -43,7 +43,6 @@
      ========================================================================== */
   .dcm .packs-section {
     max-width: 680px;
-    padding: 1em;
     margin-bottom: 1.5em;
   }
   
@@ -190,12 +189,12 @@
     padding-right: 1em;
   }
   
-  .dcm .compendium-list-row {
+  .dcm li.compendium-list-row {
     height: 2.5em;
   }
   
-  .dcm .compendium-list-row .all {
-    height: 1.5em;
+  .dcm li.compendium-list-row.all {
+    height: 2.5em;
   }
   
   /* Enable Options
@@ -287,11 +286,10 @@
   }
   
   .dcm .content-selector .compendium-list-row.header-row {
-    margin: -1em;
-    margin: 0.5em -1em;
-    padding: 0 1em;
+    margin: 0 0 0.5em 0;
     background: var(--dnd5e-color-gold);
-    height: 30px;
+    height: 2em;
+    overflow:visible;
   }
   
   /* Filter Element Styles
@@ -500,9 +498,10 @@
 
   .packs-list .select-all {
     font-weight: bold;
-    margin-right: 10px;
+    margin-right: 1em;
   }
 
   .packs-list .selected-count {
-    margin-left: auto;
+    margin-left: 0em;
+    font-weight: bold;
   }
