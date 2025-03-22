@@ -41,10 +41,14 @@ function createUpdateMessage() {
     log("Creating update message")
 
     const updates = [
-        "Fix for Quick Insert integration broken by latest QI update",
-        "Retain settings when generating player handbooks",
-        "Hide/Unhide items directly from the 5e Item Sheet",
-        "Fix for labels of custom feat types",
+        "Improvement of how duplicate filtering works and addition of an inverse filter to find unique items",
+        "Button to collapse/expand tables of items for easier working with large sets of items",
+        "General tweaks to presentation to increase information density and useability",
+        "The 'Make Spells Journal' option in Create Player Handbook now actually creates a journal",
+        "Fixed QuickInsert integration bug which caused it not to function until changes we made",
+        "Feat handbook no longer contains non-feat features if when not being managed by DCM",
+        "Resolved CSS issue with content selector sidebar spacing in Firefox",
+        "Add feat types back in for 5e 2024"
     ]
 
     const content = `<p><i>Module updated to ${CONFIG.dndContentManager.version}</i></p>`
