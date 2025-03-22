@@ -205,6 +205,14 @@
   .dcm .compendium-list-row:hover .compendium-row-label .title {
     text-shadow: 0px 0px 4px var(--dnd5e-color-gold);
   }
+/* 
+  .dcm .compendium-list-row:hover:not(.all):not(.header-row) {
+    border: 1px dotted var(--dnd5e-color-gold)
+  } */
+/* 
+  .dcm .compendium-list-row:hover img.compendium-icon {
+    box-shadow: 0px 0px 6px var(--dnd5e-color-gold);
+  } */
   
   .dcm li.compendium-list-row {
     min-height: 2.5em;
@@ -212,7 +220,7 @@
     padding-bottom: 0.1em;
     padding-left: 0.5em;
     padding-right: 0.5em;
-    border-bottom: var(--dnd5e-border-light);
+    border-bottom: var(--dnd5e-border-dotted);
   }
   
   .dcm li.compendium-list-row.all {
