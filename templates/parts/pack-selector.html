@@ -4,7 +4,7 @@
     <legend>{{ localize label }}</legend>
     <menu class="packs-list unlist {{ type }}">
         {{#if (gt entries.length 1)}}
-        <li class="all">
+        <li class="pack-list-row all">
             <label class="checkbox">
                 <dcm-checkbox name="all-{{ name }}" {{ checked checked }} data-type="pack"
                                 category="{{ itemType }}"
@@ -16,7 +16,7 @@
         <hr/>
         {{/if}}
         {{#each entries}}
-        <li class="compendium-list-row">
+        <li class="pack-list-row">
             <label class="checkbox compendium-checkbox">
                 <dcm-checkbox 
                     data-action="selectPack"
