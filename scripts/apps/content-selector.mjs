@@ -13,14 +13,21 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     //Allow a GM to select approved content for their game
     constructor() {
         super();
+
+        //Starting tab
         this.tabGroups.primary = "class";
-        this.group_category = Object.fromEntries(SETTINGS.itemtypes.map(i => [i, new Set([0])]))
-        this.duplicates = false
+
+        //Keep track of which groups are currently selected
+        this.selected_groups = Object.fromEntries(SETTINGS.itemtypes.map(i => [i, new Set([0])]))
+        
+        //Filters applied to the current content
         this.currentFilters = {
             name: null,
             minItems: 0,
-            uniques: false
+            unique: false
         }
+
+        //Set if we want to ask the user to reload when closing the app
         this.reloadRequired = false;
     }
 
@@ -117,6 +124,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 togglePackContent: ContentSelector.#onTogglePackContent
               },
     }
+    
+    /*********************************************************************
+     *                      Action Functions
+     *********************************************************************/
 
     /**
      * Toggles the visibility of the pack content in the compendium.
@@ -271,24 +282,20 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const category = target.getAttribute("category");
 
         if (target.name === "duplicates") {
-            this.group_category[category] =  new Set();
-            this.duplicates = !this.duplicates;
             this.currentFilters.unique = false;
-            this.currentFilters.minItems = this.duplicates ? 2 : 0
+            this.currentFilters.minItems = this.currentFilters.minItems === 0 ? 2 : 0
+
         } else if (target.name === "unique") {
-            this.currentFilters.unique = ! this.currentFilters.unique;
-            if (this.currentFilters.unique) {
-                this.duplicates = false;
-                this.currentFilters.minItems = 0;
-            }
+            this.currentFilters.unique = !this.currentFilters.unique;
+            this.currentFilters.minItems = 0;
+
         } else {
             const index = parseInt(target.name);
     
             if (target.checked) {
-                this.group_category[category].add(index);
-                this.duplicates = false;
+                this.selected_groups[category].add(index);
             } else {
-                this.group_category[category].delete(index);
+                this.selected_groups[category].delete(index);
             }
         }
 
@@ -308,14 +315,14 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         //Reset filters
         this.currentFilters = {
             name: null,
-            minItems: this.duplicates ? 2 : 0,
-            unique: this.uniques
+            minItems: 0,
+            unique: false
         }
 
         //Keep duplicate selection between tabs
-        if (this.duplicates) {
-            this.group_category[this.tabGroups.primary] = new Set();
-        }
+        // if (this.duplicates) {
+        //     this.selected_groups[this.tabGroups.primary] = new Set();
+        // }
         this.render(false);
     }
 
@@ -374,6 +381,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         },
     }
 
+    /*********************************************************************
+    *                      Content Loading
+    *********************************************************************/
+
+
     /**
      * Get the name of the source based on its type and ID, handling needed special case
      * for world and system compendia.
@@ -416,7 +428,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return game.modules.get(pack.metadata.packageName)
     }
 
-    _applyFilters(doc) {
+    _applyPerItemFilters(doc) {
         if (this.currentFilters.name) {
             return doc.name.toLowerCase().includes(this.currentFilters.name)
         }
@@ -441,7 +453,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             {fields: new Set(["uuid", "type", "name", "img", "system.source"].concat(fields))}
         )
         .then(
-            index =>  index.filter(d => filter_fn(d) && this._applyFilters(d))
+            index =>  index.filter(d => filter_fn(d) && this._applyPerItemFilters(d))
                 .map(d => this._getSource(d))
                 .map(d => {
                     return {
@@ -485,7 +497,6 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             book: doc.system.source
           }
         }
-        //dnd5e.dataModels.shared.SourceField.prepareData.call(doc.system.source, doc.uuid);
         enrichSource(doc.system.source, doc.uuid);
         return doc;
     }
@@ -613,6 +624,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
     /**
      * Retrieves documents from a specified pack based on the given subtype and selected options.
+     * Applies all filters as part of retrieval
      *
      * @param {Object} pack - The data pack from which to retrieve documents.
      * @param {string} subtype - The subtype of documents to retrieve.
@@ -620,28 +632,32 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      * @returns {Promise<Array>} A promise that resolves to an array of documents matching the criteria.
      */
     _getDocuments(pack, subtype, selectedOptions) {
+        // Get the documents
+        let documents = [];
         if (subtype === SETTINGS.subclass.subtype) {
-            return this._getSubclasses(pack, selectedOptions)
+            documents = this._getSubclasses(pack, selectedOptions)
         }
-        if (subtype === SETTINGS.feat.subtype) {
-            return this._getFeats(pack, selectedOptions);
+        else if (subtype === SETTINGS.feat.subtype) {
+            documents = this._getFeats(pack, selectedOptions);
         }
-        if (subtype === SETTINGS.spelllist.subtype) {
-            return this._getSpellLists(pack, selectedOptions);
+        else if (subtype === SETTINGS.spelllist.subtype) {
+            documents = this._getSpellLists(pack, selectedOptions);
         }
-        if (subtype === SETTINGS.spell.subtype) {
-            return this._getSpells(pack, selectedOptions);
+        else if (subtype === SETTINGS.spell.subtype) {
+            documents = this._getSpells(pack, selectedOptions);
         }
-        if (subtype === SETTINGS.items.subtype) {
-            return this._getItems(pack, selectedOptions);
+        else if (subtype === SETTINGS.items.subtype) {
+            documents = this._getItems(pack, selectedOptions);
+        } else {
+            documents = this._fetch(pack, 
+                (d) => d.type === subtype,
+                (d) => {},
+                (a,b) => a.label.localeCompare(b.label),
+                selectedOptions
+            )
         }
 
-        return this._fetch(pack, 
-            (d) => d.type === subtype,
-            (d) => {},
-            (a,b) => a.label.localeCompare(b.label),
-            selectedOptions
-        )
+        return documents
     }
 
     /**
@@ -653,7 +669,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      * @returns {Promise<Array<Object>>} A promise that resolves to an array of content options.
      */
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
-        return await Promise.all(sourceCompendia?.map(async (c) => {
+        const grouped_options = await Promise.all(sourceCompendia?.map(async (c) => {
             const pack = game.packs.get(c);
             const source = this._getSourceName(pack.metadata.packageType, pack.metadata.packageName);
             const entries = await this._getDocuments(pack, subtype, selectedOptions)
@@ -670,6 +686,37 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 selected: n_checked
             }
         }))
+
+        //Apply the unique/duplicate filters if selected
+        if (this.currentFilters.minItems > 0 || this.currentFilters.unique) {
+            const labels = new Map();
+            grouped_options.forEach(group => {
+                group.entries.forEach(option => {
+                    const label = option.label.toLowerCase()
+                    if (labels.has(label)) {
+                        labels.set(label, labels.get(label) + 1)
+                    } else {
+                        labels.set(label, 1)
+                    }
+                })
+            })
+
+            if (this.currentFilters.minItems > 0) {
+                grouped_options.forEach(group => {
+                    group.entries = group.entries
+                        .filter(e => labels.get(e.label.toLowerCase()) >= this.currentFilters.minItems)
+                })
+            }
+
+            if (this.currentFilters.unique) {
+                grouped_options.forEach(group => {
+                    group.entries = group.entries
+                        .filter(e => labels.get(e.label.toLowerCase()) === 1)
+                })
+            }
+        }
+
+        return grouped_options
     }
 
     /**
@@ -680,32 +727,16 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      * no filtering is applied and ensures that entries are properly grouped, sorted, and labeled.
      * 
      * @param {string} itemtype - The type of item to group (e.g., "spell", "item").
+     * @param {Array} group_details - An array of groups to categorise entities by
      * @param {Array} compendia_options - An array of compendia options, each containing entries to be grouped.
      * @returns {Array} - An array of grouped entries, each with metadata such as label, category, and checked status.
      */
-    _reGroup(itemtype, compendia_options) {
+    _reGroup(itemtype, group_details, compendia_options) {
 
-        
-        const newGroups = new Map();
-
-        let group_categories = this.group_category[itemtype].map(
-            (gc) => {
-                const group = SETTINGS[itemtype].groups[gc];
-                return {
-                    valuePath: group.valuePath,
-                    itemLabelPath: group.itemLabelPath || group.valuePath
-                }
-            } 
-        );
-
-        if (this.duplicates) {
-            group_categories.add({valuePath: "label", itemLabelPath: "label"})
-        }
-
-        group_categories = new Array(...group_categories)
+        const selected_groups = new Array(...this.selected_groups[itemtype].map(g => group_details[g]))
 
         // Handle case of no filtering
-        if (group_categories.length === 0) {
+        if (selected_groups.length === 0) {
             const entries = compendia_options.map(o => o.entries).flat()
             
             const n_checked = entries.filter(e => e.checked).length;
@@ -722,32 +753,37 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }]
         }
 
+        // Create new groups
+        const grouped_entries = new Map();
         compendia_options.forEach(
             o => {
                 o.entries.forEach( e => {
-                    const opt = group_categories.map(gc => e[gc.valuePath].trim()).join(" | ");
-                    const label = group_categories.map(gc => e[gc.itemLabelPath].trim()).join(" | ");
-                    if (!newGroups[opt]) {
-                        newGroups[opt] = {
-                            label: label,
+                    const group_key = selected_groups.map(gc => e[gc.valuePath].trim().toLowerCase()).join(" | ");
+                    const group_label = selected_groups.map(gc => e[gc.itemLabelPath].trim()).join(" | ");
+
+                    if (!grouped_entries[group_key]) {
+                        grouped_entries[group_key] = {
+                            label: group_label,
                             entries: new Array()
                         }
                     } 
-                    newGroups[opt].entries.push(e);
+
+                    grouped_entries[group_key].entries.push(e);
                 })
             }
         )
 
-        return Object.keys(newGroups).map(
+        // Create metadata and sort groups
+        return Object.keys(grouped_entries).map(
             k => {
-                const entries = newGroups[k].entries;
+                const entries = grouped_entries[k].entries;
                 const n_checked = entries.filter(e => e.checked).length;
 
                 return {
                     id: k.slugify(),
                     entries: entries.sort((a,b) => a.label.localeCompare(b.label) 
                         || a.compendium.localeCompare(b.compendium)),
-                    label: newGroups[k].label,
+                    label: grouped_entries[k].label,
                     source: null,
                     category: itemtype,
                     checked: n_checked > 0,
@@ -756,8 +792,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     selected: n_checked
                 }
             }
-        ).filter(p => p.entries.length >= this.currentFilters.minItems)
-            .sort((a,b) => a.label.localeCompare(b.label))
+        ).sort((a,b) => a.label.localeCompare(b.label))
     }
   
     _onChangeTab(event, tabs, active) {
@@ -773,6 +808,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      *   - {number} id: The index of the group.
      *   - {string} itemtype: The type of item.
      *   - {boolean} checked: Whether the group is checked.
+     *   - {string} valuePath: The path to the value to group by.
+     *   - {string} itemLabelPath: The path to the item label to display.
      */
     _prepareGroups(itemtype) {
         return SETTINGS[itemtype].groups.map(
@@ -781,7 +818,9 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     label: g.groupLabel,
                     id: index,
                     itemtype: itemtype,
-                    checked: this.group_category[itemtype].has(index)
+                    checked: this.selected_groups[itemtype].has(index),
+                    valuePath: g.valuePath,
+                    itemLabelPath: g.itemLabelPath || g.valuePath,
                 }
             }
         )
@@ -802,8 +841,13 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         )];
         const selectedContent = new Set(getSetting(settings.content));
 
+
+        //Get the entries we want users to be able to sort between with any filtering applied
         context.entries = await this._getContentOptions(settings.subtype, selectedCompendia, selectedContent);
-        context.entries = this._reGroup(this.tabGroups.primary, context.entries)
+
+        //Regroup the entries based on user selections
+        context.groups = this._prepareGroups(this.tabGroups.primary)
+        context.entries = this._reGroup(this.tabGroups.primary, context.groups, context.entries)
 
         context.categories = SETTINGS.itemtypes.map(i => {
             const setting = SETTINGS[i];
@@ -821,8 +865,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         context.isSpelllist = this.tabGroups.primary === "spelllist";
         context.isV3 = CONFIG.dndContentManager.systemV3;
         context.itemtype = this.tabGroups.primary
-        context.groups = this._prepareGroups(this.tabGroups.primary)
-        context.duplicates = this.duplicates
+        context.duplicates = this.currentFilters.minItems > 0
+        context.unique = this.currentFilters.unique
         context.numSources = selectedCompendia.length
 
         return context;

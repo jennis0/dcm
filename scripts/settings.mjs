@@ -38,6 +38,7 @@ export const SETTINGS = {
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
             {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
             {groupLabel: "Type", valuePath: "metadata"},
+            {groupLabel: "Name", valuePath: "label"}
         ]
     },
 
@@ -56,6 +57,7 @@ export const SETTINGS = {
             {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
             {groupLabel: "School", valuePath: "school"},
             {groupLabel: "Spell Level", valuePath: "levelInt", itemLabelPath: "level"},
+            {groupLabel: "Name", valuePath: "label"}
         ]
     },
 
@@ -73,6 +75,7 @@ export const SETTINGS = {
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
             {groupLabel: "Journal", valuePath: "source", itemLabelPath: "sourceName"},
             {groupLabel: "Class", valuePath: "metadata"},
+            {groupLabel: "Name", valuePath: "label"}
         ]
     },
 
@@ -88,7 +91,8 @@ export const SETTINGS = {
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
-            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"}
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Name", valuePath: "label"}
         ]
     },
 
@@ -106,6 +110,7 @@ export const SETTINGS = {
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
             {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
             {groupLabel: "Class", valuePath: "metadata"},
+            {groupLabel: "Name", valuePath: "label"}
         ]
     },
 
@@ -123,6 +128,7 @@ export const SETTINGS = {
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
             {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
             {groupLabel: "Feat Type", valuePath: "metadata"},
+            {groupLabel: "Name", valuePath: "label"}
         ]
     },
 
@@ -138,7 +144,8 @@ export const SETTINGS = {
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
-            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"}
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Name", valuePath: "label"}
         ]
     },
 
@@ -154,7 +161,8 @@ export const SETTINGS = {
         groups: [
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
-            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"}
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Name", valuePath: "label"}
         ]
     },
 
