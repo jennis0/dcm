@@ -69,6 +69,9 @@ Hooks.once("ready", () => {
     patchQuickInsert();
     patchSpotlightOmnisearch();
 
+    //Force first building of index
+    CONFIG.dndContentManager.index.rebuild();
+
     log("Finished ready steps")
 })
 
