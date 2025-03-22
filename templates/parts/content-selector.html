@@ -2,7 +2,9 @@
 
 <fieldset class="card packs-section tab {{cssClass}}">
     <legend>{{ label }}</legend>
+
     <menu class="packs-list unlist {{ type }}">
+
         {{#if (gt entries.length 1)}}
         <li class="compendium-list-row all">
             <label class="checkbox">
@@ -21,21 +23,19 @@
         {{/if}}
 
         <div class="compendium-content">
-            {{#if (gt entries.length 1)}}
-                <li class="compendium-list-row header-row">
-                    <div class="compendium-row-label header-labels">
-                        <div class="left-text">
-                            <span class="title" style="margin-right: 50px">Name</span>
-                            <span class="metadata">{{metadataLabel}}</span>
-                        </div>
-                        <div class="right-text">
-                            <span class="source">Source</span>
-                            <span class="module">Module</span>
-                        </div>
+
+            <li class="compendium-list-row header-row">
+                <div class="compendium-row-label header-labels">
+                    <div class="left-text">
+                        <span class="title">Item</span>
                     </div>
-                </li>
-            {{/if}}
-            
+                    <div class="right-text">
+                        <span class="source">Source</span>
+                        <span class="module">Module</span>
+                    </div>
+                </div>
+            </li>
+
             {{#each entries}}
                 <li class="compendium-list-row">
                     
@@ -57,8 +57,12 @@
 
                         <div class="compendium-row-label">
                             <div class="left-text">
-                                <span class="title">{{ label }}</span>
-                                <span class="metadata">{{ metadata }}</span>
+                                <div class="name name-stacked">
+                                    <span class="title">{{ label }}</span>
+                                    <span class="metadata">{{ metadata }}</span>
+                                </div>
+                                <!-- <span class="title">{{ label }}</span>
+                                <span class="metadata">{{ metadata }}</span> -->
                             </div>
                             <div class="right-text">
                                 <span class="source">{{ sourceName }}</span>
@@ -69,6 +73,7 @@
                 </li>
             {{/each}}
         </div>
+
     </menu>
 </fieldset>
 

@@ -38,8 +38,8 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             title: 'Select Compendia',
             classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
-                width: 800,
-                height: 650
+                width: 900,
+                height: 700,
               },
             actions: {
                 selectPack: SourceSelector.#onSelectPack,

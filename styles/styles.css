@@ -43,7 +43,13 @@
      ========================================================================== */
   .dcm .packs-section {
     max-width: 680px;
-    margin-bottom: 1.5em;
+    margin: 0.5em 0.5em 1.5em 0.5em;
+    padding: 0;
+    padding-top: 0.5em;
+  }
+
+  .dcm .packs-section legend {
+    margin-left: 1em;
   }
   
   /* Source Title Layout
@@ -123,7 +129,7 @@
     width: 0.1em;
     height: 0.1em;
   }
-  
+
   /* Selector Components
      ========================================================================== */
   .dcm .pack-selector,
@@ -133,6 +139,7 @@
     width: 100%;
     padding-bottom: 1em;
     padding-right: 1em;
+    padding-left: 0.5em;
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -178,6 +185,12 @@
   .dcm .pack.control .title {
     vertical-align: middle;
   }
+
+  .dcm .window-content .sidebar {
+    height: 640px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
   
   /* Compendium List Styles
      ========================================================================== */
@@ -188,14 +201,66 @@
     flex-wrap: wrap;
     padding-right: 1em;
   }
+
+  .dcm .compendium-list-row:hover .compendium-row-label .title {
+    text-shadow: 0px 0px 4px var(--dnd5e-color-gold);
+  }
+/* 
+  .dcm .compendium-list-row:hover:not(.all):not(.header-row) {
+    border: 1px dotted var(--dnd5e-color-gold)
+  } */
+/* 
+  .dcm .compendium-list-row:hover img.compendium-icon {
+    box-shadow: 0px 0px 6px var(--dnd5e-color-gold);
+  } */
   
   .dcm li.compendium-list-row {
-    height: 2.5em;
+    min-height: 2.5em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    border-bottom: var(--dnd5e-border-dotted);
   }
   
   .dcm li.compendium-list-row.all {
     height: 2.5em;
+    padding-left: 1em;
+    padding-right: 1em;
   }
+
+  .dcm .compendium-list-row .name-stacked {
+    display: flex;
+    flex-direction: column;
+  }
+  .dcm .compendium-list-row  .title {
+    font-family: var(--dnd5e-font-roboto-slab);
+    font-size: var(--font-size-12);
+    font-weight: bold;
+    line-height: none;
+  }
+  .dcm .compendium-list-row  .subtitle {
+    font-family: var(--dnd5e-font-roboto);
+    font-size: var(--font-size-10);
+    color: var(--color-text-dark-5);
+    line-height: none;
+  }
+
+  .dcm li.pack-list-row {
+    min-height: 2em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+  
+  .dcm li.pack-list-row.all {
+    height: 2em;
+    padding-left: 0.5em;
+    padding-right: 1em;
+    padding-top: 0.3em;
+  }
+
   
   /* Enable Options
      ----------------- */
@@ -251,14 +316,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: normal;
   }
   
   .dcm .content-selector .left-text .title {
-    width: 150px;
-  }
-  
-  .dcm .content-selector .left-text .metadata {
-    width: 100px;
+    width: 300px;
   }
   
   .dcm .content-selector .right-text {
@@ -267,6 +329,7 @@
     gap: 10px;
     justify-content: right;
     flex-wrap: nowrap;
+    align-items: center;
   }
   
   .dcm .content-selector .right-text .source,
@@ -281,12 +344,13 @@
   /* Header Styles
      ----------------- */
   .dcm .content-selector .compendium-row-label.header-labels {
-    margin: 0 0 0 50px;
+    margin: 0 0 0 0.1em;
     color: var(--color-text-light-1);
   }
   
   .dcm .content-selector .compendium-list-row.header-row {
-    margin: 0 0 0.5em 0;
+    margin: 0;
+    margin-bottom: 0.5em;
     background: var(--dnd5e-color-gold);
     height: 2em;
     overflow:visible;

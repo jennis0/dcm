@@ -1,3 +1,9 @@
+### 1.4.3
+- General tweaks to presentation to make a better experience
+Bug Fixes:
+- Resolved CSS issue with content selector sidebar spacing in Firefox
+- Add feat types back in for 5e 2024
+
 ### 1.4.2
 New Features:
 - Improvement of how duplicate filtering works and addition of an inverse filter to find unique

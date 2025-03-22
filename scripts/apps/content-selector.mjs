@@ -598,7 +598,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     _getFeats(pack, selectedOptions) {
         return this._fetch(pack,
             d => d.type === "feat" && d.system.type?.value === "feat",
-            d => {return {metadata: getFeatType(d.system.type?.subtype)}},
+            d => {console.log(d.system.type); return {metadata: getFeatType(d.system.type?.subtype)}},
             (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label),
             selectedOptions,
             ["system.type"]

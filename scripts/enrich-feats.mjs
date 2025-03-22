@@ -13,10 +13,11 @@ function getFeatTypeV3(ident) {
 }
 
 function getFeatTypeV4(ident) {
-    if (ident in CONFIG.DND5E.featureTypes.feat) {
-        return CONFIG.DND5E.featureTypes.feat[ident]
+    console.log(ident)
+    if (ident in CONFIG.DND5E.featureTypes.feat.subtypes) {
+        return CONFIG.DND5E.featureTypes.feat.subtypes[ident]
     }
-    return "Feat"
+    return "Unspecified Feat Type"
 }
 
 export function getFeatType(ident) {
