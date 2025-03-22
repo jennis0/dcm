@@ -2,6 +2,7 @@
 New Features:
 - Improvement of how duplicate filtering works and addition of an inverse filter to find unique
 - Button to collapse/expand tables of items for easier working with large sets of items
+  
 Bug Fixes
 - "Make Spells journal" option in Create Player Handbook now actually creates a journal
 - Fixed QuickInsert integration bug which caused it not to function until changes we made
