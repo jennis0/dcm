@@ -236,14 +236,14 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const all_box = pack_list.querySelector("dcm-checkbox[data-action=selectAll]")
         const siblings = pack_list.querySelectorAll("dcm-checkbox[data-action=selectPack]")
         
-        const count = pack_list.querySelector(".selected-count")
-
         // Handle updating count
-        const [n_selected, n_total] = count.textContent.split(" ")[0]
-            .split("/").map(Number);
-        count.textContent = target.checked ? `${n_selected + 1}/${n_total} Selected` 
-            : `${n_selected - 1}/${n_total} Selected`;
-
+        const count = pack_list.querySelector(".selected-count")
+        if (count !== null && count !== undefined) {
+            const [n_selected, n_total] = count.textContent.split(" ")[0]
+                .split("/").map(Number);
+            count.textContent = target.checked ? `${n_selected + 1}/${n_total} Selected` 
+                : `${n_selected - 1}/${n_total} Selected`;
+        }
 
         //Check number of siblings currently turned on
         if (all_box !== null & all_box !== undefined) {

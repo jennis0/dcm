@@ -1,3 +1,4 @@
+import { warn } from "../lib.mjs";
 import { getSetting, SETTINGS } from "../settings.mjs";
 import { makeJournal, getAllItems, addPages, makePage, htmlTable } from "./common.mjs";
 
@@ -126,6 +127,11 @@ async function createBackgroundTable(backgrounds) {
     const rows = await Promise.all(backgrounds.map(async backgroundUuid => {
         // Load background data from UUID
         const background = await fromUuid(backgroundUuid);
+
+        if (background === null) {
+            warn(`Background ${backgroundUuid} not found`);
+            return null
+        }
         
         // Initialize default row with linked background name
         const tableRow = [
@@ -169,7 +175,7 @@ async function createBackgroundTable(backgrounds) {
         }
         
         return tableRow;
-    }));
+    })).then(rows => rows.filter(row => row !== null));
     
     // Generate and return final HTML table
     return htmlTable(headers, rows);
@@ -184,13 +190,17 @@ async function createSortedItemPages(items) {
     // Create array of page and item pairs
     const pairs = await Promise.all(items.map(async itemUuid => {
         const item = await fromUuid(itemUuid);
+        if (item === null) {
+            warn(`Item ${itemUuid} not found`);
+            return null
+        }
         const page = await makeItemPage(item.name, item.uuid);
         return {
             page,
             item: itemUuid,
             name: item.name // Store name for sorting
         };
-    }));
+    })).then(pages => pages.filter(page => page !== null));
     
     // Sort pairs by name
     pairs.sort((a, b) => a.name.localeCompare(b.name));
@@ -280,6 +290,12 @@ export async function createGroupedItembook(itemtype, defaultName, folder, sheet
     const itemTypeMap = new Map();
     await Promise.all(items.map(async itemUuid => {
         const item = await fromUuid(itemUuid);
+
+        if (item === null) {
+            warn(`Item ${itemUuid} not found`);
+            return null
+        }
+
         const type = item.system.type.subtype || "unknown"
         if (!itemTypeMap.has(type)) {
             itemTypeMap.set(type, 
@@ -291,7 +307,7 @@ export async function createGroupedItembook(itemtype, defaultName, folder, sheet
         } else {
             itemTypeMap.get(type).items.push(item)
         }
-    }))
+    })).then(results => results.filter(item => item !== null))
 
     await Promise.all(itemTypeMap.keys()
         .map(async k => {
