@@ -1,3 +1,4 @@
+import { warn } from '../lib.mjs';
 import {getSetting, SETTINGS} from '../settings.mjs';
 import { getAllItems, makeJournal, makePage, addPages, makeSpellPage } from './common.mjs';
 
@@ -152,12 +153,16 @@ export async function createClassbook(folder, useExistingPages, sheet) {
     // Create pages for each class and store with their identifiers
     const classPages = await Promise.all(classes.map(async classUuid => {
         const cls = await fromUuid(classUuid);
+        if (cls === null) {
+            warn(`Class ${classUuid} not found`);
+            return null
+        }
         return [
             cls.system.identifier,
             await makeClassPage(existingPageIndex, cls.name, cls.uuid, cls.description),
             makeCombinedSpellList(cls.name, cls.system.identifier)
         ];
-    }));
+    })).then(results => results.filter(r => r !== null));
     
     // Initialize class map with "unknown" category for orphaned subclasses
     const classMap = new Map();
@@ -174,6 +179,10 @@ export async function createClassbook(folder, useExistingPages, sheet) {
     // Process subclasses and add them to their respective class entries
     await Promise.all(subclasses.map(async subclassUuid => {
         const cls = await fromUuid(subclassUuid);
+        if (cls === null) {
+            warn(`Class ${subclassUuid} not found`);
+            return null
+        }
         const targetClass = classMap.get(cls.system.classIdentifier) || classMap.get("unknown");
         
         const subclassPage = await makeSubclassPage(
@@ -184,7 +193,7 @@ export async function createClassbook(folder, useExistingPages, sheet) {
         );
         
         targetClass.subclassPages.push(subclassPage);
-    }));
+    })).then(results => results.filter(r => r !== null));
     
     // Sort subclass pages alphabetically for each class
     classMap.forEach(classData => {

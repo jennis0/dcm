@@ -4,6 +4,7 @@ New Features
 
 Bug Fixes
 - Fixes crash when a filtered compendium is removed from the world
+- Fixes crash in handbook generation when a filtered item is missing
 
 ### 1.4.3
 - General tweaks to presentation to make a better experience
