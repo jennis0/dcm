@@ -15,7 +15,7 @@ export class DCMIndex extends Object {
     static _buildIndexMap() {
         const filters = new Map();
         for (const s of SETTINGS.itemtypes) {
-            if (SETTINGS[s].type !== "Item") {
+            if (SETTINGS[s].type === "JournalEntry") {
                 continue
             }
             if (s === "items") {
@@ -50,8 +50,8 @@ export class DCMIndex extends Object {
 
     itemInIndex(documentType, subType, uuid) {
         
-        //If not an item don't filter (we don't consider spell lists here)
-        if (documentType !== "Item") {
+        //If a journal entry don't filter (we don't consider spell lists here)
+        if (documentType === "JournalEntry") {
             return true
         }
 
@@ -90,7 +90,13 @@ export class DCMIndex extends Object {
     }
 
     compendiumBrowserItemInIndex(item) {
-        return this.itemInIndex("Item", item.type, item.uuid)
+        if (item.type === "npc") {
+            return this.itemInIndex("Actor", item.type, item.uuid)
+        } 
+        
+        else {
+            return this.itemInIndex("Item", item.type, item.uuid)
+        }
     }
 
     itemTypeInIndex(item) {
