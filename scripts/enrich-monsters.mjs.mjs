@@ -1,6 +1,6 @@
 
 function getMonsterTypeV3(type) {
-    return `${type.slice(0, 1).toUpperCase()}${type.slice(1, d.type.length)}`
+    return `${type.slice(0, 1).toUpperCase()}${type.slice(1, type.length)}`
 }
 
 function getMonsterTypeV4(type) {
