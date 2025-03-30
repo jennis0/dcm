@@ -1,7 +1,7 @@
 {
   "id": "dnd5e-content-manager",
   "title": "DnD Content Manager",
-  "version": "1.4.2",
+  "version": "1.4.4",
   "compatibility": {
     "minimum": "12",
     "maximum": "13",
@@ -20,7 +20,7 @@
         "type": "system",
         "compatibility": {
           "minimum": "3.3.1",
-          "verified": "4.1"
+          "verified": "4.3"
         }
       }
     ]
@@ -34,6 +34,6 @@
   ],
   "url": "https://github.com/jennis0/dcm",
   "manifest": "https://raw.githubusercontent.com/jennis0/dcm/refs/heads/main/module.json",
-  "download": "https://raw.githubusercontent.com/jennis0/dcm/refs/heads/main/module.zip",
+  "download": "https://github.com/jennis0/dcm/releases/download/v1.4.4/module.zip",
   "changelog": "https://github.com/jennis0/dcm/blob/main/CHANGELOG.md"
 }

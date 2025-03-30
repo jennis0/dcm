@@ -41,14 +41,8 @@ function createUpdateMessage() {
     log("Creating update message")
 
     const updates = [
-        "Improvement of how duplicate filtering works and addition of an inverse filter to find unique items",
-        "Button to collapse/expand tables of items for easier working with large sets of items",
-        "General tweaks to presentation to increase information density and useability",
-        "The 'Make Spells Journal' option in Create Player Handbook now actually creates a journal",
-        "Fixed QuickInsert integration bug which caused it not to function until changes we made",
-        "Feat handbook no longer contains non-feat features if when not being managed by DCM",
-        "Resolved CSS issue with content selector sidebar spacing in Firefox",
-        "Add feat types back in for 5e 2024"
+        "Monsters can now be managed and filtered",
+        "Fixed crash when a filtered compendium is removed from the world"
     ]
 
     const content = `<p><i>Module updated to ${CONFIG.dndContentManager.version}</i></p>`
