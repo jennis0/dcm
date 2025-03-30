@@ -10,6 +10,7 @@ A content manager for D&amp;D 5e in FoundryVTT. Supports 5e v3.3.1 and v4+
 Have you ever wanted to:
 - Replace a core subclass, spell, or feat with a homebrew version?
 - Use some options from a source book without including them all?
+- Manage monsters from many different sources, removing unwanted duplicates?
 - Use the Foundry Tasha's module with the new PHB, but hide the Tasha's features which have been replaced?
 - Combine premium modules with other sources, such as the DDB Importer, without duplicates?
 - Add new spell lists without having to create a module?
@@ -21,7 +22,7 @@ If so, this module is for you.
 The goal of the DCM is to give DMs full control over what options are available to players. It allows you to choose exactly which classes, subclasses, species, feats, backgrounds, items and spells show up in the built-in Compendium Browser, turning it into a single source of available options for you and your players.
 
 ## Key Features
-- Manage exactly what classes, subclasses, backgrounds, feats, spells, and items appear within the compendium browser
+- Manage exactly what classes, subclasses, backgrounds, feats, spells, items, and monsters appear within the compendium browser
 - Generate formatted Journals to show your players that contain the approved player options, including full spell lists for each class
 - Create and register new class and subclass spell lists without writing a new module
 - Quickly identify duplicate items coming from multiple sources
@@ -56,14 +57,6 @@ If new content is added it won't be available in the Compendium Browser until yo
 
 #### World Content
 Currently we filter out items which are only in the world but not in a Compendium. 
-
-## Future Improvements
-
-#### Improved Filtering
-DCM currently only supports grouping items and a basic text search so its not the best user experience for types where there are hundreds/thousands of items (e.g. Equipment). I'd like to improve this and give users better ways to quickly navigate and approve/deny content.
-
-#### Auto-Add Content
-Ideally it should be possible to flag some compendiums as being auto-approving, including any content from these by default rather than having to manually approve new items (World items might be a good example of these). 
 
 ## License
 This package is under an MIT license and the Foundry Virtual Tabletop Limited License Agreement for module development.
