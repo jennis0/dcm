@@ -528,6 +528,7 @@
   /* Button Row Styles
      ========================================================================== */
   .dcm-button-row {
+    flex: 0 0 100%;
     display: flex;
     flex-direction: row;
   }
@@ -541,6 +542,7 @@
   
   .dcm-button-row button.content-selector-button {
     margin-right: 0;
+    width: 100%;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }

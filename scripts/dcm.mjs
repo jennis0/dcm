@@ -15,6 +15,9 @@ import { registerInterfaceButtons, registerSystemButtons } from "./ui-integratio
 
 
 Hooks.once("init", () => {
+
+    CONFIG.debug.hooks = true;
+
     //Create version setting first as this is relied on by the migration
     initVersionSetting();
 
