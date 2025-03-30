@@ -2,10 +2,11 @@ import { getFeatType } from "../enrich-feats.mjs";
 import { getSetting, SETTINGS, MODULE_NAME } from "../settings.mjs";
 import { getClassDetailsFromIdent } from "../enrich-class.mjs";
 import { enrichSource } from "../enrich-source.mjs";
-import { getOrdinalSuffix, log } from "../lib.mjs";
+import { getOrdinalSuffix, log, warn } from "../lib.mjs";
 import { SourceSelector } from "./source-selector.mjs";
 import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
 import { addContent, removeContent } from "../content-management.mjs";
+import { getMonsterType } from "../enrich-monsters.mjs.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -112,7 +113,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
                 width: 900,
-                height: 700,
+                height: 800,
               },
             actions: {
                 selectPack: ContentSelector.#onSelectPack,
@@ -598,7 +599,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     _getFeats(pack, selectedOptions) {
         return this._fetch(pack,
             d => d.type === "feat" && d.system.type?.value === "feat",
-            d => {console.log(d.system.type); return {metadata: getFeatType(d.system.type?.subtype)}},
+            d => {return {metadata: getFeatType(d.system.type?.subtype)}},
             (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label),
             selectedOptions,
             ["system.type"]
@@ -619,6 +620,26 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label),
             selectedOptions,
             ["system.type", "system.container"]
+        )
+    }
+
+    /**
+     * Fetches and filters Monsters from a given pack based on specified criteria.
+     *
+     * @param {string} pack - The identifier of the pack to fetch items from.
+     * @param {Array} selectedOptions - An array of selected options to filter the items.
+     * @returns {Promise<Array>} A promise that resolves to an array of filtered items.
+     */
+    _getMonsters(pack, selectedOptions) {
+        return this._fetch(pack,
+            d => d.type === "npc",
+            d => {return {
+                metadata: getMonsterType(d.system.details.type.value),
+                typeName: getMonsterType(d.system.details.type.value),
+            }},
+            (a,b) => a.metadata?.localeCompare(b.metadata) || a.label.localeCompare(b.label),
+            selectedOptions,
+            ["system.type", "system.details.type"]
         )
     }
 
@@ -648,7 +669,11 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }
         else if (subtype === SETTINGS.items.subtype) {
             documents = this._getItems(pack, selectedOptions);
-        } else {
+        }
+        else if (subtype === SETTINGS.monster.subtype) {
+            documents = this._getMonsters(pack, selectedOptions)
+        }
+        else {
             documents = this._fetch(pack, 
                 (d) => d.type === subtype,
                 (d) => {},
@@ -669,8 +694,16 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      * @returns {Promise<Array<Object>>} A promise that resolves to an array of content options.
      */
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
+
         const grouped_options = await Promise.all(sourceCompendia?.map(async (c) => {
             const pack = game.packs.get(c);
+
+            //Filter out registered packs which are not currently present
+            if (pack === null || pack === undefined) {
+                warn(`Pack ${c} not found`)
+                return null;
+            }
+
             const source = this._getSourceName(pack.metadata.packageType, pack.metadata.packageName);
             const entries = await this._getDocuments(pack, subtype, selectedOptions)
 
@@ -685,7 +718,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 indeterminate: n_checked > 0 && n_checked !== entries.length,
                 selected: n_checked
             }
-        }))
+        })).then(results => results.filter(r => r !== null))
 
         //Apply the unique/duplicate filters if selected
         if (this.currentFilters.minItems > 0 || this.currentFilters.unique) {

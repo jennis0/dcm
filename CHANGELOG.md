@@ -1,3 +1,7 @@
+### 1.4.4
+New Features
+- Addition of monster filtering
+
 ### 1.4.3
 - General tweaks to presentation to make a better experience
   

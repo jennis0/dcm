@@ -38,7 +38,7 @@ export function registerSpellLists() {
         return;
     }
     
-    clearSpellLists();
+    // clearSpellLists();
 
     const lists = getSetting(SETTINGS.spelllist.content);
     lists.forEach(sl => {

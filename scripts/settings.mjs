@@ -17,7 +17,8 @@ export const SETTINGS = {
         "feat",
         "items",
         "spell",
-        "spelllist"
+        "spelllist",
+        "monster",
     ],
 
     /**
@@ -162,6 +163,24 @@ export const SETTINGS = {
             {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
             {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
             {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Name", valuePath: "label"}
+        ]
+    },
+
+    monster: {
+        label: "Monsters",
+        metadataLabel: "",
+        icon: "systems/dnd5e/icons/svg/monster.svg",
+        sources: "monsterSources",
+        content: "monsters",
+        enabled: "filterMonsters",
+        type: "Actor",
+        subtype: "npc",
+        groups: [
+            {groupLabel: "Module", valuePath: "module", itemLabelPath: "moduleName"},
+            {groupLabel: "Compendium", valuePath: "compendium", itemLabelPath: "compendiumName"},
+            {groupLabel: "Source", valuePath: "source", itemLabelPath: "sourceName"},
+            {groupLabel: "Type", valuePath: "typeName"},
             {groupLabel: "Name", valuePath: "label"}
         ]
     },

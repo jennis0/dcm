@@ -135,7 +135,7 @@
   .dcm .pack-selector,
   .dcm .content-selector {
     margin: 0.5em 0 1em 0;
-    height: 650px;
+    height: 740px;
     width: 100%;
     padding-bottom: 1em;
     padding-right: 1em;
@@ -191,6 +191,19 @@
     overflow-y: auto;
     scrollbar-width: none;
   }
+
+  .dcm .content-selector .window-content .sidebar {
+    height: 740px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .dcm .window-content .sidebar {
+    height: 740px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  
   
   /* Compendium List Styles
      ========================================================================== */
