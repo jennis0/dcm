@@ -1,3 +1,10 @@
+### 1.4.4
+New Features
+- Addition of monster filtering
+
+Bug Fixes
+- Fixes crash when a filtered compendium is removed from the world
+
 ### 1.4.3
 - General tweaks to presentation to make a better experience
   
