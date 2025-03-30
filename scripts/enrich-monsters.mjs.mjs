@@ -1,8 +1,5 @@
 
 function getMonsterTypeV3(type) {
-    if (FEAT_TYPES.has(ident)) {
-        return FEAT_TYPES.get(ident)
-    }
     return `${type.slice(0, 1).toUpperCase()}${type.slice(1, d.type.length)}`
 }
 
