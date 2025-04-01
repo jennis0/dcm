@@ -189,6 +189,21 @@ export function initSettings() {
         )
     }
 
+    if (game.modules.get("hero-mancer")) {
+        game.settings.register(MODULE_NAME, SETTINGS.filterHeromancer, 
+            {
+                name: "Filter Hero Mancer Options",
+                hint: "Filter player options shown by Hero-Mancer (if installed)",
+                scope: "world",
+                config: true,
+                type: Boolean,
+                default: false,
+                restricted: true,
+                requiresReload: true
+            }
+        )
+    }
+
     game.settings.register(MODULE_NAME, SETTINGS.playerHandbookOptions, 
         {
             name: "Player Handbook Options",

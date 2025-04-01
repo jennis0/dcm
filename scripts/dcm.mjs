@@ -12,6 +12,7 @@ import { patchSpotlightOmnisearch } from "./integrations/spotlight.mjs";
 import { Version } from "./version-utils.mjs";
 import { DCMIndex } from "./index.mjs";
 import { registerInterfaceButtons, registerSystemButtons } from "./ui-integration.mjs";
+import { patchHeromancer } from "./integrations/heromancer.mjs";
 
 
 Hooks.once("init", () => {
@@ -68,6 +69,7 @@ Hooks.once("ready", () => {
     //Load integrations with other modules (if present)
     patchQuickInsert();
     patchSpotlightOmnisearch();
+    patchHeromancer();
 
     //Force first building of index
     CONFIG.dndContentManager.index.rebuild();
