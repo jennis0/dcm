@@ -167,13 +167,59 @@ export function htmlTable(headers, rows) {
 }
 
 
-export function getPremadeJournalPages(document_type) {
+/**
+ * Retrieves premade journal pages from a specific compendium based on the provided document type.
+ *
+ * @async
+ * @param {string} document_type - The type of document to search for in the compendium.
+ * @returns {Map<string, Object>} A map of journal page names (in lowercase) to their corresponding page objects.
+ *                                Returns an empty map if no matching journal is found.
+ */
+export async function getPremadeJournalPages(document_type) {
     const targetCompendium = game.packs.get(MODULE_NAME + ".dcm-journals");
-    const targetJournal = targetCompendium.find(j => j.name.toLowerCase() === document_type.toLowerCase())
-    if (!targetJournal) {
+    
+    if (document_type.toLowerCase() === 'race') {
+        document_type = 'species'
+    }
+
+    const targetJournalIndex = targetCompendium.index.find(j => j.name.toLowerCase() === document_type.toLowerCase())
+    if (!targetJournalIndex) {
         return new Map()
     }
-    
-    return new Map(targetJournal.pages.map(p => [p.name, p]))
 
+    return new Map(
+        (await targetCompendium.getDocument(targetJournalIndex._id))
+            .pages.map(p => [p.name.toLowerCase(), p])
+    )
+}
+
+/**
+ * Searches for an item in a map of premade journal pages by its ID or name.
+ *
+ * @param {Map<string, any>} pageMap - A map where keys are item IDs or names (in lowercase) 
+ *                                     and values are the corresponding journal page data.
+ * @param {Object} item - The item to search for in the map.
+ * @param {string} item.id - The unique identifier of the item.
+ * @param {string} item.name - The name of the item.
+ * @returns {Object|null} - The journal page data associated with the item if found, or `null` if not found.
+ */
+export function itemInPremadeJournalPages(pageMap, item) {
+    let page = pageMap.get(item.uuid)
+
+    if (!page) {
+        page = pageMap.get(item.id)
+    }
+
+    if (!page) {
+        page = pageMap.get(item.name.toLowerCase())
+    }
+
+    if (page) {
+        page.title.level = 1
+        page.sort = -1
+        page._source.title.level = 1
+        return page
+    }
+
+    return null
 }

@@ -215,6 +215,7 @@ export function initSettings() {
                 feats: true,
                 spells: true,
                 existingPages: true,
+                overridePages: true,
                 folderTitle: "Player Handbook",
                 styleOption: null
             },
