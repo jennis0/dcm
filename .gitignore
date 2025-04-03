@@ -1,0 +1,5 @@
+*.log
+CURRENT
+LOCK
+LOG
+LOG.old

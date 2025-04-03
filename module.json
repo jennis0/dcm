@@ -35,5 +35,18 @@
   "url": "https://github.com/jennis0/dcm",
   "manifest": "https://raw.githubusercontent.com/jennis0/dcm/refs/heads/main/module.json",
   "download": "https://github.com/jennis0/dcm/releases/download/v1.4.4/module.zip",
-  "changelog": "https://github.com/jennis0/dcm/blob/main/CHANGELOG.md"
+  "changelog": "https://github.com/jennis0/dcm/blob/main/CHANGELOG.md",
+  "packs": [
+    {
+      "name": "dcm-journals",
+      "label": "DCM Journals",
+      "path": "packs/dcm-journals",
+      "type": "JournalEntry",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "system": "dnd5e"
+    }
+  ]
 }

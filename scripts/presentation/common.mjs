@@ -1,4 +1,4 @@
-import { SETTINGS } from "../settings.mjs"
+import { MODULE_NAME, SETTINGS } from "../settings.mjs"
 
 /**
  * Retrieves all item UUIDs of a specified type from a single pack.
@@ -164,4 +164,16 @@ export function htmlTable(headers, rows) {
     })
 
     return toElement("table", htmlRows.join("\n"))
+}
+
+
+export function getPremadeJournalPages(document_type) {
+    const targetCompendium = game.packs.get(MODULE_NAME + ".dcm-journals");
+    const targetJournal = targetCompendium.find(j => j.name.toLowerCase() === document_type.toLowerCase())
+    if (!targetJournal) {
+        return new Map()
+    }
+    
+    return new Map(targetJournal.pages.map(p => [p.name, p]))
+
 }
