@@ -204,10 +204,10 @@ export async function getPremadeJournalPages(document_type) {
  * @returns {Object|null} - The journal page data associated with the item if found, or `null` if not found.
  */
 export function itemInPremadeJournalPages(pageMap, item) {
-    let page = pageMap.get(item.uuid)
+    let page = pageMap.get(item.uuid.toLowerCase())
 
     if (!page) {
-        page = pageMap.get(item.id)
+        page = pageMap.get(item.id.toLowerCase())
     }
 
     if (!page) {
@@ -215,6 +215,8 @@ export function itemInPremadeJournalPages(pageMap, item) {
     }
 
     if (page) {
+        page.name = item.name
+        page._source.name = item.name
         page.title.level = 1
         page.sort = -1
         page._source.title.level = 1

@@ -3,7 +3,7 @@ import { getSetting, MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
 import { initSettings, initVersionSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
-import { handleMigrations } from "./migrations.mjs";
+import { handleMigrations, showChangelog } from "./migrations.mjs";
 
 import { patchCompendiumBrowser } from "./integrations/compendium-filters.mjs";
 import { patchQuickInsert } from "./integrations/quick-insert.mjs";
@@ -53,9 +53,7 @@ Hooks.once("init", () => {
 
 
 
-Hooks.once("ready", () => {
-    // Set that we've successfully loaded this version
-    setSetting(SETTINGS.lastLoadedVersion, CONFIG.dndContentManager.version.toString())
+Hooks.once("ready", async () => {
 
     //Add our monkey patch to the Compendium Browser
     patchCompendiumBrowser();
@@ -74,8 +72,18 @@ Hooks.once("ready", () => {
     //Force first building of index
     CONFIG.dndContentManager.index.rebuild();
 
+    showChangelog();
+
+    // Set that we've successfully loaded this version
+    setSetting(SETTINGS.lastLoadedVersion, CONFIG.dndContentManager.version.toString())
+
     log("Finished ready steps")
 })
+
+Hooks.once("ready", async () => {
+    // Handle showing changelog
+
+  });
 
 
 
