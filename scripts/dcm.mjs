@@ -1,7 +1,7 @@
 
-import { getSetting, MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
+import { MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
-import { initSettings, initVersionSetting } from "./register-settings.mjs"
+import { initSettings, initVersionSetting, registerCompendiumOverrideSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
 import { handleMigrations, showChangelog } from "./migrations.mjs";
 
@@ -13,6 +13,7 @@ import { Version } from "./version-utils.mjs";
 import { DCMIndex } from "./index.mjs";
 import { registerInterfaceButtons, registerSystemButtons } from "./ui-integration.mjs";
 import { patchHeromancer } from "./integrations/heromancer.mjs";
+import { addCompendiumOverrideHooks, getOverrideCompendiumOptions, handleOverrideSettingChange } from "./presentation/override-compendium.mjs";
 
 
 Hooks.once("init", () => {
@@ -72,6 +73,11 @@ Hooks.once("ready", async () => {
     //Force first building of index
     CONFIG.dndContentManager.index.rebuild();
 
+    //Add hooks to handle updating of override compendium setting
+    //and override compendium creation
+    registerCompendiumOverrideSetting();
+    addCompendiumOverrideHooks();
+
     showChangelog();
 
     // Set that we've successfully loaded this version
@@ -80,10 +86,6 @@ Hooks.once("ready", async () => {
     log("Finished ready steps")
 })
 
-Hooks.once("ready", async () => {
-    // Handle showing changelog
-
-  });
 
 
 

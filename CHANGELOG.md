@@ -1,7 +1,7 @@
 ### 1.4.5
 New Features:
 - Integration with [Hero Mancer](https://foundryvtt.com/packages/hero-mancer) to control what options are available to players in the character creation dialog. Turn this on from the settings menu if desired.
-0 Customise the pages generated Player Handbook for Classes, Subclasses, Species, and Backgrounds by adding your custom pages to the override journals in the DCM Journals Compendium
+- Customise the pages generated Player Handbook for Classes, Subclasses, Species, and Backgrounds by adding your custom pages to the override journals in the DCM Journals Compendium
 - Added in-game manual in the DCM Journals compendium
 
 Bug Fixes:

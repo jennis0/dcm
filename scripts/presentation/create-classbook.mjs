@@ -1,6 +1,7 @@
 import { warn } from '../lib.mjs';
 import {getSetting, MODULE_NAME, SETTINGS} from '../settings.mjs';
-import { getAllItems, makeJournal, makePage, addPages, makeSpellPage, getPremadeJournalPages } from './common.mjs';
+import { getAllItems, makeJournal, makePage, addPages, makeSpellPage } from './common.mjs';
+import { getOverrideCompendium } from './override-compendium.mjs';
 
 
 /**
@@ -25,7 +26,10 @@ async function buildExistingPageIndex(useExistingPages, useOverridePages) {
 
     if (useOverridePages) {
         // Add the DCM journal pack to the list of packs to search (add last to guarantee override)
-        allPacks.push(game.packs.get(MODULE_NAME + ".dcm-journals"));
+        const targetCompendium = getOverrideCompendium();
+        if(targetCompendium) {
+            allPacks.push(targetCompendium);
+        }
     }
 
     const documents = await Promise.all(allPacks.map(pack => pack.getDocuments()));

@@ -1,4 +1,5 @@
 import { MODULE_NAME, SETTINGS } from "../settings.mjs"
+import { getOverrideCompendium } from "./override-compendium.mjs"
 
 /**
  * Retrieves all item UUIDs of a specified type from a single pack.
@@ -176,7 +177,11 @@ export function htmlTable(headers, rows) {
  *                                Returns an empty map if no matching journal is found.
  */
 export async function getPremadeJournalPages(document_type) {
-    const targetCompendium = game.packs.get(MODULE_NAME + ".dcm-journals");
+    const targetCompendium = getOverrideCompendium();
+    
+    if(!targetCompendium) {
+        return new Map();
+    }
     
     if (document_type.toLowerCase() === 'race') {
         document_type = 'species'

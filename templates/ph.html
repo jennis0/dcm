@@ -85,13 +85,20 @@
         <label>
             <dcm-checkbox
                 class="compendium-checkbox"
-                data-action="toggleOption",
+                data-action="toggleOption"
                 name="overridePages"
                 {{#if options.overridePages}}checked{{/if}}
+                {{#if noOverrideSet}}disabled{{/if}}
             ></dcm-checkbox>
-            <span>Use class, subclass, background, and species pages from the override compendiums</span>
+            <div style="display: flex; flex-direction: column;">
+                <span {{#if noOverrideSet}}style="text-decoration: line-through;"{{/if}}>
+                    Use class, subclass, background, and species pages from the override compendiums
+                </span>
+                {{#if noOverrideSet}}
+                    <i>No override compendium configured</i>
+                {{/if}}
+            </div>
         </label>
-        
     </li>
 
     <b>Folder Title</b>

@@ -105,6 +105,7 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
 
         // Set default options for handbook content
         context.options = getSetting(SETTINGS.playerHandbookOptions)
+        context.noOverrideSet = getSetting(SETTINGS.overrideCompendium) === "none"
 
         // Prepare journal style options
         context.styleOptions = [
