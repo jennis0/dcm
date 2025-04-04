@@ -1,6 +1,6 @@
 import { warn } from "../lib.mjs";
 import { getSetting, SETTINGS } from "../settings.mjs";
-import { makeJournal, getAllItems, addPages, makePage, htmlTable } from "./common.mjs";
+import { makeJournal, getAllItems, addPages, makePage, htmlTable, getPremadeJournalPages, itemInPremadeJournalPages } from "./common.mjs";
 
 function makeItemPage(title, itemUuid) {
     return makePage(
@@ -181,12 +181,21 @@ async function createBackgroundTable(backgrounds) {
     return htmlTable(headers, rows);
 }
 
+
 /**
- * Creates pages for all items and sorts both pages and items in matching order
- * @param {Array} items - Array of item UUIDs
- * @returns {Promise<{sortedPages: Array, sortedItems: Array}>} Sorted arrays of pages and items
+ * Asynchronously creates and sorts item pages based on their names.
+ * @async
+ * @function
+ * @param {string[]} items - An array of item UUIDs to process.
+ * @param {Map<string, Object>} premadePages - An array of premade journal pages to check for existing items.
+ * @returns {Promise<Object>} A promise that resolves to an object containing:
+ *   - `sortedPages` {Object[]} - An array of sorted page objects.
+ *   - `sortedItems` {string[]} - An array of sorted item UUIDs.
+ *
+ * @throws {Error} If an error occurs during the creation or sorting of item pages.
  */
-async function createSortedItemPages(items) {
+async function createSortedItemPages(items, premadePages) {
+
     // Create array of page and item pairs
     const pairs = await Promise.all(items.map(async itemUuid => {
         const item = await fromUuid(itemUuid);
@@ -194,7 +203,12 @@ async function createSortedItemPages(items) {
             warn(`Item ${itemUuid} not found`);
             return null
         }
-        const page = await makeItemPage(item.name, item.uuid);
+
+        let page = itemInPremadeJournalPages(premadePages, item) 
+        if (!page) {
+            page = await makeItemPage(item.name, item.uuid);
+        }
+
         return {
             page,
             item: itemUuid,
@@ -246,10 +260,11 @@ async function createIndexPage(itemtype, items, pages) {
  * Creates an itembook journal with pages for each item and an index page
  * @param {string} itemtype - Type of items to include in the journal (e.g., "background")
  * @param {string} folder - Destination folder for the journal
+ * @param {boolean} overridePages - Whether to use premade override pages
  * @param {string} sheet - Sheet template to use
  * @returns {Promise<Journal>} The created journal with all pages
  */
-export async function createItembook(itemtype, folder, sheet) {
+export async function createItembook(itemtype, folder, overridePages, sheet) {
     // Get configuration settings for this item type
     const content = getSetting(SETTINGS[itemtype].content);
     
@@ -258,8 +273,14 @@ export async function createItembook(itemtype, folder, sheet) {
         ? content 
         : await getAllItems(SETTINGS[itemtype].subtype))
     
+
+    let premadePages = new Map()
+    if (overridePages) {
+        premadePages = await getPremadeJournalPages(itemtype);
+    }
+    
     // Create individual pages for each item, sorted alphabetically
-    const { sortedPages, sortedItems } = await createSortedItemPages(items);
+    const { sortedPages, sortedItems } = await createSortedItemPages(items, premadePages);
 
     // Create the main journal
     const journal = await makeJournal(

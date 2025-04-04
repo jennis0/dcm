@@ -6,6 +6,7 @@ import { log } from "./lib.mjs";
 import { EnableMenu } from "./apps/enable-menu.mjs";
 import { ExportDialog, ImportDialog } from "./export.mjs";
 import { PlayerHandbookMenu } from "./apps/player-handbook.mjs";
+import { getOverrideCompendiumOptions } from "./presentation/override-compendium.mjs";
 
 
 export function initVersionSetting() {
@@ -159,6 +160,7 @@ export function initSettings() {
         }
       );
 
+
       if (game.modules.get("quick-insert")) {
         game.settings.register(MODULE_NAME, SETTINGS.filterQuickInsert, 
             {
@@ -189,6 +191,21 @@ export function initSettings() {
         )
     }
 
+    if (game.modules.get("hero-mancer")) {
+        game.settings.register(MODULE_NAME, SETTINGS.filterHeromancer, 
+            {
+                name: "Filter Hero Mancer Options",
+                hint: "Filter player options shown by Hero-Mancer (if installed)",
+                scope: "world",
+                config: true,
+                type: Boolean,
+                default: false,
+                restricted: true,
+                requiresReload: true
+            }
+        )
+    }
+
     game.settings.register(MODULE_NAME, SETTINGS.playerHandbookOptions, 
         {
             name: "Player Handbook Options",
@@ -200,6 +217,7 @@ export function initSettings() {
                 feats: true,
                 spells: true,
                 existingPages: true,
+                overridePages: true,
                 folderTitle: "Player Handbook",
                 styleOption: null
             },
@@ -209,4 +227,22 @@ export function initSettings() {
     ) 
 
     console.groupEnd()
+}
+
+export function registerCompendiumOverrideSetting() {
+    //Handles settings which are only registered once Foundry is ready
+
+    game.settings.register(MODULE_NAME, SETTINGS.overrideCompendium,
+        {
+            name: "Handbook Override Compendium",
+            hint: "Compendium to search for custom Class, Subclass, Species, and Background Journal Pages. If the desired compendium isn't present, reload Foundry",
+            config: true,
+            scope: "world",
+            default: "none",
+            type: String, 
+            restricted: true,
+            requiresReload: false,
+            choices: getOverrideCompendiumOptions()
+        }
+    )
 }
