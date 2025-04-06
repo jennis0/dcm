@@ -188,9 +188,11 @@ export const SETTINGS = {
     lastLoadedVersion: "lastLoadedVersion",
     filterQuickInsert: "filterQuickInsert",
     filterSpotlight: "filterSpotlight",
+    filterHeromancer: "filterHeromancer",
     injectCompendiumButtons: "injectCompendiumButtons",
     injectItemButton: "injectItemButton",
-    playerHandbookOptions: "playerHandbookOptions"
+    playerHandbookOptions: "playerHandbookOptions",
+    overrideCompendium: "overrideCompendium"
 }
 
 /**

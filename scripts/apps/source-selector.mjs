@@ -39,7 +39,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             classes: ["dcm dnd5e2 dialog-lg compendium-browser selector"],
             position: {
                 width: 900,
-                height: 700,
+                height: 800,
               },
             actions: {
                 selectPack: SourceSelector.#onSelectPack,

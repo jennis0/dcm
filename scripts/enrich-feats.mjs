@@ -13,7 +13,6 @@ function getFeatTypeV3(ident) {
 }
 
 function getFeatTypeV4(ident) {
-    console.log(ident)
     if (ident in CONFIG.DND5E.featureTypes.feat.subtypes) {
         return CONFIG.DND5E.featureTypes.feat.subtypes[ident]
     }

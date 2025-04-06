@@ -33,21 +33,21 @@ export async function createHandbooks(options) {
     if (options.class) {
         log("Creating class handbook")
         journalPromises.push(
-            createClassbook(folder, options.existingPages, options.styleOption)
+            createClassbook(folder, options.existingPages, options.overridePages, options.styleOption)
         );
     }
     
     if (options.races) {
         log("Creating Species handbook")
         journalPromises.push(
-            createItembook("race", folder, options.styleOption)
+            createItembook("race", folder, options.overridePages, options.styleOption)
         );
     }
     
     if (options.backgrounds) {
         log("Creating Background handbook")
         journalPromises.push(
-            createItembook("background", folder, options.styleOption)
+            createItembook("background", folder, options.overridePages, options.styleOption)
         );
     }
     

@@ -1,17 +1,37 @@
 import { warn } from '../lib.mjs';
-import {getSetting, SETTINGS} from '../settings.mjs';
+import {getSetting, MODULE_NAME, SETTINGS} from '../settings.mjs';
 import { getAllItems, makeJournal, makePage, addPages, makeSpellPage } from './common.mjs';
+import { getOverrideCompendium } from './override-compendium.mjs';
 
 
 /**
- * Builds an index of existing class and subclass pages from all journal entry packs
- * Maps item UUIDs to their corresponding journal pages
- * 
- * @returns {Promise<Map<string, JournalEntryPage>>} Map of item UUIDs to existing pages
+ * Builds an index of existing journal pages for classes and subclasses.
+ *
+ * @async
+ * @function
+ * @param {boolean} useExistingPages - Whether to include existing journal entry packs in the search.
+ * @param {boolean} useOverridePages - Whether to include the override journal pack in the search.
+ * @returns {Promise<Map<string, Object>>} A map where the keys are item UUIDs and the values are the corresponding journal pages.
  */
-async function buildExistingPageIndex() {
+async function buildExistingPageIndex(useExistingPages, useOverridePages) {
     // Get all journal entry packs and their documents
-    const allPacks = game.packs.filter(pack => pack.metadata.type === "JournalEntry");
+    let allPacks = []
+
+    if (useExistingPages) {
+        allPacks = game.packs.filter(pack => 
+            pack.metadata.id !== MODULE_NAME + ".dcm-journals" 
+            && pack.metadata.type === "JournalEntry"
+        );
+    }
+
+    if (useOverridePages) {
+        // Add the DCM journal pack to the list of packs to search (add last to guarantee override)
+        const targetCompendium = getOverrideCompendium();
+        if(targetCompendium) {
+            allPacks.push(targetCompendium);
+        }
+    }
+
     const documents = await Promise.all(allPacks.map(pack => pack.getDocuments()));
     const flattenedDocs = documents.flat();
     
@@ -22,7 +42,7 @@ async function buildExistingPageIndex() {
             .map(page => [page.system.item, page])
         )
         .flat();
-    
+
     return new Map(classPages);
 }
 
@@ -126,15 +146,34 @@ async function makeSubclassPage(existingPages, title, subclassUuid, content) {
     };
 }
 
+
 /**
- * Creates a journal containing pages for classes and their subclasses
- * 
- * @param {string} folder - Destination folder for the journal
- * @param {boolean} useExistingPages - Whether to reuse existing pages
- * @param {string} sheet - Sheet template to use
- * @returns {Promise<Journal>} The created journal with all class and subclass pages
+ * Creates a classbook journal containing pages for classes and their subclasses.
+ *
+ * @async
+ * @function createClassbook
+ * @param {Folder} folder - The folder where the journal will be created.
+ * @param {boolean} useExistingPages - Whether to use existing pages if available.
+ * @param {boolean} useOverridePages - Whether to override existing pages if they exist.
+ * @param {string} sheet - The sheet template to use for the journal.
+ * @returns {Promise<Journal>} The created journal containing the classbook.
+ *
+ * @description
+ * This function generates a classbook journal by fetching classes and subclasses
+ * based on the provided settings. It organizes the data into pages, sorts them
+ * alphabetically, and creates a new journal in the specified folder. If a journal
+ * with the same name already exists, it will be deleted before creating the new one.
+ *
+ * The function handles the following:
+ * - Fetching classes and subclasses based on settings or retrieving all available ones.
+ * - Building an index of existing pages if requested.
+ * - Creating pages for each class and subclass, including a spell list page for classes.
+ * - Organizing subclasses under their respective classes or an "unknown" category if no match is found.
+ * - Sorting classes and subclasses alphabetically.
+ * - Removing the "unknown" category if it contains no subclasses.
+ * - Deleting any existing journal with the same name and creating a new one.
  */
-export async function createClassbook(folder, useExistingPages, sheet) {
+export async function createClassbook(folder, useExistingPages, useOverridePages, sheet) {
     // Get classes based on settings or get all available classes
     const classes = getSetting(SETTINGS.class.enabled)
         ? getSetting(SETTINGS.class.content) 
@@ -146,8 +185,8 @@ export async function createClassbook(folder, useExistingPages, sheet) {
         : await getAllItems("subclass");
     
     // Build index of existing pages if requested
-    const existingPageIndex = useExistingPages 
-        ? await buildExistingPageIndex() 
+    const existingPageIndex = useExistingPages || useOverridePages
+        ? await buildExistingPageIndex(useExistingPages, useOverridePages) 
         : new Map();
     
     // Create pages for each class and store with their identifiers

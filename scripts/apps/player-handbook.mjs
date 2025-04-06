@@ -76,8 +76,12 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
 
         if (!options.folderTitle) {
             options.folderTitle = getSetting(SETTINGS.playerHandbookOptions).folderTitle;
-
         }
+
+        // Ensure things get set to false rather then undefined if not selected
+        Object.keys(options)
+            .filter(k => options[k] === undefined)
+            .forEach(k => options[k] = false)
 
         setSetting(SETTINGS.playerHandbookOptions, options)
         createHandbooks(options)
@@ -101,6 +105,8 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
 
         // Set default options for handbook content
         context.options = getSetting(SETTINGS.playerHandbookOptions)
+        context.noOverrideSet = getSetting(SETTINGS.overrideCompendium) === "none"
+
         // Prepare journal style options
         context.styleOptions = [
             { value: null, label: "Default Style", selected: true },

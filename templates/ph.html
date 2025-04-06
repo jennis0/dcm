@@ -73,9 +73,32 @@
                 name="existingPages"
                 {{#if options.existingPages}}checked{{/if}}
             ></dcm-checkbox>
-            <span>Use existing class and subclass pages from compendia in this world</span>
+            <span>Use class and subclass pages found in compendiums in this world</span>
         </label>
         
+    </li>
+
+    <b>Override Pages</b>
+
+    <li>
+
+        <label>
+            <dcm-checkbox
+                class="compendium-checkbox"
+                data-action="toggleOption"
+                name="overridePages"
+                {{#if options.overridePages}}checked{{/if}}
+                {{#if noOverrideSet}}disabled{{/if}}
+            ></dcm-checkbox>
+            <div style="display: flex; flex-direction: column;">
+                <span {{#if noOverrideSet}}style="text-decoration: line-through;"{{/if}}>
+                    Use class, subclass, background, and species pages from the override compendiums
+                </span>
+                {{#if noOverrideSet}}
+                    <i>No override compendium configured</i>
+                {{/if}}
+            </div>
+        </label>
     </li>
 
     <b>Folder Title</b>

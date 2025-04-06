@@ -1,9 +1,9 @@
 
-import { getSetting, MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
+import { MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
-import { initSettings, initVersionSetting } from "./register-settings.mjs"
+import { initSettings, initVersionSetting, registerCompendiumOverrideSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
-import { handleMigrations } from "./migrations.mjs";
+import { handleMigrations, showChangelog } from "./migrations.mjs";
 
 import { patchCompendiumBrowser } from "./integrations/compendium-filters.mjs";
 import { patchQuickInsert } from "./integrations/quick-insert.mjs";
@@ -12,6 +12,8 @@ import { patchSpotlightOmnisearch } from "./integrations/spotlight.mjs";
 import { Version } from "./version-utils.mjs";
 import { DCMIndex } from "./index.mjs";
 import { registerInterfaceButtons, registerSystemButtons } from "./ui-integration.mjs";
+import { patchHeromancer } from "./integrations/heromancer.mjs";
+import { addCompendiumOverrideHooks, getOverrideCompendiumOptions, handleOverrideSettingChange } from "./presentation/override-compendium.mjs";
 
 
 Hooks.once("init", () => {
@@ -55,9 +57,7 @@ Hooks.once("init", () => {
 
 
 
-Hooks.once("ready", () => {
-    // Set that we've successfully loaded this version
-    setSetting(SETTINGS.lastLoadedVersion, CONFIG.dndContentManager.version.toString())
+Hooks.once("ready", async () => {
 
     //Add our monkey patch to the Compendium Browser
     patchCompendiumBrowser();
@@ -71,12 +71,24 @@ Hooks.once("ready", () => {
     //Load integrations with other modules (if present)
     patchQuickInsert();
     patchSpotlightOmnisearch();
+    patchHeromancer();
 
     //Force first building of index
     CONFIG.dndContentManager.index.rebuild();
 
+    //Add hooks to handle updating of override compendium setting
+    //and override compendium creation
+    registerCompendiumOverrideSetting();
+    addCompendiumOverrideHooks();
+
+    showChangelog();
+
+    // Set that we've successfully loaded this version
+    setSetting(SETTINGS.lastLoadedVersion, CONFIG.dndContentManager.version.toString())
+
     log("Finished ready steps")
 })
+
 
 
 

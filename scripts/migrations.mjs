@@ -34,27 +34,34 @@ function v111MigrationRegisterSettings() {
 }
 
 /**
- * Creates a chat message describing the changes in the current version
+ * Displays the changelog by rendering the most recent page of a specific journal entry.
+ * 
+ * This function retrieves a journal entry from a Compendium using its UUID. If the journal
+ * is found, it identifies the most recent page and renders the journal sheet, displaying
+ * the changelog. If the journal is not found, it logs a message and exits.
+ * 
+ * @async
+ * @function showChangelog
+ * @returns {Promise<void>} Resolves when the changelog is displayed or logs a message if no journal is found.
  */
-function createUpdateMessage() {
+export async function showChangelog() {
 
-    log("Creating update message")
+    const currentVersion = CONFIG.dndContentManager.version;
+    const lastVersion = Version.fromString(getSetting(SETTINGS.lastLoadedVersion));
 
-    const updates = [
-        "Monsters can now be managed and filtered",
-        "Fixed crash when a filtered compendium is removed from the world"
-    ]
+    if (currentVersion.equals(lastVersion)) {
+        return
+    }
 
-    const content = `<p><i>Module updated to ${CONFIG.dndContentManager.version}</i></p>`
-        + "<h3>Change Log</h3><ul><li>" + updates.join("</li><li>") + "</li></ul>";
-
-
-    ChatMessage.create({content: content, author: game.userId,
-            type: CONST.CHAT_MESSAGE_STYLES.OTHER, 
-            whisper: [game.userId], 
-            speaker: {alias: `${MODULE_LABEL}`}
-        }
-    )
+    const journal = await fromUuid(
+        "Compendium.dnd5e-content-manager.dcm-journals.JournalEntry.BrgcOOsuMEYwdPWi"
+    );
+    if (!journal) {
+        log("No journal found, not showing changelog")
+        return
+    }
+    const mostRecentPage = journal.pages.contents[journal.pages.contents.length - 1];
+    journal.sheet.render(true, {pageId: mostRecentPage.id});
 }
 
 /**
@@ -64,15 +71,9 @@ export function handleMigrations() {
     const currentVersion = CONFIG.dndContentManager.version;
     const lastVersion = Version.fromString(getSetting(SETTINGS.lastLoadedVersion));
 
-    log(`Current version: ${currentVersion}, Last version: ${lastVersion}`)
-
     if (currentVersion.equals(lastVersion)) {
         return false
     }
-    
-    Hooks.on("ready", () => {
-        createUpdateMessage()
-    })
 
     if (lastVersion.equals(new Version(1,1,0))) {
         log("Migration: Copying user settings to migrate to world settings")
