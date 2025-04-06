@@ -80,8 +80,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         //Add button to open SourceSelector
         const settingsButton = document.createElement("button");
         settingsButton.classList.add("header-control");
-        settingsButton.classList.add("fa-solid")
-        settingsButton.classList.add("fa-gear")
+        settingsButton.classList.add("fas", "fa-cog", "icon")
         settingsButton.dataset.tooltip = "Open Source Config"
         settingsButton.setAttribute("aria-label", "Open Source Config");
         settingsButton.addEventListener("click", event => {
