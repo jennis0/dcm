@@ -18,8 +18,6 @@ import { addCompendiumOverrideHooks, getOverrideCompendiumOptions, handleOverrid
 
 Hooks.once("init", () => {
 
-    CONFIG.debug.hooks = true;
-
     //Create version setting first as this is relied on by the migration
     initVersionSetting();
 
