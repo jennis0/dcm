@@ -1,3 +1,6 @@
 *.log
-CURRENT
-LOCK
+.vscode/
+node_modules/
+
+packs/*
+!packs/_source/

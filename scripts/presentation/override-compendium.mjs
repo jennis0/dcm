@@ -25,7 +25,6 @@ export async function createOverrideCompendium() {
 
         }
     )
-    console.log(newCompendium)
 
     for (const journalName of ["Class", "Background", "Species"]) {
         await JournalEntry.create({name: journalName}, {pack:newCompendium.metadata.id})

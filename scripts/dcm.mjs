@@ -41,10 +41,6 @@ Hooks.once("init", () => {
     //Add custom buttons to the Foundry UI
     registerInterfaceButtons();
 
-    Hooks.on("renderCompendiumDirectory", (app, [html], data) => {
-        log("Init Injecting injecting")
-    })
-
     //Patch terminology for D&D5e v3
     if (!CONFIG.dndContentManager.modernRules) {
         SETTINGS.race.label = "Races"

@@ -1,0 +1,287 @@
+name: DnD Content Manager Changelog
+_id: TwVIF5nUDBsdcWxs
+pages:
+  - sort: 100000
+    name: v1.0
+    type: text
+    _id: 9q6iTC3Eof8a9iPq
+    system: {}
+    title:
+      show: false
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <div><div><h2>v1.0.0</h2><ul><li><p>First public
+        release</p></li><li><p>Implements filtering for Classes, subclasses,
+        feats, backgrounds, species/races, and (to a limited degree) spell
+        lists</p></li><li><p>Primarily v4-focused but compatible with v3 with
+        slightly reduced visual prettyness</p></li></ul></div></div>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745874772562
+      modifiedTime: 1745874795578
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!TwVIF5nUDBsdcWxs.9q6iTC3Eof8a9iPq'
+  - sort: 200000
+    name: v1.1
+    type: text
+    _id: bPz23Z7f7ecBw6Du
+    system: {}
+    title:
+      show: false
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <div><h2>v1.1.2</h2></div><div><ul><li><p>Fix breaking bug in v1.1.1
+        that caused loss of config</p></li><li><p>Improve logging and fix errors
+        when run by non GM
+        users</p></li></ul><p></p><div><h2>v1.1.1</h2></div><div><ul><li><p>Fix
+        bug in persisting settings to non-GM users</p></li><li><p>Add text
+        search to compendium source
+        setup</p></li></ul><p></p><h2>v1.1.0</h2></div><div><ul><li><p>Add basic
+        text filter to content browser</p></li></ul></div></div>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745874799690
+      modifiedTime: 1745874818281
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!TwVIF5nUDBsdcWxs.bPz23Z7f7ecBw6Du'
+  - sort: 300000
+    name: v1.2
+    type: text
+    _id: j3AdONERFGfKe4Hb
+    system: {}
+    title:
+      show: false
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <div><div><h2>v1.2.0</h2><ul><li><p>Fix breaking bug in migrations
+        script</p></li><li><p>Add Item and Spell filtering</p></li><li><p>Add
+        button to open content selector from the compendium
+        sidebar</p></li><li><p>Add button to open compendium config from the
+        content selector</p></li><li><p>Add button to enable/disable filtering
+        of a particular item type from the compendium selector (currently buggy
+        in D&amp;D5e v3.3.1)</p></li></ul></div></div>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745874821271
+      modifiedTime: 1745874832497
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!TwVIF5nUDBsdcWxs.j3AdONERFGfKe4Hb'
+  - sort: 400000
+    name: v1.3
+    type: text
+    _id: N7c2ZuQQdwENCmN9
+    system: {}
+    title:
+      show: false
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <div><div><h2>v1.3.1</h2><ul><li><p>Add Spotlight Omnisearch
+        integration</p></li><li><p>Fixed bug where using the toggle all button
+        in source selector would cause source from other modules to become
+        unselected</p></li></ul></div><p></p><div><h2>v1.3.0</h2><ul><li><p>Add
+        QuickInsert integration</p></li><li><p>Visible lock on module-loaded
+        spelllists which can't be disabled</p></li><li><p>Import and export of
+        module settings</p></li><li><p>Introduced "Find Duplicate" view mode
+        which filters down to items with identical
+        names</p></li></ul></div></div>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745874840062
+      modifiedTime: 1745874847614
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!TwVIF5nUDBsdcWxs.N7c2ZuQQdwENCmN9'
+  - sort: 500000
+    name: v1.4
+    type: text
+    _id: vX4IAb8aDUYLbwCo
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <div><h2>v1.4.5</h2><p>New Features:</p><ul><li><p>Integration with <a
+        href="https://foundryvtt.com/packages/hero-mancer">Hero Mancer</a> to
+        control what options are available to players in the character creation
+        dialog. Turn this on from the settings menu if
+        desired.</p></li><li><p>Customise the pages generated Player Handbook
+        for Classes, Subclasses, Species, and Backgrounds by adding your custom
+        pages to the override journals in the DCM Journals
+        Compendium</p></li><li><p>Added@UUID[Compendium.dnd5e-content-manager.dcm-journals.JournalEntry.7DfYKeYTdYZnM5cY]{
+        in-game manual} in the DCM Journals compendium</p></li></ul></div><p>Bug
+        Fixes:</p><ul><li><p>Fixed list overflow issue in the Source Selector
+        when the final compendium in the list was only one entry
+        long</p></li></ul><p></p><div><h2>v1.4.4</h2><p>New
+        Features</p><ul><li><p>Addition of monster
+        filtering</p></li></ul></div><p>Bug Fixes</p><ul><li><p>Fixes crash when
+        a filtered compendium is removed from the world</p></li><li><p>Fixes
+        crash in handbook generation when a filtered item is
+        missing</p></li></ul><p></p><div><h2>v1.4.3</h2><ul><li><p>General
+        tweaks to presentation to make a better
+        experience</p></li></ul></div><div><p>Bug Fixes:</p><ul><li><p>Resolved
+        CSS issue with content selector sidebar spacing in
+        Firefox</p></li><li><p>Add feat types back in for 5e
+        2024</p></li></ul></div><p></p><div><h2>v1.4.2</h2><p>New
+        Features:</p><ul><li><p>Improvement of how duplicate filtering works and
+        addition of an inverse filter to find unique</p></li><li><p>Button to
+        collapse/expand tables of items for easier working with large sets of
+        items</p></li></ul></div><div><p>Bug Fixes</p><ul><li><p>"Make Spells
+        journal" option in Create Player Handbook now actually creates a
+        journal</p></li><li><p>Fixed QuickInsert integration bug which caused it
+        not to function until changes we made</p></li><li><p>Feat handbook no
+        longer contains non-feat features if when Feats are not being managed by
+        DCM</p></li></ul><h2>1.4.1</h2><ul><li><p>Fix for Quick Insert
+        integration broken by latest QI update</p></li><li><p>Retain settings
+        when generating player handbooks</p></li><li><p>Hide/Unhide items
+        directly from the 5e Item Sheet</p></li><li><p>Fix for labels of custom
+        feat
+        types</p></li></ul></div><p></p><div><h2>1.4.0</h2><ul><li><p>Introduce
+        Player Option Journal creation - on-demand generation of journals
+        containing approved player options</p></li><li><p>Fix items still
+        showing after a source has been removed</p></li><li><p>Fix checkbox and
+        slider behaviour in D&amp;D v3.3.1</p></li></ul></div>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745874858007
+      modifiedTime: 1745874868616
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!TwVIF5nUDBsdcWxs.vX4IAb8aDUYLbwCo'
+  - sort: 600000
+    name: v1.5
+    type: text
+    _id: bIObAvMVqXrMYGSY
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <h2>v1.5.0</h2><p>New Feature: Support for Foundry
+        v13</p><p><strong>This release and all future releases will support v13
+        and D&amp;D5e &gt; 4.3. To use DnD Content Manager with v12/D&amp;D
+        v3.3.1 use release v1.4.5 instead</strong></p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745874873960
+      modifiedTime: 1745874980301
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!TwVIF5nUDBsdcWxs.bIObAvMVqXrMYGSY'
+folder: null
+categories: []
+sort: 0
+ownership:
+  default: 0
+  vgyGdjIO9BVdDkGE: 3
+flags: {}
+_stats:
+  compendiumSource: null
+  duplicateSource: null
+  exportSource: null
+  coreVersion: '13.339'
+  systemId: dnd5e
+  systemVersion: 4.3.9
+  createdTime: 1745874768313
+  modifiedTime: 1745874768313
+  lastModifiedBy: vgyGdjIO9BVdDkGE
+_key: '!journal!TwVIF5nUDBsdcWxs'
+

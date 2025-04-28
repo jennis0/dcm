@@ -1,0 +1,467 @@
+name: DnD Content Manager Manual
+_id: F8eFtw8Pjvu2cdeF
+pages:
+  - sort: 100000
+    name: Introduction
+    type: text
+    _id: LeDI2ldcJmg9DA3V
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <div><p>The DnD Content Manager (DCM) is a module designed to let you
+        manage exactly what content is made available to your players and
+        support DM's who want to mix and match multiple sources of content, as
+        well as make it easy to swap out individual items, spells, classes, and
+        more for homebrewed or adjusted alternatives.</p><p>Getting started is
+        easy, after installing the module you simply need
+        to:</p><ul><li>@UUID[Compendium.dnd5e-content-manager.dcm-journals.JournalEntry.F8eFtw8Pjvu2cdeF.JournalEntryPage.LRb3a7ByUAdCsnxD]{Configuring
+        Sources}</li><li>@UUID[Compendium.dnd5e-content-manager.dcm-journals.JournalEntry.F8eFtw8Pjvu2cdeF.JournalEntryPage.hhDxuG5HPQnmPTur]{Selecting
+        Content}</li></ul><p>And you're all ready to go.</p><p>By default, DCM
+        controls which items appear in the core D&amp;D5e Compendium Browser,
+        but it also supports some popular content search modules as well. If you
+        use either Spotlight Omnisearch, or Quick Insert, then simply select the
+        integration option in the DCM setting menu and the filters will be
+        applied to results from these tools as well.</p><p>Finally, once you
+        have your content selected and search configured, do you want to give
+        your players something slightly more reader-focused to select options
+        for their character? If so, then DCM supports that as well. DCM can take
+        your selected options and create a set of journals with sensible,
+        player-focused formatting and indexes - effectively a new Player's
+        Handbook with exactly the content you want available in your
+        world.</p></div>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745875012081
+      modifiedTime: 1745875444122
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!F8eFtw8Pjvu2cdeF.LeDI2ldcJmg9DA3V'
+  - sort: 200000
+    name: Configuring Sources
+    type: text
+    _id: LRb3a7ByUAdCsnxD
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>"Sources" are the compendiums from which all items, spells, classes,
+        etc. managed by DCM are drawn.</p><div><blockquote><p>Note</p><p>Similar
+        to the core D&amp;D5e Compendium Browser, we don't touch anything stored
+        in your world but not in a compendium.</p></blockquote></div><p>To
+        ensure you see the results you want to see, all your desired sources
+        need to be selected in the Source Selection menu. This is similar to the
+        one bundled with the core Compendium Browser but it allows you to choose
+        which Compendium are used on a per-type basis.</p><div><h3>Opening the
+        Source Configuration Window</h3></div><p>The main ways to open the
+        Source Configuration window are:</p><div><ul><li>Open it from the
+        'Configure Sources' button on the main DCM configuration page under the
+        Foundry settings menu</li><li>Open it from the 'Configure Player
+        Content' window, by selecting the cog icon in the top left
+        corner.</li></ul></div><p></p><img
+        src="https://private-user-images.githubusercontent.com/6838840/423263164-6bfa2e46-cc9b-4cf0-b749-00709a18fefa.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDU4NzUzNTEsIm5iZiI6MTc0NTg3NTA1MSwicGF0aCI6Ii82ODM4ODQwLzQyMzI2MzE2NC02YmZhMmU0Ni1jYzliLTRjZjAtYjc0OS0wMDcwOWExOGZlZmEucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDQyOCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA0MjhUMjExNzMxWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NTM1YWNjZWJmZDAxYTkxMjk2ZDUzMWZkMDRlZTA5YTY3OTcxZTdmYjIxZmU2MDFjMTAwZTk0NjE5MWY1Mzg0MyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.jZ7ZzN674KOwr4bB1nSK5FeXxNThKkryrTRVB58CKDA"
+        width="350" /><div><p></p><h3>Using the Source Configuration
+        Window</h3></div><p>From here you can choose your options for each type
+        of item you want to manage. There are two main
+        controls.</p><div><h4>Apply Management</h4></div><p>The Apply Management
+        toggle sets whether DCM takes control of this item type. If it's set to
+        off, DCM does not apply any filtering. Your settings are otherwise saved
+        if you ever want to turn it back on</p><div><h4>Selecting
+        Sources</h4></div><p>Each compendium of the selected item type is
+        displayed, grouped by source module. To set a source as included, ensure
+        you toggle the checkbox to enabled.</p><p>Once you've configured your
+        sources, you can manage your content on a per-item basis from the main
+        Configuration window.</p><blockquote><p>Important</p><p>Remember that
+        DCM only filters content - it doesn't act as a source, so if a
+        compendium isn't set as a source for the core D&amp;D Compendium Browser
+        then no items from it will appear in the brower, regardless of their
+        status in DCM.</p></blockquote>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745875021756
+      modifiedTime: 1745875070536
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!F8eFtw8Pjvu2cdeF.LRb3a7ByUAdCsnxD'
+  - sort: 300000
+    name: Selecting Content
+    type: text
+    _id: hhDxuG5HPQnmPTur
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>Choosing what content is available to your players is the main focus
+        of the DCM module. Before doing so, make sure you've setup your sources
+        as described in
+        @UUID[Compendium.dnd5e-content-manager.dcm-journals.JournalEntry.F8eFtw8Pjvu2cdeF.JournalEntryPage.LRb3a7ByUAdCsnxD]{Configuring
+        Sources}</p><div><h3>Opening the Content Configuration
+        Window</h3></div><p>You can open this window either by using the
+        'Configure Player Content' button in the Compendium Sidebar or from the
+        'Configure Content' button in the DCM settings
+        page.</p><div><h3>Managing Your Content</h3></div><p>Each tab in the
+        Content Configuration window shows all available items of that type
+        which have been found in your configured sources. Selected items will
+        appear in your Compendium Browser (and in Quick Insert/Spotlight
+        Omnisearch searches if configured), unselected items will
+        not.</p><div><blockquote><p>Warning</p><p>If no items are present, make
+        sure you've configured at least some sources for that item
+        type!</p></blockquote></div><p></p><img
+        src="https://github.com/user-attachments/assets/a5b46437-25a5-4e38-9f96-a04d07cbecbf"
+        width="350" /><div><p></p><h4>Groupings and Searchings</h4></div><p>To
+        reduce the time it takes to manage your items, DCM provides some simple
+        grouping and filtering capabilities. All item types can be grouped by
+        module nad source compendium, and some item types have additional
+        groupings. These groups can be applied in any combination. In the
+        grouped item display, each group has a 'Select All' checkbox which can
+        be used to toggle all items in that group.</p><p>Additionally, the
+        search box allows you to filter items by name. This still has all
+        groupings applied and any Select All operations will only affect the
+        items selected by the search.</p><div><h4>Unique and Duplicate
+        Filters</h4></div><p>These are set of independent filters which find
+        only 'unique' and 'duplicate' items respectively. Groupings are
+        unaffected, but you can perform some quite powerful selections using
+        these.</p><p></p><div><h2>Individual Items</h2></div><p>If the 'Add Item
+        Toggle' option is selected in the Core DCM options, you will get an
+        extra header button on all item sheets that can enable/disable an item
+        directly.</p><p></p><img
+        src="https://private-user-images.githubusercontent.com/6838840/423263679-27ab8c0b-fc04-4eb0-8a8a-f3ca0af1031c.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDU4NzU0MTQsIm5iZiI6MTc0NTg3NTExNCwicGF0aCI6Ii82ODM4ODQwLzQyMzI2MzY3OS0yN2FiOGMwYi1mYzA0LTRlYjAtOGE4YS1mM2NhMGFmMTAzMWMucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDQyOCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA0MjhUMjExODM0WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NjI3OTcxYjRhYWZmN2YxZGQ0ZGNkMmE0ZGVjZTM3ZTg3MTU0ODdhNjc2MTdiNmJhYTNkMDMyOThiMGNjMjQxZSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.EC8oZe-VlkDqL1x6KQj09H1gobal0dSvNcw7-rDHmls"
+        width="300" /><p></p><p>This will show as an eye if the item is selected
+        or a crossed eye if the source is available but the item is not
+        selected, clicking on it will toggle between states.</p><p>If the item's
+        source is not a configured source for DCM, then an 'X' will appear
+        instead and clicking it will open the Source Configuration menu</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745875094746
+      modifiedTime: 1745875187729
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!F8eFtw8Pjvu2cdeF.hhDxuG5HPQnmPTur'
+  - sort: 400000
+    name: Creating a Player Handbook
+    type: text
+    _id: m0oqtjuKHSPDmXyg
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>Once you've selected your content, it's just a couple of extra clicks
+        to create a new Player's Handbook for your players.</p><p>To create a
+        new set of handbook journals, go to the Compendium Sidebar and click the
+        <em>'Create Player Option Journals</em>' icon (the stary book) next to
+        the '<em>Configure Player Content</em>' button.</p><img
+        src="https://private-user-images.githubusercontent.com/6838840/423263086-505c2c44-cc09-4874-8d19-fc4ab7de1bba.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDU4NzU1MTIsIm5iZiI6MTc0NTg3NTIxMiwicGF0aCI6Ii82ODM4ODQwLzQyMzI2MzA4Ni01MDVjMmM0NC1jYzA5LTQ4NzQtOGQxOS1mYzRhYjdkZTFiYmEucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDQyOCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA0MjhUMjEyMDEyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZDc3YmFhNTJkNTcyNzY0ZDg4ZjIxMTM4MzMxM2MyYzU2ZjA3MjUzOTlkZTQ4MjRhOGMxMDJiOGRhMWZjYzg0YSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.5faeEKdEmc-D5uhbEcaZb5MDHlfpHljQWczITXXfcOo"
+        width="300" /><p>This will let you choose exactly what content you want
+        and will be generated in the folder specified. Note that there's nothing
+        special baout these journals, so they can be freely modified after
+        creation.</p><img
+        src="https://github.com/user-attachments/assets/63273595-00e5-4d92-a0a6-61b6c2ac65ca"
+        height="350" /><div><p></p><h2>Content</h2></div><p>There are currently
+        5 types of journals available:</p><div><h3>Class
+        Journal</h3></div><p>The Class Journal contains pages for all classes
+        and subclasses you have selected in your world. It also includes all
+        class spell lists alongisde their class. By default, these will include
+        the description of each class/subclass, and the system generated feature
+        list containing class features.</p><div><h4>Custom Class/Subclass
+        Pages</h4></div><p>For those who own premium content such as the 2024
+        Players Handbook in Foundry, you'll know that the creators often put
+        substantial work into creating attrative and legible pages for their
+        classes and subclasses, that go beyond what is found in their
+        description. Because 5e provides special 'Class' and 'Subclass' pages
+        for Journals, we can be a little clever and use these instead of
+        generating new ones. By default, DCM will search your Journals for pages
+        with a matching item UUID and will use these pages instead. To disable
+        this functionality, unselect the 'Existing Pages'
+        option.</p><div><h4>Making Your Own Custom Class Pages</h4></div><p>This
+        system isn't just for premium content creators. If you want a class to
+        get a custom page, then make a class page reference the same class item
+        (it must be the exact same item, not just the same class name) and put
+        it in a Compendium, it will then be picked up the next time you re-run
+        the Player Handbook generation.</p><blockquote><h5><strong>Duplicate
+        Class Pages</strong></h5><p>Unfortunately, if there is more than one
+        page registered for a class, you'll get whichever page comes from the
+        last compendium indexed during the process (likely the one most recently
+        created). If there's a strong desire for more configuration than this -
+        file a Feature
+        Request!</p></blockquote><div><h3>Species/Races</h3></div><p>This is a
+        simple alphabetical index of Species/Races (Name will be set correctly
+        based on your legacy/modern rules selection) and a page for each
+        species.</p><div><h3>Backgrounds</h3></div><p>A page per background and
+        when the Modern Rules are used it will create an overview table with
+        each Backgrounds relevant ability scores and
+        Feat.</p><div><h3>Feats</h3></div><p>Index by feat type and a A-Z page
+        of feats for each type</p><div><h3>Spells</h3></div><p>This Journal
+        contains a single big spell page with all available spells, this can be
+        sorted alphabetically, by level, or by spell school.</p><img
+        src="https://private-user-images.githubusercontent.com/6838840/423262503-65a93e99-576c-49d9-ac5d-be588e843387.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDU4NzU1MTIsIm5iZiI6MTc0NTg3NTIxMiwicGF0aCI6Ii82ODM4ODQwLzQyMzI2MjUwMy02NWE5M2U5OS01NzZjLTQ5ZDktYWM1ZC1iZTU4OGU4NDMzODcucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDQyOCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA0MjhUMjEyMDEyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZDIxZWM3NWI0NjNlMmVjNzM4ZDg2NWZjZGY3NWFhYWJlNGNhMDZjNWMzM2E1ZWU5YTdmNzc2M2RmODlkOTYzYSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.2LjjQGZBb06xu2LojtMwKYi0jAirCb11R6IzN4JapzU"
+        height="400" /><p></p><h2>Adding More Custom Pages</h2><p>By default,
+        the pages of you player handbooks will be generated from the
+        descriptions of each item in Foundry. However, if you want to go the
+        extra mile, or want to take advantage of the more attratctive layouts
+        that often come with more premium content then DCM lets you do that to.
+        In addition to the Class and Subclass custom pages referenced above, you
+        can add manually curated pages using a set of 'override'
+        journals.</p><p>For backgrounds and species, you need to have journals
+        named 'Background', and 'Species' respectively. Class and subclass pages
+        will be pulled from any journal within the Override compendium.</p><p>If
+        you put a page in the corresponding journal with a matching name
+        <em>or</em> ID <em>or </em>UUID to an item then this page will be used
+        instead of the description - but only if an item is selected as
+        available. This means you can create a full set of custom items in your
+        compendiums, then generate a high quality handbook with only the ones
+        you want available.</p><p>Note that these are resolved in order of
+        specificity - first on matching UUID, then matching ID, then matching
+        name.</p><blockquote><h5><strong>Name Matching
+        Process</strong></h5><p>Matching is case insensitive and when using an
+        item ID rather than UUID you should only include the final part (e.g.
+        for the SRD acolyte the correct ID to use would be "IgJkSnLiLJOWH7eK",
+        not "Item.IgJkSnLiLJOWH7eK". In general it's easier to use names, only
+        use IDs if you not to explcitly deconflict between identically named
+        items</p></blockquote><h3>Creating the Override Journals</h3><p>The
+        Override Journals can be placed in any JournalEntry compendium. To tell
+        DCM where to look, open the DCM settings page and hind <strong>Handbook
+        Compendium Override</strong>, set this to the desired compendium, or to
+        'none' if you want to disable this feature.</p><p>Inside this Journal,
+        you then just need to create a journals named 'Class', 'Background', and
+        'Species'. Any pages placed in these will be used for overrides. Note
+        the names of the journals must be exactly these!</p><h4>Default
+        Compendium</h4><p>If you select the <strong>&lt;Create Default
+        Compendium&gt;</strong> option, the 'DCM Overrides' compendium will be
+        created with premade journals</p><p></p><div><h2>Updating Your
+        Handbook</h2></div><p>If you want to update your handbooks, simply rerun
+        the dialog and leave the folder title the
+        same.</p><blockquote><h5><strong>Overwriting Changes</strong></h5><p>If
+        you have modified your journals, make sure you either generate updates
+        in a new folder, or move your modified journals into a noew folder
+        before regenerating, otherwise your changes will be lost. If you do want
+        to include modifications it's generally a good idea to put this in your
+        override journals!</p></blockquote>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745875203277
+      modifiedTime: 1745875378547
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!F8eFtw8Pjvu2cdeF.m0oqtjuKHSPDmXyg'
+  - sort: 500000
+    name: Managing Spell Lists
+    type: text
+    _id: DPYqUUViz1V8QOzI
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>The core D&amp;D5e module doesn't make it easy to manage spells
+        assigned to classes. To add a spell to a class you generally need to
+        create a new module and load the spell list within the module config,
+        and as of v4.3.6 there is no way to remove spells from a class spell
+        list, outside of removing that spell altogther.</p><p>DCM does it's best
+        to mitigate this, allowing you to easily add new spell lists and
+        partially handle removing unwanted spells by removing those spells
+        entirely (Obviously this is more useful when you want to, e.g., replace
+        a spell across all classes with a newer or homebrewed version, and less
+        helpful if you just want to remove a spell from one list, but leave it
+        available on others).</p><div><h2>How to Add A Spell
+        List</h2></div><p>To create and register a new spell
+        list:</p><ol><li>Add a Spell List journal page to a journal in one of
+        your compendiums (or create a new one from scratch)</li><li>Ensure this
+        compendium is configured as a spell list source in the DCM Source
+        Configuration menu</li><li>Select the spell list in the Content
+        Configuration menu</li><li>Reload foundry Congratulations! All spells on
+        this spell list will now be correctly reflected in the core Compendium
+        Browser and any future functionality built on top of this in core
+        D&amp;D5e</li></ol>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745875389460
+      modifiedTime: 1745875400215
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!F8eFtw8Pjvu2cdeF.DPYqUUViz1V8QOzI'
+  - sort: 600000
+    name: Integrations
+    type: text
+    _id: pJWbkyLaGt0MB2mg
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>Currently DCM has built-in integrations with 3 other
+        modules.</p><p><a
+        href="https://foundryvtt.com/packages/quick-insert">Quick
+        Insert</a></p><p><a
+        href="https://foundryvtt.com/packages/spotlight-omnisearch">Spotlight
+        Omnisearch</a></p><p><a
+        href="https://foundryvtt.com/packages/hero-mancer">Hero
+        Mancer</a></p><p>These can all be enabled from the Settings
+        menu.</p><h3>Filtering Only</h3><p>DCM interacts with these modules by
+        providing an additional layer of filtering before results are presented
+        to the user. As a result, DCM will present unselected content from being
+        returned by these modules <em>but won't add results if the source
+        compendiums are not being indexed by them</em>.</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745875410205
+      modifiedTime: 1745875461934
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!F8eFtw8Pjvu2cdeF.pJWbkyLaGt0MB2mg'
+  - sort: 700000
+    name: Bugs and Feature Requests
+    type: text
+    _id: M4EA8SneRjgATvRo
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>If you find a bug in DCM or have an outstanding feature request
+        please either raise an issue on the Github at <a
+        href="https://github.com/jennis0/dcm/issues">https://github.com/jennis0/dcm/issues</a>
+        or get in touch with me on Discord - I'm '_Joe_' on the Foundry discord
+        server</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      vgyGdjIO9BVdDkGE: 3
+    flags: {}
+    _stats:
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.339'
+      systemId: dnd5e
+      systemVersion: 4.3.9
+      createdTime: 1745875425075
+      modifiedTime: 1745875428499
+      lastModifiedBy: vgyGdjIO9BVdDkGE
+    _key: '!journal.pages!F8eFtw8Pjvu2cdeF.M4EA8SneRjgATvRo'
+folder: null
+categories: []
+sort: 0
+ownership:
+  default: 0
+  vgyGdjIO9BVdDkGE: 3
+flags: {}
+_stats:
+  compendiumSource: null
+  duplicateSource: null
+  exportSource: null
+  coreVersion: '13.339'
+  systemId: dnd5e
+  systemVersion: 4.3.9
+  createdTime: 1745874986750
+  modifiedTime: 1745875005509
+  lastModifiedBy: vgyGdjIO9BVdDkGE
+_key: '!journal!F8eFtw8Pjvu2cdeF'
+

@@ -54,7 +54,7 @@ export async function showChangelog() {
     }
 
     const journal = await fromUuid(
-        "Compendium.dnd5e-content-manager.dcm-journals.JournalEntry.BrgcOOsuMEYwdPWi"
+        "Compendium.dnd5e-content-manager.dcm-journals.JournalEntry.TwVIF5nUDBsdcWxs"
     );
     if (!journal) {
         log("No journal found, not showing changelog")

@@ -66,4 +66,4 @@ This module wouldn't be possible without the core D&D 5E system, the UI heavily 
 Additional thanks to folks from the League of Extraordinary FoundryVTT Developers discord for answer some no-doubt silly questions
 
 #### D&D5E Code Re-use
-This module duplicates the code for a small number of HTML elements from the dnd5e v4.2 module to provide compatibility with dnd5e v3.3.1. The code in /scripts/elements/ was originally written by the dnd5e system authors. This code is re-published in accordance with the MIT License.
+This module duplicates the code for a small number of HTML elements from the dnd5e v4.2 module to provide compatibility with dnd5e v3.3.1 and uses elements of the D&D 5e's packaging code for checking compendiums into Git. The code in /scripts/elements/ and /scripts/packaging was originally written by the dnd5e system authors. This code is re-published in accordance with the MIT License. 
