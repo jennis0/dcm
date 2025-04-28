@@ -16,6 +16,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Build Compendium
+        working-directory: ./
+        run: |
+          npm install .; npm run build:db
+
       - name: Update module.json with tag and URL
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}"
@@ -28,7 +33,7 @@ jobs:
       - name: Zip Files
         working-directory: ./
         run: |
-          zip -r ./module.zip ./scripts ./styles ./templates ./module.json ./LICENSE ./README.md
+          zip -r ./module.zip ./scripts ./styles ./templates ./packs ./module.json ./LICENSE ./README.md
 
       - name: Get Version
         shell: bash
