@@ -8,7 +8,7 @@
 A content manager for D&amp;D 5e in FoundryVTT. Supports 5e v4+
 
 > #### Older Version of Foundry
-> Foundry v12 and D&D v3.3.1/v4.4 are supported by a previous release [v1.4.5](https://github.com/jennis0/dcm/releases/download/v1.4.5/module.json). To manually install the module copy [](https://github.com/jennis0/dcm/releases/download/v1.4.5/module.json) into the Manifest URL textbox on the install module page
+> Foundry v12 and D&D v3.3.1/v4.4 are supported by a previous release [v1.4.5](https://github.com/jennis0/dcm/releases/download/v1.4.5/module.json). To manually install the module copy https://github.com/jennis0/dcm/releases/download/v1.4.5/module.json into the Manifest URL textbox on the install module page
 
 Have you ever wanted to:
 - Replace a core subclass, spell, or feat with a homebrew version?
