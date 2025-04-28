@@ -1,3 +1,7 @@
+### v1.5.0
+New Feature: Support for Foundry v13
+**This release and all future releases will support v13 and D&D5e > 4.3. To use DnD Content Manager with v12/D&D v3.3.1 use release v1.4.5 instead**
+
 ### 1.4.5
 New Features:
 - Integration with [Hero Mancer](https://foundryvtt.com/packages/hero-mancer) to control what options are available to players in the character creation dialog. Turn this on from the settings menu if desired.
