@@ -426,7 +426,6 @@
   }
   
   .dcm.handbook-config .window-content {
-    background: var(--background);
     padding: 1em;
     gap: 8px;
   }
@@ -563,24 +562,24 @@
     box-shadow: 0 0 5px var(--dnd5e-color-gold);
   }
 
-  .packs-list .toggle-content-button i {
+  .dcm .packs-list .toggle-content-button i {
     font-size: 1em;
     color: var(--color-text-primary);
     margin-right: 0;
   }
 
-  .packs-list .compendium-content {
+  .dcm .packs-list .compendium-content {
     overflow: hidden;
     display: block;
     transition: height 0.2s ease-out;
   }
 
-  .packs-list .select-all {
+  .dcm .packs-list .select-all {
     font-weight: bold;
     margin-right: 1em;
   }
 
-  .packs-list .selected-count {
+  .dcm .packs-list .selected-count {
     margin-left: 0em;
     font-weight: bold;
   }
