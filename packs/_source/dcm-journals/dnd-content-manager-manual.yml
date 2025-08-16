@@ -47,7 +47,7 @@ pages:
       compendiumSource: null
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.339'
+      coreVersion: '13.347'
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745875012081
@@ -110,7 +110,7 @@ pages:
       compendiumSource: null
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.339'
+      coreVersion: '13.347'
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745875021756
@@ -182,7 +182,7 @@ pages:
       compendiumSource: null
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.339'
+      coreVersion: '13.347'
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745875094746
@@ -305,7 +305,7 @@ pages:
       compendiumSource: null
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.339'
+      coreVersion: '13.347'
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745875203277
@@ -357,7 +357,7 @@ pages:
       compendiumSource: null
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.339'
+      coreVersion: '13.347'
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745875389460
@@ -402,7 +402,7 @@ pages:
       compendiumSource: null
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.339'
+      coreVersion: '13.347'
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745875410205
@@ -439,7 +439,7 @@ pages:
       compendiumSource: null
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.339'
+      coreVersion: '13.347'
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745875425075
@@ -457,7 +457,7 @@ _stats:
   compendiumSource: null
   duplicateSource: null
   exportSource: null
-  coreVersion: '13.339'
+  coreVersion: '13.347'
   systemId: dnd5e
   systemVersion: 4.3.9
   createdTime: 1745874986750
