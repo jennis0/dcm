@@ -5,7 +5,7 @@
   "compatibility": {
     "minimum": "13",
     "maximum": "13",
-    "verified": "13.340"
+    "verified": "13.347"
   },
   "esmodules": [
     "scripts/dcm.mjs"
@@ -19,8 +19,8 @@
         "id": "dnd5e",
         "type": "system",
         "compatibility": {
-          "minimum": "4.3",
-          "verified": "4.3"
+          "minimum": "5.0",
+          "verified": "5.1"
         }
       }
     ]

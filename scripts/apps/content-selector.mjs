@@ -30,6 +30,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
         //Set if we want to ask the user to reload when closing the app
         this.reloadRequired = false;
+
     }
 
     async _onClose() {
@@ -121,7 +122,8 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 clearSearch: ContentSelector.#onClearSearch,
                 changeTab: ContentSelector.#onChangeTab,
                 openItem: ContentSelector.#onOpenItem,
-                togglePackContent: ContentSelector.#onTogglePackContent
+                togglePackContent: ContentSelector.#onTogglePackContent,
+                openCompendiumConfig: () => {}
               },
     }
     

@@ -538,6 +538,13 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+
+    .dcm.handbook-config button {
+    width: 100%px;
+    margin-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
   
   .dcm-button-row button.content-selector-button {
     margin-right: 0;
