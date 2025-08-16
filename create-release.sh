@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z "$1" ]; then
+	echo "Must provide version number"
+	exit 1
+fi
+
 npm i
 npm run build:source
 npm run build:db
