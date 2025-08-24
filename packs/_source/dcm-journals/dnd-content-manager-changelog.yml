@@ -242,11 +242,13 @@ pages:
     text:
       format: 1
       content: >-
-        <h2>v1.5.1</h2><p>Version bump to v13.347 and D&amp;D v5.1. Additionall
-        fixes a minor css bug.</p><p></p><h2>v1.5.0</h2><p>New Feature: Support
-        for Foundry v13</p><p><strong>This release and all future releases will
-        support v13 and D&amp;D5e &gt; 4.3. To use DnD Content Manager with
-        v12/D&amp;D v3.3.1 use release v1.4.5 instead</strong></p>
+        <h2>v1.5.2</h2><p>Bug Fixes: Fix crash on spell list tab when subclass
+        lists are present.</p><p></p><h2>v1.5.1</h2><p>Version bump to v13.347
+        and D&amp;D v5.1. Additionall fixes a minor css
+        bug.</p><p></p><h2>v1.5.0</h2><p>New Feature: Support for Foundry
+        v13</p><p><strong>This release and all future releases will support v13
+        and D&amp;D5e &gt; 4.3. To use DnD Content Manager with v12/D&amp;D
+        v3.3.1 use release v1.4.5 instead</strong></p>
     video:
       controls: true
       volume: 0.5
@@ -264,7 +266,7 @@ pages:
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745874873960
-      modifiedTime: 1755347020775
+      modifiedTime: 1756059652996
       lastModifiedBy: VXKnB4spf4rguRO2
     _key: '!journal.pages!TwVIF5nUDBsdcWxs.bIObAvMVqXrMYGSY'
 folder: null
