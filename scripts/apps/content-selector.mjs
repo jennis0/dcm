@@ -565,7 +565,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                         ident = cls.name
                         img = cls.img
                     } else {
-                        ident = `${ident.chatAt(0).toUpperCase()}${ident.slice(1, ident.length)}`
+                        ident = `${ident.charAt(0).toUpperCase()}${ident.slice(1, ident.length)}`
                     }
                 } else {
                     ident = "No identifier"
