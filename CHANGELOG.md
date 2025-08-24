@@ -1,3 +1,7 @@
+### v1.5.2
+Bug Fixes: 
+ - Fix crash on spell list tab when subclass lists are present.
+
 ### v1.5.1
 Version bump for v13.347 and D&D 5.1
 
