@@ -90,13 +90,17 @@ export class DCMIndex extends Object {
     }
 
     compendiumBrowserItemInIndex(item) {
+
         if (item.type === "npc") {
             return this.itemInIndex("Actor", item.type, item.uuid)
         } 
-        
-        else {
-            return this.itemInIndex("Item", item.type, item.uuid)
+
+        //Ensure we don't filter non 'feat' feats (like class features)
+        if (item.type === "feat" && item.system.type.value !== "feat") {
+            return true;
         }
+        
+        return this.itemInIndex("Item", item.type, item.uuid)
     }
 
     itemTypeInIndex(item) {
