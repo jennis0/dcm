@@ -1,3 +1,7 @@
+### v1.5.3
+Bug Fixes: 
+ - Don't filter non-feat features in advanced Compendium browser.
+
 ### v1.5.2
 Bug Fixes: 
  - Fix crash on spell list tab when subclass lists are present.
