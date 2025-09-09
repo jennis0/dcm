@@ -220,11 +220,10 @@ export function itemInPremadeJournalPages(pageMap, item) {
     }
 
     if (page) {
+        page = foundry.utils.duplicate(page);
         page.name = item.name
-        page._source.name = item.name
         page.title.level = 1
-        page.sort = -1
-        page._source.title.level = 1
+        page.sort = null
         return page
     }
 

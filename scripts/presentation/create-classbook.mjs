@@ -58,8 +58,8 @@ async function buildExistingPageIndex(useExistingPages, useOverridePages) {
 async function makeClassPage(existingPages, title, classUuid, content) {
     // Return existing page if found
     if (existingPages.has(classUuid)) {
-        const page = existingPages.get(classUuid);
-        await page.update({ sort: null });
+        const page = foundry.utils.duplicate(existingPages.get(classUuid));
+        page.sort = null;
         return page;
     }
     
@@ -124,11 +124,9 @@ function makeCombinedSpellList(className, classIdentifier) {
 async function makeSubclassPage(existingPages, title, subclassUuid, content) {
     // Return existing page if found
     if (existingPages.has(subclassUuid)) {
-        const page = existingPages.get(subclassUuid);
-        await page.update({ 
-            title: { level: 2 }, 
-            sort: null 
-        });
+        const page = foundry.utils.duplicate(existingPages.get(subclassUuid));
+        page.title.level = 2;
+        page.sort = null;
         return page;
     }
     
@@ -207,7 +205,7 @@ export async function createClassbook(folder, useExistingPages, useOverridePages
     const classMap = new Map();
     classMap.set('unknown', {
         page: await makePage("Unknown Class", "<p>These subclasses are for an unknown class</p>"),
-        subclassPages: []
+        subclassPages: [],
     });
     
     // Populate class map with class pages
@@ -222,8 +220,23 @@ export async function createClassbook(folder, useExistingPages, useOverridePages
             warn(`Class ${subclassUuid} not found`);
             return null
         }
-        const targetClass = classMap.get(cls.system.classIdentifier) || classMap.get("unknown");
+
+        const targetClass = classMap.get(cls.system.classIdentifier)
         
+        // Log a warning if no matching class found
+        if (!classMap.has(cls.system.classIdentifier)) {
+            const classTarget = dnd5e.registry.classes.get("bard")
+            if (classTarget) {
+                ui.notifications.warn(
+                    `Subclass ${cls.name} is selected but parent class ${classTarget.name} is filtered by DND Content Manager`
+                );
+            } else {
+                ui.notifications.warn(
+                    `Subclass ${cls.name} is selected but parent class not found. Parent class Id is ${cls.system.classIdentifier}`
+                )
+            }
+        }
+
         const subclassPage = await makeSubclassPage(
             existingPageIndex,
             cls.name,

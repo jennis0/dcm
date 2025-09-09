@@ -1,3 +1,11 @@
+### v1.5.4
+New Features
+ - Warn the user when a subclass for an unselected class is included in the Player Handbook generation
+
+Bug Fixes:
+ - Player options can now be generated without making the source compendiums editable
+ - Content from disabled, but previously enabled, sources will no longer appear in the player handbook
+
 ### v1.5.3
 Bug Fixes: 
  - Don't filter non-feat features in advanced Compendium browser.
