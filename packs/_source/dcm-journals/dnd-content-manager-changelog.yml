@@ -241,16 +241,7 @@ pages:
     image: {}
     text:
       format: 1
-      content: >-
-        <h2>v1.5.3</h2><p>Bug Fixes: Don't filter non-feat features in advanced
-        Compendium browser.</p><p></p> <h2>v1.5.2</h2><p>Bug Fixes: Fix crash on
-        spell list tab when subclass lists are
-        present.</p><p></p><h2>v1.5.1</h2><p>Version bump to v13.347 and D&amp;D
-        v5.1. Additionall fixes a minor css bug.</p><p></p><h2>v1.5.0</h2><p>New
-        Feature: Support for Foundry v13</p><p><strong>This release and all
-        future releases will support v13 and D&amp;D5e &gt; 4.3. To use DnD
-        Content Manager with v12/D&amp;D v3.3.1 use release v1.4.5
-        instead</strong></p>
+      content: "<div><h2>v1.5.4</h2></div><div><p>New Features</p></div><div><ul><li><p>Warn the user when a subclass for an unselected class is included in the Player Handbook generation</p></li></ul><p></p><p>Bug Fixes:</p></div><div><ul><li><p>\_Player options can now be generated without making the source compendiums editable</p></li><li><p> Content from disabled, but previously enabled, sources will no longer appear in the player handbook</p></li></ul></div><p></p><h2>v1.5.3</h2><p>Bug Fixes: Don't filter non-feat features in advanced Compendium browser.</p><p></p><h2>v1.5.2</h2><p>Bug Fixes: Fix crash on spell list tab when subclass lists are present.</p><p></p><h2>v1.5.1</h2><p>Version bump to v13.347 and D&amp;D v5.1. Additionall fixes a minor css bug.</p><p></p><h2>v1.5.0</h2><p>New Feature: Support for Foundry v13</p><p><strong>This release and all future releases will support v13 and D&amp;D5e &gt; 4.3. To use DnD Content Manager with v12/D&amp;D v3.3.1 use release v1.4.5 instead</strong></p>"
     video:
       controls: true
       volume: 0.5
@@ -264,12 +255,12 @@ pages:
       compendiumSource: null
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.347'
+      coreVersion: '13.348'
       systemId: dnd5e
       systemVersion: 4.3.9
       createdTime: 1745874873960
-      modifiedTime: 1756059652996
-      lastModifiedBy: VXKnB4spf4rguRO2
+      modifiedTime: 1757448553453
+      lastModifiedBy: S49ROJFCDqNVGISg
     _key: '!journal.pages!TwVIF5nUDBsdcWxs.bIObAvMVqXrMYGSY'
 folder: null
 categories: []
