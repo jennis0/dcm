@@ -20,7 +20,7 @@ export function exportSettings() {
         settings_obj[item] = {
             sources: getSetting(SETTINGS[item].sources),
             content: getSetting(SETTINGS[item].content),
-            enabled: getSetting(SETTINGS[item].enabled)
+            enabled: getSetting(SETTINGS[item].enabled),
         }
     }   
     for (const key of SETTING_KEYS) {

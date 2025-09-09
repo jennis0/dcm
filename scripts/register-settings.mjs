@@ -57,6 +57,17 @@ export function initSettings() {
             }
         )
         log(`Registered setting ${item.enabled}`)
+        game.settings.register(MODULE_NAME, item.previousContentSelections,
+            {
+                config: false,
+                type: Object,
+                scope: "world",
+                restricted: true,
+                default: {}
+            
+            }
+        )
+        log(`Registered setting ${item.previousContentSelections}`)
     })
 
     game.settings.registerMenu(MODULE_NAME, "sourceMenu", 
