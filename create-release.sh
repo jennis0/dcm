@@ -12,4 +12,5 @@ zip module.zip CHANGELOG.md LICENSE module.json README.md templates/ styles/ scr
 git add .
 git commit -m "Build release $1"
 git tag $1
+git push origin tag $1
 
