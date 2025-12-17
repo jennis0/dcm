@@ -90,7 +90,7 @@
     border-width: thin;
   }
   
-  .dcm legend {
+  .dcm fieldset.packs-section > legend {
     font-size: var(--font-size-15);
     background: var(--dnd5e-background-card);
   }
@@ -293,6 +293,14 @@
     height: 1em;
     font-size: large;
   }
+
+  .form-fields dcm-checkbox  {
+    flex: none;
+  }
+
+  .dnd5e2 .standard-form .form-group.is-checkbox > .form-fields  {
+    flex: 1;
+  }
   
   /* Content Selector Specific Styles
      ========================================================================== */
@@ -430,6 +438,13 @@
     gap: 8px;
   }
   
+  .dcm.handbook-config .column {
+    width: 50%;
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+  }
+
   .dcm.handbook-config h3 {
     text-shadow: none;
     color: var(--color-text-primary);

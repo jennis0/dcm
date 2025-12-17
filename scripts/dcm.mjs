@@ -16,6 +16,15 @@ import { patchHeromancer } from "./integrations/heromancer.mjs";
 import { addCompendiumOverrideHooks, getOverrideCompendiumOptions, handleOverrideSettingChange } from "./presentation/override-compendium.mjs";
 
 
+Hooks.once("setup", () => {
+    console.log("DCM Register")
+    const p = game.packs.get("world.test-dcm")
+    console.log(p)
+    p.applicationClass = dnd5e.applications.journal.TableOfContentsCompendium
+    p.forEach(async d => await d.setFlag("dnd5e", "type", "chapter"))
+    console.log("DCM done")
+})
+
 Hooks.once("init", () => {
 
     //Create version setting first as this is relied on by the migration
