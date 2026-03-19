@@ -22,6 +22,7 @@ Hooks.once("setup", () => {
     console.log(p)
     p.applicationClass = dnd5e.applications.journal.TableOfContentsCompendium
     p.forEach(async d => await d.setFlag("dnd5e", "type", "chapter"))
+    p.forEach(async d => await d.pages.forEach(async p => await p.setFlag("tocHidden", true)));
     console.log("DCM done")
 })
 

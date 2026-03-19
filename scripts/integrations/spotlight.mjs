@@ -32,14 +32,11 @@ export function patchSpotlightOmnisearch() {
     Hooks.on("spotlightOmnisearch.indexBuilt", (spotlightIndex, promises) => 
         {              
             promises.push(
-                new Promise(
-                    () => {
-                        CONFIG.dndContentManager.index.rebuild();
-                        return filterIndex(spotlightIndex);
-                    },
-                    
-                    () => {}
-                )
+                new Promise((resolve) => {
+                    CONFIG.dndContentManager.index.rebuild();
+                    filterIndex(spotlightIndex);
+                    resolve();
+                })
             )
         }
     )

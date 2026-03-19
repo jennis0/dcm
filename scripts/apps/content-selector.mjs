@@ -6,7 +6,7 @@ import { getOrdinalSuffix, log, warn } from "../lib.mjs";
 import { SourceSelector } from "./source-selector.mjs";
 import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
 import { addContent, removeContent } from "../content-management.mjs";
-import { getMonsterType } from "../enrich-monsters.mjs.mjs";
+import { getMonsterType } from "../enrich-monsters.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -247,7 +247,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         }
 
         //Check number of siblings currently turned on
-        if (all_box !== null & all_box !== undefined) {
+        if (all_box !== null && all_box !== undefined) {
             let n_on = 0;
             for (const cb of siblings) {
                 if (cb.checked) {
@@ -255,7 +255,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 }
             }
             all_box.checked = n_on > 0;
-            all_box.indeterminate = all_box.checked & n_on < siblings.length;
+            all_box.indeterminate = all_box.checked && n_on < siblings.length;
         }
 
         //Update setting
@@ -782,7 +782,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 source: null,
                 category: itemtype,
                 checked: n_checked === entries.length,
-                indeterminate: n_checked > 0 && n_checked.length < entries.length,
+                indeterminate: n_checked > 0 && n_checked < entries.length,
                 selected: n_checked
             }]
         }
