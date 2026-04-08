@@ -73,7 +73,7 @@ Hooks.once("ready", async () => {
     registerSystemButtons();
 
     //Load integrations with other modules (if present)
-    patchQuickInsert();
+    await patchQuickInsert();
     patchSpotlightOmnisearch();
     patchHeromancer();
 
