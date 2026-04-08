@@ -1,7 +1,7 @@
 {
   "id": "dnd5e-content-manager",
   "title": "DnD Content Manager",
-  "version": "v1.6",
+  "version": "v1.5.5",
   "compatibility": {
     "minimum": "13",
     "maximum": "13",
@@ -20,7 +20,7 @@
         "type": "system",
         "compatibility": {
           "minimum": "5.0",
-          "verified": "5.2"
+          "verified": "5.3"
         }
       }
     ]
