@@ -1,12 +1,18 @@
-import { log } from "../lib.mjs";
+import { log, warn } from "../lib.mjs";
 import { getSetting, SETTINGS } from "../settings.mjs";
 
 
  function filterIndex(spotlightIndex) {
     let writeIndex = 0;
     for (let readIndex = 0; readIndex < spotlightIndex.length; readIndex++) {
-        if (CONFIG.dndContentManager.index.spotlightItemInIndex(spotlightIndex[readIndex].data)) 
-        {
+        try {
+            if (CONFIG.dndContentManager.index.spotlightItemInIndex(spotlightIndex[readIndex].data))
+            {
+                spotlightIndex[writeIndex] = spotlightIndex[readIndex];
+                writeIndex++;
+            }
+        } catch (e) {
+            warn(`Failed to filter spotlight item ${spotlightIndex[readIndex].data?.uuid}: ${e.message}`)
             spotlightIndex[writeIndex] = spotlightIndex[readIndex];
             writeIndex++;
         }

@@ -1,10 +1,16 @@
-import { log } from "../lib.mjs";
+import { log, warn } from "../lib.mjs";
 import { getSetting, SETTINGS } from "../settings.mjs";
 
 function inPlaceFilter(array, filterFn) {
     let writeIndex = 0;
     for (let readIndex = 0; readIndex < array.length; readIndex++) {
-        if (filterFn(array[readIndex])) {
+        try {
+            if (filterFn(array[readIndex])) {
+                array[writeIndex] = array[readIndex];
+                writeIndex++;
+            }
+        } catch (e) {
+            warn(`Failed to filter heromancer item ${array[readIndex]?.uuid}: ${e.message}`)
             array[writeIndex] = array[readIndex];
             writeIndex++;
         }

@@ -1,4 +1,4 @@
-import { log } from "../lib.mjs";
+import { log, warn } from "../lib.mjs";
 import { getSetting, MODULE_NAME, SETTINGS } from "../settings.mjs";
 
 
@@ -12,11 +12,18 @@ class SearchLibProxy {
             get(target, prop) {
                 if (prop === 'search') {
                     if (CONFIG.dndContentManager.forceRebuild) {
-                        CONFIG.dndContentManager.index.rebuild();   
+                        CONFIG.dndContentManager.index.rebuild();
                     }
                     return function(...args) {
                         return target[prop].apply(target, args) // Forward the call
-                            .filter(r => CONFIG.dndContentManager.index.quickInsertItemInIndex(r.item))
+                            .filter(r => {
+                                try {
+                                    return CONFIG.dndContentManager.index.quickInsertItemInIndex(r.item)
+                                } catch (e) {
+                                    warn(`Failed to filter quick-insert item ${r.item?.uuid}: ${e.message}`)
+                                    return true
+                                }
+                            })
                     };
                 } else if (prop === "isSearchLibProxy") {
                     return true;

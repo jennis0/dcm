@@ -1,5 +1,5 @@
 import { getContent } from "./content-management.mjs";
-import { log } from "./lib.mjs";
+import { log, warn } from "./lib.mjs";
 import { getSetting, SETTINGS } from "./settings.mjs";
 import { getSources } from "./source-management.mjs";
 
@@ -65,20 +65,25 @@ export class DCMIndex extends Object {
             return true
         }
 
-        //Have to reparse UUID as they sometimes use a slightly different format
-        const parsedUuid = foundry.utils.parseUuid(uuid);
+        try {
+            //Have to reparse UUID as they sometimes use a slightly different format
+            const parsedUuid = foundry.utils.parseUuid(uuid);
 
-        //If compendium isn't considered an enabled source, skip item
-        //No metadata case is for world items which currently are kept enabled
-        if (parsedUuid.collection.metadata &&
-                !this.permittedItemIndices[indexName].sources.has(parsedUuid.collection.metadata.id)) {
-            return false;
-        } else if (!parsedUuid.collection.metadata) {
-            return true;
+            //If compendium isn't considered an enabled source, skip item
+            //No metadata case is for world items which currently are kept enabled
+            if (parsedUuid.collection?.metadata &&
+                    !this.permittedItemIndices[indexName].sources.has(parsedUuid.collection.metadata.id)) {
+                return false;
+            } else if (!parsedUuid.collection?.metadata) {
+                return true;
+            }
+
+            //Finally check if in index
+            return this.permittedItemIndices[indexName].items.has(parsedUuid.uuid)
+        } catch (e) {
+            warn(`Error checking index for ${uuid}: ${e.message}`)
+            return true
         }
-
-        //Finally check if in index
-        return this.permittedItemIndices[indexName].items.has(parsedUuid.uuid)
     }
 
     spotlightItemInIndex(item) {
@@ -122,11 +127,17 @@ export class DCMIndex extends Object {
             return false;
         }
 
-        const parsedUuid = foundry.utils.parseUuid(item.uuid);
-
-        return this.permittedItemIndices[this.itemTypeToIndexMap[item.type]]
-            .sources
-            .has(parsedUuid.collection.metadata.id)
+        // Returns false on error because this is used for UI state (e.g. button visibility),
+        // not for content filtering — false means "don't show the source toggle"
+        try {
+            const parsedUuid = foundry.utils.parseUuid(item.uuid);
+            return this.permittedItemIndices[this.itemTypeToIndexMap[item.type]]
+                .sources
+                .has(parsedUuid.collection?.metadata?.id)
+        } catch (e) {
+            warn(`Error checking source for ${item.uuid}: ${e.message}`)
+            return false
+        }
     }
 
     getItemIndexType(item) {
