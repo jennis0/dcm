@@ -108,7 +108,7 @@ export const SETTINGS = {
         sources: "subclassSources",
         content: "subclasses",
         previousContentSelections: "previousSubclassSelections",
-        enabled: "filtersubClasses",
+        enabled: "filtersubClasses", // Persisted setting key — do not rename without migration
         type: "Item",
         subtype: "subclass",
         groups: [

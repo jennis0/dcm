@@ -1,25 +1,15 @@
-import { log, warn } from "../lib.mjs";
+import { log, inPlaceFilter } from "../lib.mjs";
 import { getSetting, SETTINGS } from "../settings.mjs";
 
-
- function filterIndex(spotlightIndex) {
-    let writeIndex = 0;
-    for (let readIndex = 0; readIndex < spotlightIndex.length; readIndex++) {
-        try {
-            if (CONFIG.dndContentManager.index.spotlightItemInIndex(spotlightIndex[readIndex].data))
-            {
-                spotlightIndex[writeIndex] = spotlightIndex[readIndex];
-                writeIndex++;
-            }
-        } catch (e) {
-            warn(`Failed to filter spotlight item ${spotlightIndex[readIndex].data?.uuid}: ${e.message}`)
-            spotlightIndex[writeIndex] = spotlightIndex[readIndex];
-            writeIndex++;
-        }
-    }
-    spotlightIndex.length = writeIndex;
+function filterIndex(spotlightIndex) {
+    inPlaceFilter(
+        spotlightIndex,
+        (item) => CONFIG.dndContentManager.index.spotlightItemInIndex(item.data),
+        "spotlight item",
+        (item) => item?.data?.uuid
+    );
     return true
-};
+}
 
 
 export function patchSpotlightOmnisearch() {

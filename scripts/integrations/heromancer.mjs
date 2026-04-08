@@ -1,44 +1,26 @@
-import { log, warn } from "../lib.mjs";
+import { log, inPlaceFilter } from "../lib.mjs";
 import { getSetting, SETTINGS } from "../settings.mjs";
-
-function inPlaceFilter(array, filterFn) {
-    let writeIndex = 0;
-    for (let readIndex = 0; readIndex < array.length; readIndex++) {
-        try {
-            if (filterFn(array[readIndex])) {
-                array[writeIndex] = array[readIndex];
-                writeIndex++;
-            }
-        } catch (e) {
-            warn(`Failed to filter heromancer item ${array[readIndex]?.uuid}: ${e.message}`)
-            array[writeIndex] = array[readIndex];
-            writeIndex++;
-        }
-    }
-    array.length = writeIndex;
-    return array.length
-}
 
 function filterRace(hmIndex) {
     inPlaceFilter(hmIndex, (raceGroup) => {
         const remaining = inPlaceFilter(raceGroup.docs, (doc) => {
             return CONFIG.dndContentManager.index.itemInIndex("Item", "race", doc.uuid)
-        });
+        }, "heromancer race doc");
         return remaining > 0
-    })
+    }, "heromancer race group")
     return true
 }
 
- function filterIndex(docType, hmIndex) {
+function filterIndex(docType, hmIndex) {
     if (docType === "race") {
         filterRace(hmIndex)
     } else {
         inPlaceFilter(hmIndex, (doc) => {
             return CONFIG.dndContentManager.index.itemInIndex("Item", docType, doc.uuid)
-        })
+        }, "heromancer item")
     }
     return true
-};
+}
 
 
 export function patchHeromancer() {

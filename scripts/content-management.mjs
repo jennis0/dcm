@@ -1,4 +1,4 @@
-import { log } from "./lib.mjs";
+import { log, mutateSettingSet } from "./lib.mjs";
 import { getSetting, setSetting, SETTINGS } from "./settings.mjs";
 
 
@@ -7,33 +7,21 @@ export function getContent(itemtype) {
 }
 
 export function addContent(itemtype, newContent) {
-    const content = new Set(getContent(itemtype))
-    const startSize = content.size
-
-    newContent.forEach(c => {
-        log(`Adding item: ${c} for type: ${itemtype}`)
-        content.add(c)
+    mutateSettingSet(SETTINGS[itemtype].content, (set) => {
+        newContent.forEach(c => {
+            log(`Adding item: ${c} for type: ${itemtype}`)
+            set.add(c)
+        })
     })
-    setSetting(SETTINGS[itemtype].content, [...content])
-
-    if (content.size != startSize) {
-        CONFIG.dndContentManager.forceRebuild = true
-    }
 }
 
 export function removeContent(itemtype, contentToRemove) {
-    const content = new Set(getContent(itemtype))
-    const startSize = content.size
-
-    contentToRemove.forEach(c => {
-        log(`Removing item: ${c} for type: ${itemtype}`)
-        content.delete(c)
+    mutateSettingSet(SETTINGS[itemtype].content, (set) => {
+        contentToRemove.forEach(c => {
+            log(`Removing item: ${c} for type: ${itemtype}`)
+            set.delete(c)
+        })
     })
-    setSetting(SETTINGS[itemtype].content, [...content])
-
-    if (content.size != startSize) {
-        CONFIG.dndContentManager.forceRebuild = true
-    }
 }
 
 export function removeContentBySource(itemtype, sourcesToRemove) {

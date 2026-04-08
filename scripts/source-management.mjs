@@ -1,4 +1,4 @@
-import { log } from "./lib.mjs";
+import { log, mutateSettingSet } from "./lib.mjs";
 import { getSetting, setSetting, SETTINGS } from "./settings.mjs";
 
 
@@ -24,14 +24,12 @@ export function getSources(itemtype) {
  * @param {string[]} newSources - An array of new source identifiers to add.
  */
 export function addSources(itemtype, newSources) {
-    const sources = new Set(getSources(itemtype));
-    const startSize = sources.size
-
-    newSources.forEach(s => {
-        log(`Adding source: ${s} for type: ${itemtype}`)
-        sources.add(s)
+    mutateSettingSet(SETTINGS[itemtype].sources, (set) => {
+        newSources.forEach(s => {
+            log(`Adding source: ${s} for type: ${itemtype}`)
+            set.add(s)
+        })
     })
-    setSetting(SETTINGS[itemtype].sources, [...sources])
 
     const previousContentSelections = getSetting(SETTINGS[itemtype].previousContentSelections)
     const items = newSources.map(s => previousContentSelections[s] ?? []).flat()
@@ -39,17 +37,13 @@ export function addSources(itemtype, newSources) {
         const selectedContent = getSetting(SETTINGS[itemtype].content).concat(items)
         setSetting(SETTINGS[itemtype].content, [...new Set(selectedContent)])
     }
-
-    if (sources.size != startSize) {
-        CONFIG.dndContentManager.forceRebuild = true
-    }
 }
 
 /**
  * Removes specified sources and their associated content for a given item type.
  *
  * @param {string} itemtype - The type of item whose sources are being managed.
- * @param {string[]} sourcesToDel - An array of source identifiers to remove.
+ * @param {string[]} sourcesToRemove - An array of source identifiers to remove.
  *
  * This function:
  * - Removes the specified sources from the list of available sources.
@@ -58,37 +52,31 @@ export function addSources(itemtype, newSources) {
  * - Updates the relevant settings for sources and content.
  * - Sets a flag to force a rebuild if sources were actually removed.
  */
-export function removeSources(itemtype, sourcesToDel) {
-    const sources = new Set(getSources(itemtype));
-    const startSize = sources.size
-
-    const deletedContent = Object.fromEntries(sourcesToDel.map(s => [s, []]))
+export function removeSources(itemtype, sourcesToRemove) {
+    const deletedContent = Object.fromEntries(sourcesToRemove.map(s => [s, []]))
     const preservedContent = [];
     const content = getSetting(SETTINGS[itemtype].content)
 
-    const sourcesToDelSet = new Set(sourcesToDel)
+    const sourceRemoveSet = new Set(sourcesToRemove)
     content.forEach(c => {
         const sourceId = foundry.utils.parseUuid(c).collection?.metadata?.id
-        if (sourceId && sourcesToDelSet.has(sourceId)) {
+        if (sourceId && sourceRemoveSet.has(sourceId)) {
             deletedContent[sourceId].push(c);
         } else {
             preservedContent.push(c);
         }
     })
 
-    sourcesToDel.forEach(s => {
-        log(`Removing source: "${s}" for type: "${itemtype}"`)
-        sources.delete(s)
+    mutateSettingSet(SETTINGS[itemtype].sources, (set) => {
+        sourcesToRemove.forEach(s => {
+            log(`Removing source: "${s}" for type: "${itemtype}"`)
+            set.delete(s)
+        })
     })
 
     let previousContentSelections = getSetting(SETTINGS[itemtype].previousContentSelections)
     previousContentSelections = {...previousContentSelections, ...deletedContent}
 
-    setSetting(SETTINGS[itemtype].sources, [...sources])
     setSetting(SETTINGS[itemtype].previousContentSelections, previousContentSelections)
     setSetting(SETTINGS[itemtype].content, preservedContent)
-
-    if (sources.size != startSize) {
-        CONFIG.dndContentManager.forceRebuild = true
-    }
 }
