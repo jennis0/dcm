@@ -31,8 +31,12 @@ export class DCMIndex extends Object {
     static  _buildItemIndices() {
         const index = new Map();
         for (const s of SETTINGS.itemtypes) {
-            //Dont apply to any item types that are disabled or have no items selected
-            if (!getSetting(SETTINGS[s].enabled) || getSetting(SETTINGS[s].content).length === 0) {
+            if (!getSetting(SETTINGS[s].enabled)) {
+                continue
+            }
+            if (SETTINGS[s].type !== "JournalEntry" && getSetting(SETTINGS[s].content).length === 0) {
+                warn(`${SETTINGS[s].label} filtering is enabled but no content is selected — filtering for this type is disabled`)
+                ui.notifications.warn(`DnD Content Manager: ${SETTINGS[s].label} filtering is enabled but no content is selected — filtering for this type is disabled`)
                 continue
             }
             index[s] = {items: new Set(getContent(s)), sources: new Set(getSources(s))}

@@ -134,7 +134,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         event.stopPropagation();
         log(`Toggling ${target.name} filtering to ${target.checked}`)
         setSetting(SETTINGS[target.name].enabled, target.checked)
-        //this.render(true)
+        CONFIG.dndContentManager.forceRebuild = true;
     }
 
     _onSearchName(event) {
