@@ -34,7 +34,7 @@ export function addSources(itemtype, newSources) {
     setSetting(SETTINGS[itemtype].sources, [...sources])
 
     const previousContentSelections = getSetting(SETTINGS[itemtype].previousContentSelections)
-    const items = Array.from(sources).map(s => previousContentSelections[s] ?? []).flat()
+    const items = newSources.map(s => previousContentSelections[s] ?? []).flat()
     if (items.length > 0) {
         const selectedContent = getSetting(SETTINGS[itemtype].content).concat(items)
         setSetting(SETTINGS[itemtype].content, [...new Set(selectedContent)])
@@ -66,15 +66,12 @@ export function removeSources(itemtype, sourcesToDel) {
     const preservedContent = [];
     const content = getSetting(SETTINGS[itemtype].content)
 
+    const sourcesToDelSet = new Set(sourcesToDel)
     content.forEach(c => {
-        const deleted = sourcesToDel.some(s => {
-            if (c.includes(s)) {
-                deletedContent[s].push(c);
-                return true
-            }
-            return false
-        })
-        if (!deleted) {
+        const sourceId = foundry.utils.parseUuid(c).collection?.metadata?.id
+        if (sourceId && sourcesToDelSet.has(sourceId)) {
+            deletedContent[sourceId].push(c);
+        } else {
             preservedContent.push(c);
         }
     })

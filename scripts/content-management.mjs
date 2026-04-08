@@ -39,15 +39,15 @@ export function removeContent(itemtype, contentToRemove) {
 export function removeContentBySource(itemtype, sourcesToRemove) {
     const content = getContent(itemtype);
     const sourceSet = new Set(sourcesToRemove)
-    const startSize = content.size
+    const startLength = content.length
 
     const filteredContent = content.filter(
         c => !sourceSet.has(foundry.utils.parseUuid(c).collection.metadata.id)
     )
-    
+
     setSetting(SETTINGS[itemtype].content, filteredContent)
-    
-    if (content.size != startSize) {
+
+    if (filteredContent.length != startLength) {
         CONFIG.dndContentManager.forceRebuild = true
     }
 }
