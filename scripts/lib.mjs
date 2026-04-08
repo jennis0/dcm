@@ -16,6 +16,7 @@ export function error(text) {
     console.error(`${MODULE_LABEL} | ${text}`)
 }
 
+/** @returns {boolean} Whether the active dnd5e system is version 3.x. */
 export function isV3() {
     return game.system.version.startsWith("3.")
 }
@@ -49,10 +50,14 @@ export function inPlaceFilter(array, filterFn, context = "item", describer = (it
 }
 
 /**
- * Loads a Foundry setting as a Set, applies a mutation, saves it back, and flags a rebuild.
+ * Loads a Foundry setting as a Set, applies a mutation, saves it back, and flags
+ * a rebuild of the DCM index if the contents actually changed.
+ *
+ * The rebuild check compares the mutated set against the original. If a rebuild is
+ * already pending (forceRebuild is true), the comparison is skipped entirely.
  *
  * @param {string} settingKey - The Foundry setting key to load/save.
- * @param {Function} mutationFn - Receives the Set; mutate it in place (add/delete).
+ * @param {Function} mutationFn - Receives a Set to mutate in place via add()/delete().
  * @returns {Set} The mutated Set.
  */
 export function mutateSettingSet(settingKey, mutationFn) {
@@ -60,13 +65,20 @@ export function mutateSettingSet(settingKey, mutationFn) {
     const set = new Set(original);
     mutationFn(set);
     setSetting(settingKey, [...set]);
-    const changed = set.size !== original.size || [...original].some(item => !set.has(item));
-    if (changed) {
-        CONFIG.dndContentManager.forceRebuild = true;
+    if (!CONFIG.dndContentManager.forceRebuild) {
+        const changed = set.size !== original.size || [...original].some(item => !set.has(item));
+        if (changed) {
+            CONFIG.dndContentManager.forceRebuild = true;
+        }
     }
     return set;
 }
 
+/**
+ * Returns a number with its English ordinal suffix (e.g., 1 → "1st", 12 → "12th").
+ * @param {number} i
+ * @returns {string}
+ */
 export function getOrdinalSuffix(i) {
     let j = i % 10,
         k = i % 100;
