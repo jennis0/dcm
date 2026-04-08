@@ -116,4 +116,15 @@ describe("removeContentBySource", () => {
 
         expect(CONFIG.dndContentManager.forceRebuild).toBe(false);
     });
+
+    it("preserves world items (no collection metadata)", () => {
+        seedContent(settingsStore, [
+            "Compendium.mod.pack-a.item1",
+            "World.items.custom-sword",
+        ]);
+        removeContentBySource(TYPE, ["pack-a"]);
+
+        const stored = settingsStore.get(SETTINGS[TYPE].content);
+        expect(stored).toEqual(["World.items.custom-sword"]);
+    });
 });

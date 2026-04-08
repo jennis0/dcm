@@ -164,4 +164,38 @@ describe("removeSources", () => {
         const content = settingsStore.get(SETTINGS[TYPE].content);
         expect(content).toContain("Compendium.mod.pack-a.item1");
     });
+
+    it("preserves world items when removing a compendium source", () => {
+        seedSettings(settingsStore, {
+            sources: ["pack-a"],
+            content: [
+                "Compendium.mod.pack-a.item1",
+                "World.items.custom-sword",
+            ],
+        });
+
+        removeSources(TYPE, ["pack-a"]);
+
+        const content = settingsStore.get(SETTINGS[TYPE].content);
+        expect(content).toEqual(["World.items.custom-sword"]);
+    });
+
+    it("removes content from multiple sources at once", () => {
+        seedSettings(settingsStore, {
+            sources: ["pack-a", "pack-b", "pack-c"],
+            content: [
+                "Compendium.mod.pack-a.item1",
+                "Compendium.mod.pack-b.item2",
+                "Compendium.mod.pack-c.item3",
+            ],
+        });
+
+        removeSources(TYPE, ["pack-a", "pack-c"]);
+
+        const content = settingsStore.get(SETTINGS[TYPE].content);
+        expect(content).toEqual(["Compendium.mod.pack-b.item2"]);
+
+        const sources = settingsStore.get(SETTINGS[TYPE].sources);
+        expect(sources).toEqual(["pack-b"]);
+    });
 });
