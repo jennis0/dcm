@@ -30,7 +30,7 @@ export function removeContentBySource(itemtype, sourcesToRemove) {
     const startLength = content.length
 
     const filteredContent = content.filter(
-        c => !sourceSet.has(foundry.utils.parseUuid(c).collection.metadata.id)
+        c => !sourceSet.has(foundry.utils.parseUuid(c).collection?.metadata?.id)
     )
 
     setSetting(SETTINGS[itemtype].content, filteredContent)

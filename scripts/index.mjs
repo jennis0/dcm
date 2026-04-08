@@ -7,13 +7,13 @@ import { getSources } from "./source-management.mjs";
 export class DCMIndex extends Object {
     constructor() {
         super();
-        this.itemTypeToIndexMap = new Map();
-        this.permittedItemIndices = new Map();
+        this.itemTypeToIndexMap = {};
+        this.permittedItemIndices = {};
     }
 
     //Create mapping from item subtypes to indexes
     static _buildIndexMap() {
-        const filters = new Map();
+        const filters = {};
         for (const s of SETTINGS.itemtypes) {
             if (SETTINGS[s].type === "JournalEntry") {
                 continue
@@ -29,7 +29,7 @@ export class DCMIndex extends Object {
 
     //Create efficient indexes to check item UUIDs
     static  _buildItemIndices() {
-        const index = new Map();
+        const index = {};
         for (const s of SETTINGS.itemtypes) {
             if (!getSetting(SETTINGS[s].enabled)) {
                 continue
