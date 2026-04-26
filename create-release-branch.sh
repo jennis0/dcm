@@ -1,11 +1,12 @@
 #!/bin/bash
 
-#git checkout -b $1
 
-#{ echo -e "### $1\nNew Features\n - \n\nBug Fixes:\n - \n\n"; cat CHANGELOG.md; } > tmpfile && mv tmpfile CHANGELOG.md
+git pull origin main
+git checkout main
+git checkout -b ${1}-dev
+
 jq  ".version = \"$1\"" module.json >> tmpfile && mv tmpfile module.json
 
-git checkout ${1}-dev
-git add module.json CHANGELOG.md
+git add module.json
 git commit -m "Create dev branch for $1"
 git push origin ${1}-dev
