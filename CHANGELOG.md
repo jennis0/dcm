@@ -1,3 +1,28 @@
+### v1.6.0
+New Features:
+- Compatibility with Foundry VTT v14 (verified on 14.360)
+
+Bug Fixes:
+- Content index is now rebuilt when a compendium source is added or removed, so newly added content appears immediately
+- Fixed an error during world setup caused by leftover development code
+
+Other Changes:
+- Filtering is now disabled by default for each item type in new worlds. Existing worlds keep their current settings.
+
+### v1.5.5
+Bug Fixes:
+- Fixed integration with HeroMancer
+- Fixed an issue where removing a compendium source could accidentally remove content from other sources with similar names (e.g., removing "Classes" could also remove items from "Subclasses")
+- Fixed an issue where re-adding a previously removed compendium source could restore items you had manually unchecked from other sources
+- Fixed filtering not updating after toggling type filtering on/off in the Enable Menu or Source Selector
+- Fixed filtering not updating after importing settings from a file
+- Improved error handling across all integrations (Compendium Browser, Spotlight, Quick Insert, HeroMancer) — a single problematic item can no longer break filtering for an entire category
+
+Improvements:
+- A warning notification is now shown when filtering is enabled for a type but no content is selected, making it clearer why filtering appears inactive
+- The Compendium Browser no longer unnecessarily rebuilds the filter index every time you switch tabs — it only rebuilds when settings have actually changed
+- Confirmed compatibility with D&D 5e v5.3
+
 ### v1.5.4
 New Features
  - Warn the user when a subclass for an unselected class is included in the Player Handbook generation

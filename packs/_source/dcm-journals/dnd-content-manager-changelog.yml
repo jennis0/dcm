@@ -262,6 +262,48 @@ pages:
       modifiedTime: 1775692945970
       lastModifiedBy: S49ROJFCDqNVGISg
     _key: '!journal.pages!TwVIF5nUDBsdcWxs.bIObAvMVqXrMYGSY'
+  - sort: 700000
+    name: v1.6
+    type: text
+    _id: 4dQH4UFXocq7DNkD
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <h2>v1.6.0</h2><p><strong>New
+        Features:</strong></p><ul><li><p>Compatibility with Foundry VTT v14
+        (verified on 14.360)</p></li></ul><p></p><p><strong>Bug
+        Fixes:</strong></p><ul><li><p>Content index is now rebuilt when a
+        compendium source is added or removed, so newly added content appears
+        immediately</p></li><li><p>Fixed an error during world setup caused by
+        leftover development code</p></li></ul><p></p><p><strong>Other
+        Changes:</strong></p><ul><li><p>Filtering is now disabled by default for
+        each item type in new worlds. Existing worlds keep their current
+        settings.</p></li></ul>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+      UDTaK1OJ80RQtyXX: 3
+    flags: {}
+    _stats:
+      coreVersion: '14.360'
+      systemId: dnd5e
+      systemVersion: 5.3.2
+      createdTime: 1777237653640
+      modifiedTime: 1777237797626
+      lastModifiedBy: UDTaK1OJ80RQtyXX
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
+    _key: '!journal.pages!TwVIF5nUDBsdcWxs.4dQH4UFXocq7DNkD'
 folder: null
 categories: []
 sort: 0
