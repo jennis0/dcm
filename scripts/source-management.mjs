@@ -37,6 +37,8 @@ export function addSources(itemtype, newSources) {
         const selectedContent = getSetting(SETTINGS[itemtype].content).concat(items)
         setSetting(SETTINGS[itemtype].content, [...new Set(selectedContent)])
     }
+
+    CONFIG.dndContentManager.forceRebuild = true
 }
 
 /**
@@ -79,4 +81,6 @@ export function removeSources(itemtype, sourcesToRemove) {
 
     setSetting(SETTINGS[itemtype].previousContentSelections, previousContentSelections)
     setSetting(SETTINGS[itemtype].content, preservedContent)
+
+    CONFIG.dndContentManager.forceRebuild = true
 }
