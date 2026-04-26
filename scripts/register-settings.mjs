@@ -53,7 +53,7 @@ export function initSettings() {
                 type: Boolean,
                 scope: "world",
                 restricted: true,
-                default: true
+                default: false
             }
         )
         log(`Registered setting ${item.enabled}`)
