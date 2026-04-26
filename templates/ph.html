@@ -1,128 +1,168 @@
 <div>
-    <p>The DnD Content Manager can use your options to auto-generate journals containing a complete set of player options.
-        If no filtering is applied to a type of item, them all of those items will be present.
-    </p>
-<menu class="filter-list unlist base">
-    <h3>Journals</h3>
-    <li>
-        <label>
-            <dcm-checkbox
-                class="compendium-checkbox"
-                data-action="toggleOption",
-                name="class"
-                {{#if options.class}}checked{{/if}}
-            ></dcm-checkbox>
-            <span>Make a journal with classes, subclasses, and their spell lists</span>
-        </label>
-        
-    </li>
-    <li>
-        <label>
-            <dcm-checkbox
-                class="compendium-checkbox"
-                data-action="toggleOption",
-                name="races"
-                {{#if options.races}}checked{{/if}}
-            ></dcm-checkbox>
-            <span>Make Species journal</span>
-        </label>
-    </li>
-    <li>
-        <label>
-            <dcm-checkbox
-                class="compendium-checkbox"
-                data-action="toggleOption",
-                name="backgrounds"
-                {{#if options.backgrounds}}checked{{/if}}
-            ></dcm-checkbox>
-            <span>Make Backgrounds journal<span>
-        </label>
-    </li>
-    <li>
-        <label>
-            <dcm-checkbox
-                class="compendium-checkbox"
-                data-action="toggleOption",
-                name="feats"
-                {{#if options.feats}}checked{{/if}}
-            ></dcm-checkbox>
-            <span>Make Feats journal</span>
-        </label>
-    </li>
-    <li>
-        <label>
-            <dcm-checkbox
-                class="compendium-checkbox"
-                data-action="toggleOption",
-                name="spells"
-                {{#if options.spells}}checked{{/if}}
-            ></dcm-checkbox>
-            <span>Make Spells journal</span>
-        </label>
-    </li>
-    
-    <h3>Options</h3>
-    <b>Existing Pages</b>
-
-    <li>
-
-        <label>
-            <dcm-checkbox
-                class="compendium-checkbox"
-                data-action="toggleOption",
-                name="existingPages"
-                {{#if options.existingPages}}checked{{/if}}
-            ></dcm-checkbox>
-            <span>Use class and subclass pages found in compendiums in this world</span>
-        </label>
-        
-    </li>
-
-    <b>Override Pages</b>
-
-    <li>
-
-        <label>
-            <dcm-checkbox
-                class="compendium-checkbox"
-                data-action="toggleOption"
-                name="overridePages"
-                {{#if options.overridePages}}checked{{/if}}
-                {{#if noOverrideSet}}disabled{{/if}}
-            ></dcm-checkbox>
-            <div style="display: flex; flex-direction: column;">
-                <span {{#if noOverrideSet}}style="text-decoration: line-through;"{{/if}}>
-                    Use class, subclass, background, and species pages from the override compendiums
-                </span>
-                {{#if noOverrideSet}}
-                    <i>No override compendium configured</i>
-                {{/if}}
+    <p>Create a player-readable handbook for the content you've selected.</p>
+<menu class="standard-form" style="display: inline-block">
+    <div class="column" style="float:left; padding-right:4px;">
+    <fieldset data-application-part="content">
+        <legend>Content Selection</legend>
+        <div class="form-group">
+            <label>
+                Classes
+            </label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption",
+                    name="class"
+                    {{#if options.class}}checked{{/if}}
+                />
             </div>
-        </label>
-    </li>
+            <p class="hint">Includes classes, subclasses, and their associated spell lists</p>
+        </div>
+        <div class="form-group">
+            <label>
+                Species
+            </label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption",
+                    name="races"
+                    {{#if options.races}}checked{{/if}}
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>
+                Backgrounds
+            </label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption",
+                    name="backgrounds"
+                    {{#if options.backgrounds}}checked{{/if}}
+                />
+            </div>
+        </div>
+       <div class="form-group">
+            <label>
+                Feats
+            </label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption",
+                    name="feats"
+                    {{#if options.feats}}checked{{/if}}
+                />
+            </div>
+        </div>
+       <div class="form-group">
+            <label>
+                Spells
+            </label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption",
+                    name="spells"
+                    {{#if options.spells}}checked{{/if}}
+                />
+            </div>
+        </div>
+    </fieldset>
+    
+    <fieldset data-application-part="content-config">
+        <legend>Content Configuration</legend>
+        <div class="form-group">
+            <label>Existing Pages</label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption",
+                    name="existingPages"
+                    {{#if options.existingPages}}checked{{/if}}
+                />
+            </div>
+            <p class="hint">Use class and subclass pages found in compendiums in this world instead of generating basic ones.</p>
+        </div>
+        <div class="form-group">
+            <label>Override Pages</label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption"
+                    name="overridePages"
+                    {{#if options.overridePages}}checked{{/if}}
+                    {{#if noOverrideSet}}disabled{{/if}}
+                />
+            </div>
+            <p class="hint" {{#if noOverrideSet}}style="text-decoration: line-through;"{{/if}}>
+                Use user-provided pages from the override compendium instead of using those found in other compendiums.
+            <p>
+            {{#if noOverrideSet}}
+                <i>No override compendium configured</i>
+            {{/if}}
+        </div>
+    </fieldset>
+  </div>
+  <div class="column" style="float:right; padding-left:4px;">
+    <fieldset data-application-part="journal-config">
+        <legend>Handbook Journal Configuration</legend>
+        <!-- <div class="form-group is-checkbox">
+            <label>Create Handbook Journals</label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption",
+                    name="createAsJournals"
+                    {{#if options.createAsJournals}}checked{{/if}}
+                />
+            </div>
+            <p class="hint">Creates the player handbook as a set of journals in folder in your Journal Directory</p>
+        </div> -->
 
-    <b>Folder Title</b>
-    <li>
-        
-        <input type="text" 
-            name="folderTitle" 
-            value="{{folderTitle}}" 
-            placeholder="{{options.folderTitle}}" 
-            data-dtype="String"
-        >
-    </li>
+        <!-- <div class="form-group is-checkbox">
+            <label>Create Handbook Compendium</label>
+            <div class="form-fields">
+                <dcm-checkbox
+                    class="compendium-checkbox"
+                    data-action="toggleOption",
+                    name="createAsJournals"
+                    {{#if options.createAsJournals}}checked{{/if}}
+                />
+            </div>
+            <p class="hint">Creates the player handbook as compendium that functions similarly to the Player Handbook module (access the table of contents by opening the compendium)</p>
+        </div> -->
+    
+        <div class="form-group">
+            <label>Title</label>
+            <div class="form-fields">
+                <input type="text" 
+                    name="folderTitle" 
+                    value="{{folderTitle}}" 
+                    placeholder="{{options.folderTitle}}" 
+                    data-dtype="String"
+                />
+            </div>
+            <p class="hint">Title used for the generated handbook and/or compendium. If a folder or compendium with a matching title already exists, it's content will be replaced</p>
+        </div>
 
-    <b>Journal Style</b>
-    <li>
-        <select name="styleOption">
-            {{#each styleOptions}}
-                <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
-            {{/each}}
-        </select>
-    </li>
-</menu>
-<div class="callout">
-    <p><strong>WARNING:</strong>This will overwrite any previously generated handbooks in the target folder</p>
+        <div class="form-group">
+            <label>Journal Style</label>
+            <div class="form-fields">
+                <select name="styleOption">
+                    {{#each styleOptions}}
+                        <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <p class="hint">Choose the journal style used for the generated journals.</p>
+        </div>
+    </fieldset>
+
 </div>
+</menu>
+
 </div>
 

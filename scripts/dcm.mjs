@@ -3,7 +3,7 @@ import { MODULE_NAME, setSetting, SETTINGS } from "./settings.mjs";
 import { log } from "./lib.mjs";
 import { initSettings, initVersionSetting, registerCompendiumOverrideSetting } from "./register-settings.mjs"
 import { registerSpellLists } from "./spell-lists.mjs";
-import { handleMigrations, showChangelog } from "./migrations.mjs";
+import { handleMigrations } from "./migrations.mjs";
 
 import { patchCompendiumBrowser } from "./integrations/compendium-filters.mjs";
 import { patchQuickInsert } from "./integrations/quick-insert.mjs";
@@ -14,7 +14,6 @@ import { DCMIndex } from "./index.mjs";
 import { registerInterfaceButtons, registerSystemButtons } from "./ui-integration.mjs";
 import { patchHeromancer } from "./integrations/heromancer.mjs";
 import { addCompendiumOverrideHooks, getOverrideCompendiumOptions, handleOverrideSettingChange } from "./presentation/override-compendium.mjs";
-
 
 Hooks.once("init", () => {
 
@@ -63,7 +62,7 @@ Hooks.once("ready", async () => {
     registerSystemButtons();
 
     //Load integrations with other modules (if present)
-    patchQuickInsert();
+    await patchQuickInsert();
     patchSpotlightOmnisearch();
     patchHeromancer();
 
@@ -74,8 +73,6 @@ Hooks.once("ready", async () => {
     //and override compendium creation
     registerCompendiumOverrideSetting();
     addCompendiumOverrideHooks();
-
-    showChangelog();
 
     // Set that we've successfully loaded this version
     setSetting(SETTINGS.lastLoadedVersion, CONFIG.dndContentManager.version.toString())

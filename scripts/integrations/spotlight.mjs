@@ -1,19 +1,15 @@
-import { log } from "../lib.mjs";
+import { log, inPlaceFilter } from "../lib.mjs";
 import { getSetting, SETTINGS } from "../settings.mjs";
 
-
- function filterIndex(spotlightIndex) {
-    let writeIndex = 0;
-    for (let readIndex = 0; readIndex < spotlightIndex.length; readIndex++) {
-        if (CONFIG.dndContentManager.index.spotlightItemInIndex(spotlightIndex[readIndex].data)) 
-        {
-            spotlightIndex[writeIndex] = spotlightIndex[readIndex];
-            writeIndex++;
-        }
-    }
-    spotlightIndex.length = writeIndex;
+function filterIndex(spotlightIndex) {
+    inPlaceFilter(
+        spotlightIndex,
+        (item) => CONFIG.dndContentManager.index.spotlightItemInIndex(item.data),
+        "spotlight item",
+        (item) => item?.data?.uuid
+    );
     return true
-};
+}
 
 
 export function patchSpotlightOmnisearch() {
@@ -32,14 +28,11 @@ export function patchSpotlightOmnisearch() {
     Hooks.on("spotlightOmnisearch.indexBuilt", (spotlightIndex, promises) => 
         {              
             promises.push(
-                new Promise(
-                    () => {
-                        CONFIG.dndContentManager.index.rebuild();
-                        return filterIndex(spotlightIndex);
-                    },
-                    
-                    () => {}
-                )
+                new Promise((resolve) => {
+                    CONFIG.dndContentManager.index.rebuild();
+                    filterIndex(spotlightIndex);
+                    resolve();
+                })
             )
         }
     )

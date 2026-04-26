@@ -1,11 +1,11 @@
 {
   "id": "dnd5e-content-manager",
   "title": "DnD Content Manager",
-  "version": "v1.5.4",
+  "version": "v1.6.0",
   "compatibility": {
     "minimum": "13",
-    "maximum": "13",
-    "verified": "13.348"
+    "maximum": "14",
+    "verified": "14.360"
   },
   "esmodules": [
     "scripts/dcm.mjs"
@@ -19,8 +19,8 @@
         "id": "dnd5e",
         "type": "system",
         "compatibility": {
-          "minimum": "5.0",
-          "verified": "5.1"
+          "minimum": "5.3",
+          "verified": "5.3"
         }
       }
     ]

@@ -1,5 +1,5 @@
 import { getContent } from "./content-management.mjs";
-import { log } from "./lib.mjs";
+import { log, warn } from "./lib.mjs";
 import { getSetting, SETTINGS } from "./settings.mjs";
 import { getSources } from "./source-management.mjs";
 
@@ -7,13 +7,13 @@ import { getSources } from "./source-management.mjs";
 export class DCMIndex extends Object {
     constructor() {
         super();
-        this.itemTypeToIndexMap = new Map();
-        this.permittedItemIndices = new Map();
+        this.itemTypeToIndexMap = {};
+        this.permittedItemIndices = {};
     }
 
     //Create mapping from item subtypes to indexes
     static _buildIndexMap() {
-        const filters = new Map();
+        const filters = {};
         for (const s of SETTINGS.itemtypes) {
             if (SETTINGS[s].type === "JournalEntry") {
                 continue
@@ -29,10 +29,14 @@ export class DCMIndex extends Object {
 
     //Create efficient indexes to check item UUIDs
     static  _buildItemIndices() {
-        const index = new Map();
+        const index = {};
         for (const s of SETTINGS.itemtypes) {
-            //Dont apply to any item types that are disabled or have no items selected
-            if (!getSetting(SETTINGS[s].enabled) || getSetting(SETTINGS[s].content).length === 0) {
+            if (!getSetting(SETTINGS[s].enabled)) {
+                continue
+            }
+            if (SETTINGS[s].type !== "JournalEntry" && getSetting(SETTINGS[s].content).length === 0) {
+                warn(`${SETTINGS[s].label} filtering is enabled but no content is selected — filtering for this type is disabled`)
+                ui.notifications.warn(`DnD Content Manager: ${SETTINGS[s].label} filtering is enabled but no content is selected — filtering for this type is disabled`)
                 continue
             }
             index[s] = {items: new Set(getContent(s)), sources: new Set(getSources(s))}
@@ -65,20 +69,25 @@ export class DCMIndex extends Object {
             return true
         }
 
-        //Have to reparse UUID as they sometimes use a slightly different format
-        const parsedUuid = foundry.utils.parseUuid(uuid);
+        try {
+            //Have to reparse UUID as they sometimes use a slightly different format
+            const parsedUuid = foundry.utils.parseUuid(uuid);
 
-        //If compendium isn't considered an enabled source, skip item
-        //No metadata case is for world items which currently are kept enabled
-        if (parsedUuid.collection.metadata &&
-                !this.permittedItemIndices[indexName].sources.has(parsedUuid.collection.metadata.id)) {
-            return false;
-        } else if (!parsedUuid.collection.metadata) {
-            return true;
+            //If compendium isn't considered an enabled source, skip item
+            //No metadata case is for world items which currently are kept enabled
+            if (parsedUuid.collection?.metadata &&
+                    !this.permittedItemIndices[indexName].sources.has(parsedUuid.collection.metadata.id)) {
+                return false;
+            } else if (!parsedUuid.collection?.metadata) {
+                return true;
+            }
+
+            //Finally check if in index
+            return this.permittedItemIndices[indexName].items.has(parsedUuid.uuid)
+        } catch (e) {
+            warn(`Error checking index for ${uuid}: ${e.message}`)
+            return true
         }
-
-        //Finally check if in index
-        return this.permittedItemIndices[indexName].items.has(parsedUuid.uuid)
     }
 
     spotlightItemInIndex(item) {
@@ -122,11 +131,17 @@ export class DCMIndex extends Object {
             return false;
         }
 
-        const parsedUuid = foundry.utils.parseUuid(item.uuid);
-
-        return this.permittedItemIndices[this.itemTypeToIndexMap[item.type]]
-            .sources
-            .has(parsedUuid.collection.metadata.id)
+        // Returns false on error because this is used for UI state (e.g. button visibility),
+        // not for content filtering — false means "don't show the source toggle"
+        try {
+            const parsedUuid = foundry.utils.parseUuid(item.uuid);
+            return this.permittedItemIndices[this.itemTypeToIndexMap[item.type]]
+                .sources
+                .has(parsedUuid.collection?.metadata?.id)
+        } catch (e) {
+            warn(`Error checking source for ${item.uuid}: ${e.message}`)
+            return false
+        }
     }
 
     getItemIndexType(item) {

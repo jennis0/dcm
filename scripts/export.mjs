@@ -42,6 +42,7 @@ export function importSettings(json) {
     for (const key of SETTING_KEYS) {
         setSetting(key, settings_obj[key])
     }
+    CONFIG.dndContentManager.forceRebuild = true;
 }
 
 

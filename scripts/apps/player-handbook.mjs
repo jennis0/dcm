@@ -24,7 +24,7 @@ export class PlayerHandbookMenu extends HandlebarsApplicationMixin(ApplicationV2
                 closeOnSubmit: true
             },
             position: {
-                width: 350,
+                width: 800,
                 height: "auto"
               },
             id: 'dcm-player-handbook',

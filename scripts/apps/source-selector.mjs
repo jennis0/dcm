@@ -107,7 +107,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                 }
             }
             all_box.checked = n_on > 0;
-            all_box.indeterminate = all_box.checked & n_on < siblings.length;
+            all_box.indeterminate = all_box.checked && n_on < siblings.length;
         }
 
         //Update setting
@@ -134,7 +134,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         event.stopPropagation();
         log(`Toggling ${target.name} filtering to ${target.checked}`)
         setSetting(SETTINGS[target.name].enabled, target.checked)
-        //this.render(true)
+        CONFIG.dndContentManager.forceRebuild = true;
     }
 
     _onSearchName(event) {
@@ -164,7 +164,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         const module_packs = new Map();
         const fixed = CONFIG.dndContentManager.fixed.get(itemType).compendia;
         game.packs
-            .filter(p => (p.metadata.type === documentType) & p.metadata.packageName !== MODULE_NAME)
+            .filter(p => (p.metadata.type === documentType) && p.metadata.packageName !== MODULE_NAME)
             .filter(p => !this.currentFilters.name 
                 || p.metadata.label.toLowerCase().includes(this.currentFilters.name) 
                 || p.metadata.id.includes(this.currentFilters.name)
@@ -201,7 +201,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                         label: source,
                         itemType: itemType,
                         indeterminate,
-                        checked: all | indeterminate,
+                        checked: all || indeterminate,
                         entries                
                     }
                 }

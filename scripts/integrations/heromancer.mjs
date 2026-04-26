@@ -1,43 +1,27 @@
-import { log } from "../lib.mjs";
+import { log, inPlaceFilter } from "../lib.mjs";
 import { getSetting, SETTINGS } from "../settings.mjs";
 
-function inPlaceFilter(array, filterFn) {
-    let writeIndex = 0;
-    for (let readIndex = 0; readIndex < array.length; readIndex++) {
-        if (filterFn(array[readIndex])) {
-            array[writeIndex] = array[readIndex];
-            writeIndex++;
-        }
-    }
-    array.length = writeIndex;
-    return array.length
+const DOC_TYPE_MAP = {
+    raceDocs: "race",
+    classDocs: "class",
+    backgroundDocs: "background",
 }
 
-function filterRace(hmIndex) {
-    inPlaceFilter(hmIndex, (raceGroup) => {
-        const remaining = inPlaceFilter(raceGroup.docs, (doc) => {
-            return CONFIG.dndContentManager.index.itemInIndex("Item", "race", doc.uuid)
-        });
-        return remaining > 0
-    })
-    return true
-}
-
- function filterIndex(docType, hmIndex) {
-    if (docType === "race") {
-        filterRace(hmIndex)
-    } else {
-        inPlaceFilter(hmIndex, (doc) => {
+/**
+ * Filters a grouped document list in place, removing docs not in our index
+ * and pruning empty groups. All HeroMancer document types now use this
+ * grouped structure: [{ folderName, docs: [...] }]
+ */
+function filterGroupedDocs(docType, groups) {
+    inPlaceFilter(groups, (group) => {
+        const remaining = inPlaceFilter(group.docs, (doc) => {
             return CONFIG.dndContentManager.index.itemInIndex("Item", docType, doc.uuid)
-        })
-    }
-    return true
-};
-
+        }, `heromancer ${docType} doc`);
+        return remaining > 0
+    }, `heromancer ${docType} group`)
+}
 
 export function patchHeromancer() {
-    // Hooks on the documentsReady hook, allowing it to apply additional filtering
-
     if (!game.modules.has("hero-mancer") || !game.modules.get("hero-mancer").active) {
         log("Skipping Hero Mancer integration due to presence")
         return false;
@@ -48,16 +32,24 @@ export function patchHeromancer() {
     }
 
     log("Hooking HeroMancer")
-    Hooks.on("heroMancer.documentsReady", (documentType, hmIndex, promises) => 
-        {   
-            promises.push(
-                new Promise(
-                    (resolve) => {
-                        filterIndex(documentType, hmIndex);
-                        resolve(true)
-                    },
-                )
-            )
+    let patched = false
+    Hooks.on("renderHeroMancer", (app) => {
+        if (patched) return
+        patched = true
+
+        const proto = Object.getPrototypeOf(app)
+        const original = proto._prepareContext
+        proto._prepareContext = async function(options) {
+            const context = await original.call(this, options)
+            log("Filtering HeroMancer document context")
+            for (const [contextKey, docType] of Object.entries(DOC_TYPE_MAP)) {
+                if (Array.isArray(context[contextKey])) {
+                    filterGroupedDocs(docType, context[contextKey])
+                }
+            }
+            return context
         }
-    )
+
+        app.render(true)
+    })
 }

@@ -20,7 +20,7 @@ function noteSpellListModules() {
     sm.items = new Set(spellListPages)
     sm.compendia = new Set(spellListPages.map(p => _getCompendiumName(p)).filter(p => p))
     
-    log(`Found ${sm.compendia.length} compendia registering ${sm.items.length} spell lists`)
+    log(`Found ${sm.compendia.size} compendia registering ${sm.items.size} spell lists`)
 }
 
 function clearSpellLists() {

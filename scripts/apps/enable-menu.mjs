@@ -42,6 +42,7 @@ export class EnableMenu extends HandlebarsApplicationMixin(ApplicationV2) {
     static async #onToggleSetting(event, target) {
         const itemtype = SETTINGS[target.name]
         setSetting(itemtype.enabled, target.checked);
+        CONFIG.dndContentManager.forceRebuild = true;
         log(`Set ${target.name} to ${target.checked ? "Filtered": "Not Filtered"}`)
     }
 
