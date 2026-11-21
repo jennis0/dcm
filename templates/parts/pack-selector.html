@@ -27,7 +27,7 @@
                     category="{{ ../itemType }}"
                 ></dcm-checkbox>
                 <div class="compendium-row-label">
-                    <span class="title">{{ label }}</span>
+                    <span class="title"><span class="title-text">{{ label }}</span>{{#if browserDisabled}}<i class="fas fa-eye-slash dcm-browser-disabled" role="img" aria-label="Hidden in Compendium Browser" data-tooltip-text="This content is hidden in the dnd5e Compendium Browser"></i>{{/if}}</span>
                     <span class="source">({{ name }})</span>
                 </div>
             </label>

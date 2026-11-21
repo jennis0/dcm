@@ -7,6 +7,7 @@ import { SourceSelector } from "./source-selector.mjs";
 import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
 import { addContent, removeContent } from "../content-management.mjs";
 import { getMonsterType } from "../enrich-monsters.mjs";
+import { getCompendiumBrowserSources, isBrowserDisabled } from "../browser-sources.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -451,8 +452,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      */
     async _fetch(pack, filter_fn, data_fn, sort_fn, selectedOptions, fields = []) {
         const module = this._getModule(pack)
+        // Only request fields stored on the document (_source). Foundry v14 copies requested
+        // fields from _source when re-indexing, so e.g. "uuid" would be overwritten with undefined
         return pack.getIndex(
-            {fields: new Set(["uuid", "type", "name", "img", "system.source"].concat(fields))}
+            {fields: new Set(["type", "name", "img", "system.source"].concat(fields))}
         )
         .then(
             index =>  index.filter(d => filter_fn(d) && this._applyPerItemFilters(d))
@@ -696,6 +699,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      */
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
 
+        const browserSources = getCompendiumBrowserSources();
         const grouped_options = await Promise.all(sourceCompendia?.map(async (c) => {
             const pack = game.packs.get(c);
 
@@ -707,6 +711,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
             const source = this._getSourceName(pack.metadata.packageType, pack.metadata.packageName);
             const entries = await this._getDocuments(pack, subtype, selectedOptions)
+            const browserDisabled = isBrowserDisabled(pack, browserSources);
+            entries.forEach(e => {
+                e.browserDisabled = browserDisabled;
+            });
 
             const n_checked = entries.filter(e => e.checked).length;
             return {
@@ -787,17 +795,20 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }]
         }
 
-        // Create new groups
-        const grouped_entries = new Map();
+        // Create new groups. A prototype-free object keeps keys like "set" or "constructor"
+        // (from item names) from colliding with built-in properties
+        const grouped_entries = Object.create(null);
         compendia_options.forEach(
             o => {
                 o.entries.forEach( e => {
-                    const group_key = selected_groups.map(gc => e[gc.valuePath].trim().toLowerCase()).join(" | ");
-                    const group_label = selected_groups.map(gc => e[gc.itemLabelPath].trim()).join(" | ");
+                    const group_key = selected_groups.map(gc => String(e[gc.valuePath] ?? "").trim().toLowerCase()).join(" | ");
+                    const group_label = selected_groups.map(gc => String(e[gc.itemLabelPath] ?? "").trim()).join(" | ");
 
                     if (!grouped_entries[group_key]) {
                         grouped_entries[group_key] = {
+                            key: group_key,
                             label: group_label,
+                            sortValues: selected_groups.map(gc => e[gc.valuePath]),
                             entries: new Array()
                         }
                     } 
@@ -807,17 +818,30 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
             }
         )
 
+        // Numeric group values (e.g. spell level) sort numerically so Cantrips come first,
+        // everything else sorts by label
+        const compareGroups = (a, b) => {
+            for (let i = 0; i < a.sortValues.length; i++) {
+                const x = a.sortValues[i];
+                const y = b.sortValues[i];
+                if (typeof x === "number" && typeof y === "number" && x !== y) {
+                    return x - y;
+                }
+            }
+            return a.label.localeCompare(b.label);
+        }
+
         // Create metadata and sort groups
-        return Object.keys(grouped_entries).map(
-            k => {
-                const entries = grouped_entries[k].entries;
+        return Object.values(grouped_entries).sort(compareGroups).map(
+            group => {
+                const entries = group.entries;
                 const n_checked = entries.filter(e => e.checked).length;
 
                 return {
-                    id: k.slugify(),
+                    id: group.key.slugify(),
                     entries: entries.sort((a,b) => a.label.localeCompare(b.label) 
                         || a.compendium.localeCompare(b.compendium)),
-                    label: grouped_entries[k].label,
+                    label: group.label,
                     source: null,
                     category: itemtype,
                     checked: n_checked > 0,
@@ -826,7 +850,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                     selected: n_checked
                 }
             }
-        ).sort((a,b) => a.label.localeCompare(b.label))
+        )
     }
   
     _onChangeTab(event, tabs, active) {

@@ -3,6 +3,7 @@ import { log } from "../lib.mjs";
 import { addSources, removeSources } from "../source-management.mjs";
 import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
 import { SlideToggleElement } from "../elements/slide-toggle.mjs";
+import { getCompendiumBrowserSources, isBrowserDisabled } from "../browser-sources.mjs";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
 // Sourceelector.js
@@ -160,7 +161,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
         return game.modules.get(sourceId).title;
     }
 
-    _getCompendiumOptions(itemType, documentType, selectedCompendia) {
+    _getCompendiumOptions(itemType, documentType, selectedCompendia, browserSources) {
         const module_packs = new Map();
         const fixed = CONFIG.dndContentManager.fixed.get(itemType).compendia;
         game.packs
@@ -189,6 +190,7 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
                             uuid: p.metadata.id, 
                             checked: selectedCompendia.has(p.metadata.id) || fixed.has(p.metadata.id),
                             fixed: fixed.has(p.metadata.id),
+                            browserDisabled: isBrowserDisabled(p, browserSources),
                             label: p.metadata.label,
                             name: `${p.metadata.id}`
                         }
@@ -211,10 +213,11 @@ export class SourceSelector extends HandlebarsApplicationMixin(ApplicationV2) {
     async _getAllDataOptions() {
 
         const options = {}
+        const browserSources = getCompendiumBrowserSources();
         for (const itemType of SETTINGS.itemtypes) {
             const setting = SETTINGS[itemType];
             const sources = await getSetting(setting.sources);
-            const entries = this._getCompendiumOptions(itemType, setting.type, new Set(sources));
+            const entries = this._getCompendiumOptions(itemType, setting.type, new Set(sources), browserSources);
             options[itemType] = entries;
         }
         return options;

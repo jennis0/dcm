@@ -11,8 +11,9 @@ import { getOverrideCompendium } from "./override-compendium.mjs"
  */
 async function getItemsFromPack(type, pack) {
     if (type === 'feat') {
+        // Only request _source fields here - see ContentSelector._fetch
         return await pack.getIndex(
-            {fields: new Set(["uuid", "system.type"])}
+            {fields: new Set(["system.type"])}
         )
         .then(
             index =>  index.filter(d => d.system.type?.value === type)
