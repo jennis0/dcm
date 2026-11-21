@@ -65,7 +65,11 @@ export function handleOverrideSettingChange() {
         if (!game.packs.get("world.dcm-overrides")) {
             createOverrideCompendium()
         }
-        setSetting(SETTINGS.overrideCompendium, "world.dcm-overrides")
+        // Only GMs can create compendia, so don't point the setting at a
+        // pack that a non-GM was unable to create
+        if (game.user.isGM) {
+            setSetting(SETTINGS.overrideCompendium, "world.dcm-overrides")
+        }
     }
     registerCompendiumOverrideSetting()
 }

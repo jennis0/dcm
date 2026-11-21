@@ -31,24 +31,17 @@ describe("setSetting", () => {
         expect(settingsStore.get("myKey")).toBe("hello");
     });
 
-    it("does nothing when user role is below min_role", () => {
-        game.user.role = 1;
+    it("does nothing without SETTINGS_MODIFY, regardless of role", () => {
+        game.user.role = 4;
+        game.user.permissions.SETTINGS_MODIFY = false;
         setSetting("myKey", "should not write");
         expect(settingsStore.get("myKey")).toBeUndefined();
     });
 
-    it("writes when user role equals min_role", () => {
-        game.user.role = 4;
-        setSetting("myKey", "written", 4);
+    it("writes for a non-GM user granted SETTINGS_MODIFY (#32)", () => {
+        game.user.role = 1;
+        game.user.permissions.SETTINGS_MODIFY = true;
+        setSetting("myKey", "written");
         expect(settingsStore.get("myKey")).toBe("written");
-    });
-
-    it("respects custom min_role", () => {
-        game.user.role = 2;
-        setSetting("myKey", "nope", 3);
-        expect(settingsStore.get("myKey")).toBeUndefined();
-
-        setSetting("myKey", "yep", 2);
-        expect(settingsStore.get("myKey")).toBe("yep");
     });
 });

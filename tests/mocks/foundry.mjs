@@ -17,7 +17,13 @@ export function setupFoundryMocks() {
                 settingsStore.set(path, value);
             },
         },
-        user: { role: 4 },
+        user: {
+            role: 4,
+            permissions: { SETTINGS_MODIFY: true },
+            can(permission) {
+                return !!this.permissions[permission];
+            },
+        },
     };
 
     globalThis.CONFIG = {
