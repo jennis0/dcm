@@ -214,15 +214,15 @@ export function getSetting(path) {
 }
 
 /**
- * Sets a game setting and incorporates checks for whether user has the 
- * correct role to do so.
+ * Sets a game setting if the user has permission to modify settings.
+ * Mirrors Foundry's own rule for world settings (SETTINGS_MODIFY), which
+ * Assistant GMs hold by default and can be granted to players.
  * @param {string} path - The path of the setting
  * @param {*} value - The value of the setting
- * @param {number} min_role - The minimum role required to set the setting. Default is 4 (GM)
- * @returns 
+ * @returns
  */
-export function setSetting(path, value, min_role=4) {
-    if (game.user.role < min_role) {
+export function setSetting(path, value) {
+    if (!game.user.can("SETTINGS_MODIFY")) {
         return
     }
     game.settings.set(MODULE_NAME, path, value);
