@@ -7,6 +7,7 @@ import { SourceSelector } from "./source-selector.mjs";
 import { forceSpotlightRebuild } from "../integrations/spotlight.mjs";
 import { addContent, removeContent } from "../content-management.mjs";
 import { getMonsterType } from "../enrich-monsters.mjs";
+import { getCompendiumBrowserSources, isBrowserDisabled } from "../browser-sources.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
 
@@ -698,6 +699,7 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      */
     async _getContentOptions(subtype, sourceCompendia, selectedOptions) {
 
+        const browserSources = getCompendiumBrowserSources();
         const grouped_options = await Promise.all(sourceCompendia?.map(async (c) => {
             const pack = game.packs.get(c);
 
@@ -709,6 +711,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
 
             const source = this._getSourceName(pack.metadata.packageType, pack.metadata.packageName);
             const entries = await this._getDocuments(pack, subtype, selectedOptions)
+            const browserDisabled = isBrowserDisabled(pack, browserSources);
+            entries.forEach(e => {
+                e.browserDisabled = browserDisabled;
+            });
 
             const n_checked = entries.filter(e => e.checked).length;
             return {

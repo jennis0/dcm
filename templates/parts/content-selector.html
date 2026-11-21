@@ -58,15 +58,15 @@
                         <div class="compendium-row-label">
                             <div class="left-text">
                                 <div class="name name-stacked">
-                                    <span class="title">{{ label }}</span>
+                                    <span class="title"><span class="title-text" {{#if label}}data-tooltip-text="{{ label }}"{{/if}}>{{ label }}</span>{{#if browserDisabled}}<i class="fas fa-eye-slash dcm-browser-disabled" role="img" aria-label="Hidden in Compendium Browser" data-tooltip-text="This content is hidden in the dnd5e Compendium Browser"></i>{{/if}}</span>
                                     <span class="metadata">{{ metadata }}</span>
                                 </div>
                                 <!-- <span class="title">{{ label }}</span>
                                 <span class="metadata">{{ metadata }}</span> -->
                             </div>
                             <div class="right-text">
-                                <span class="source">{{ sourceName }}</span>
-                                <span class="module">{{ moduleName }}</span>
+                                <span class="source" {{#if sourceName}}data-tooltip-text="{{ sourceName }}"{{/if}}>{{ sourceName }}</span>
+                                <span class="module" {{#if moduleName}}data-tooltip-text="{{ moduleName }}"{{/if}}>{{ moduleName }}</span>
                             </div>
                         </div>
                     </label>
