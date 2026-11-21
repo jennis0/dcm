@@ -1,3 +1,21 @@
+### v1.7.0
+New Features:
+- Compatibility with D&D 5e 6.1.1 (D&D 5e 5.3 is still supported)
+- Content hidden in the dnd5e Compendium Browser is now marked in the DCM source and content selectors
+- Hovering over an item's name, source or module in the content selector now shows the full text
+
+Bug Fixes:
+- Settings changes made by Assistant GMs and players with the Modify Settings permission are now saved (#32)
+- The Compendium sidebar buttons now appear for Assistant GMs and players with the Modify Settings permission
+- Fixed the Compendium Browser crashing, and class selections being ignored, after the DCM content selector had been opened
+- Fixed the content selector failing when grouping spells by Spell Level; Cantrips are now listed first
+- Fixed the content selector failing when grouping by Name for items with certain names (e.g. "Set" or "Size")
+- Export Settings no longer fails on worlds without both Quick Insert and Spotlight Omnisearch installed
+- Importing an older settings file no longer resets settings that the file doesn't contain
+
+Other Changes:
+- Foundry VTT v13 is no longer supported. This release requires Foundry v14 (verified on 14.370); v13 users should stay on v1.6.0
+
 ### v1.6.0
 New Features:
 - Compatibility with Foundry VTT v14 (verified on 14.360)
