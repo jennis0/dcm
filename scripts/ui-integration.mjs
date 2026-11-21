@@ -95,7 +95,8 @@ function injectCompendiumButtons(html) {
 export function registerInterfaceButtons() {
     if (getSetting(SETTINGS.injectCompendiumButtons)) {
         Hooks.on("renderCompendiumDirectory", (app, html, data) => {
-            if (game.user.role == 4) {
+            // Match the restricted settings menus these buttons duplicate
+            if (game.user.can("SETTINGS_MODIFY")) {
                 log("Adding compendium sidebar buttons")
                 injectCompendiumButtons(html)
             }
