@@ -451,8 +451,10 @@ export class ContentSelector extends HandlebarsApplicationMixin(ApplicationV2) {
      */
     async _fetch(pack, filter_fn, data_fn, sort_fn, selectedOptions, fields = []) {
         const module = this._getModule(pack)
+        // Only request fields stored on the document (_source). Foundry v14 copies requested
+        // fields from _source when re-indexing, so e.g. "uuid" would be overwritten with undefined
         return pack.getIndex(
-            {fields: new Set(["uuid", "type", "name", "img", "system.source"].concat(fields))}
+            {fields: new Set(["type", "name", "img", "system.source"].concat(fields))}
         )
         .then(
             index =>  index.filter(d => filter_fn(d) && this._applyPerItemFilters(d))
