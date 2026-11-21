@@ -1,5 +1,5 @@
 import { error, log } from "./lib.mjs"
-import { SETTINGS } from "./settings.mjs"
+import { MODULE_NAME, SETTINGS } from "./settings.mjs"
 import { setSetting, getSetting } from "./settings.mjs"
 
 const SETTING_KEYS = [
@@ -10,6 +10,17 @@ const SETTING_KEYS = [
     SETTINGS.injectItemButton,
     SETTINGS.playerHandbookOptions
 ]
+
+/**
+ * Some settings are only registered when the relevant module is installed
+ * (e.g. Quick Insert), and Foundry throws when reading or writing an
+ * unregistered setting.
+ * @param {string} key - The setting key
+ * @returns {boolean} Whether the setting is registered
+ */
+function isRegistered(key) {
+    return game.settings.settings.has(`${MODULE_NAME}.${key}`)
+}
 
 export function exportSettings() {
     const settings_obj = {
@@ -23,7 +34,7 @@ export function exportSettings() {
             enabled: getSetting(SETTINGS[item].enabled),
         }
     }   
-    for (const key of SETTING_KEYS) {
+    for (const key of SETTING_KEYS.filter(isRegistered)) {
         settings_obj[key] = getSetting(key)
     }
 
@@ -39,8 +50,12 @@ export function importSettings(json) {
         setSetting(SETTINGS[item].content, settings_obj[item].content)
         setSetting(SETTINGS[item].enabled, settings_obj[item].enabled)
     }
-    for (const key of SETTING_KEYS) {
-        setSetting(key, settings_obj[key])
+    // Skip keys missing from the file (older or partial exports) rather than
+    // resetting them to their defaults
+    for (const key of SETTING_KEYS.filter(isRegistered)) {
+        if (key in settings_obj) {
+            setSetting(key, settings_obj[key])
+        }
     }
     CONFIG.dndContentManager.forceRebuild = true;
 }
